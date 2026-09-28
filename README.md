@@ -111,7 +111,7 @@ Para trabajar ordenadamente con otros colaboradores y evitar sobreescrituras acc
 ### 1. Clonar el proyecto (Para el nuevo colaborador)
 El nuevo desarrollador solo debe clonar el repositorio:
 ```bash
-git clone https://github.com/TU-USUARIO/amarte-maternidad.git
+git clone https://github.com/julirojasarg/amarte-maternidad.git
 cd amarte-maternidad
 ```
 
