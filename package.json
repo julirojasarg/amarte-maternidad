@@ -1,0 +1,23 @@
+{
+  "name": "amarte-maternidad",
+  "version": "1.0.0",
+  "description": "Sitio Web Oficial y Kardex Virtual de Familias - Amarte Maternidad",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "amarte-maternidad",
+    "doula",
+    "lactancia",
+    "maternidad",
+    "costa-rica",
+    "kardex"
+  ],
+  "author": "Juliana Rojas Argüello",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

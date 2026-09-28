@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#FAF7F2]">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kardex Virtual de Familias | Amarte Maternidad</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#FDF7F8',
+              100: '#FCEEF0',
+              200: '#F5C2C7',
+              300: '#E89EA8',
+              400: '#E07A8A',
+              500: '#D96579',
+              600: '#C24D61',
+              700: '#9E3849',
+              800: '#752A36',
+              900: '#4D1B23',
+            },
+            warm: {
+              50: '#FDFBF7',
+              100: '#FAF6EE',
+              200: '#F4ECE0',
+              300: '#E8DCCB',
+              600: '#8C7A70',
+              700: '#6B5B52',
+              800: '#5A4A42',
+              900: '#362B28',
+            },
+            sage: {
+              50: '#F4F7F4',
+              100: '#E4EDE5',
+              200: '#C8DAC9',
+              500: '#688E6D',
+              700: '#425C46',
+            },
+            lavender: {
+              50: '#F8F6FC',
+              100: '#EFEAF8',
+              500: '#8E73B5',
+              700: '#5D467F',
+            },
+            amberStage: {
+              50: '#FFF9EB',
+              100: '#FEEFC7',
+              500: '#D97706',
+              700: '#92400E',
+            }
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            brand: ['"Quicksand"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #FAF3EE; }
+    ::-webkit-scrollbar-thumb { background: #E8A8B4; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D96579; }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(245, 194, 199, 0.35);
+    }
+
+    .kanban-col {
+      min-height: calc(100vh - 290px);
+    }
+
+    .drag-over {
+      background-color: rgba(217, 101, 121, 0.08) !important;
+      border: 2px dashed #D96579 !important;
+    }
+
+    /* Print styles for clinical Kardex */
+    @media print {
+      body { background: white !important; color: black !important; }
+      header, #viewTabs, #topActions, .no-print { display: none !important; }
+      #kardexDetailModal { position: static !important; inset: 0 !important; background: white !important; }
+      .modal-dialog-content { max-width: 100% !important; box-shadow: none !important; border: none !important; }
+    }
+  </style>
+</head>
+<body class="h-full font-sans text-warm-900 bg-[#FAF7F2] antialiased flex flex-col selection:bg-brand-200 selection:text-brand-900">
+
+  <!-- ================= TOP HEADER / BRAND BAR ================= -->
+  <header class="bg-white/95 sticky top-0 z-30 border-b border-brand-200/50 backdrop-blur-md shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3.5">
+        <a href="#" class="flex items-center gap-2 group" title="Kardex Virtual de Familias">
+          <img src="logo.png" alt="Amarte Maternidad" class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
+        </a>
+        <div class="border-l border-brand-200 pl-3">
+          <div class="flex items-center gap-2">
+            <h1 class="font-heading font-bold text-xl sm:text-2xl text-warm-900 leading-tight">
+              Kardex Virtual de Familias
+            </h1>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 border border-brand-200">
+              Doula & Lactancia
+            </span>
+          </div>
+          <p class="text-xs text-warm-600 font-medium hidden sm:block">
+            Acompañamiento integral, cálculo obstétrico y seguimiento clínico-emocional · Juliana Rojas Argüello
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+
+        <!-- Backup / Export / Import Dropdown -->
+        <div class="relative group">
+          <button id="backupBtn" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium text-warm-700 bg-white hover:bg-warm-50 rounded-xl transition-all border border-brand-200 shadow-xs">
+            <i data-lucide="hard-drive-download" class="w-4 h-4 text-brand-500"></i>
+            <span class="hidden sm:inline">Datos & Copias</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-warm-600"></i>
+          </button>
+          <div class="absolute right-0 mt-1 w-56 bg-white rounded-2xl shadow-xl border border-brand-200/70 p-2 hidden group-hover:block z-50 animate-in fade-in zoom-in-95">
+            <button onclick="exportToJSON()" class="w-full flex items-center gap-2 px-3 py-2 text-xs text-warm-800 hover:bg-brand-50 hover:text-brand-600 rounded-lg text-left transition-colors">
+              <i data-lucide="download" class="w-4 h-4 text-brand-500"></i>
+              Exportar Backup (.JSON)
+            </button>
+            <button onclick="exportToCSV()" class="w-full flex items-center gap-2 px-3 py-2 text-xs text-warm-800 hover:bg-brand-50 hover:text-brand-600 rounded-lg text-left transition-colors">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
+              Exportar a Excel / CSV
+            </button>
+            <label class="w-full flex items-center gap-2 px-3 py-2 text-xs text-warm-800 hover:bg-brand-50 hover:text-brand-600 rounded-lg text-left transition-colors cursor-pointer">
+              <i data-lucide="upload" class="w-4 h-4 text-blue-500"></i>
+              <span>Restaurar Backup (.JSON)</span>
+              <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importFromJSON(event)" />
+            </label>
+            <hr class="my-1.5 border-brand-100" />
+            <button onclick="resetSampleData()" class="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 rounded-lg text-left transition-colors">
+              <i data-lucide="rotate-ccw" class="w-4 h-4 text-rose-500"></i>
+              Cargar datos de ejemplo
+            </button>
+          </div>
+        </div>
+
+        <!-- Add Family Primary Button -->
+        <button 
+          onclick="openFamilyModal()" 
+          class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-semibold px-4 py-2 text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+        >
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+          <span>Nueva Familia</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= BANNER DECORATIVO DE BIENVENIDA ================= -->
+  <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 pb-1">
+    <div class="bg-gradient-to-r from-brand-50 via-white to-warm-50 rounded-3xl p-4 sm:p-5 border border-brand-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4 sm:gap-5">
+        <div class="relative shrink-0 group">
+          <img 
+            src="imagenes/juliana-lactancia.jpg" 
+            onerror="this.onerror=null; this.src='juliana-lactancia.jpg';"
+            alt="Juliana Rojas Argüello" 
+            class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover object-top border-2 border-brand-300 shadow-md transition-transform duration-300 group-hover:scale-105"
+          />
+          <span class="absolute -bottom-1 -right-1 text-xs bg-white rounded-full px-1 py-0.5 shadow border border-brand-200">🤱</span>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 class="text-base sm:text-lg font-bold text-warm-900 font-heading">
+              Espacio Clínico & Acompañamiento · Juliana Rojas Argüello
+            </h2>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-100 text-brand-700 border border-brand-200/60">
+              Doula & Asesora de Lactancia
+            </span>
+          </div>
+          <p class="text-xs text-warm-700 mt-1 max-w-2xl">
+            Gestor integral de expedientes, cálculo obstétrico preciso y seguimiento de familias en gestación, parto y puerperio.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="text-xs bg-white text-warm-800 font-semibold px-3 py-1.5 rounded-xl border border-brand-200 shadow-2xs flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Sistema Activo
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STATS & QUICK METRICS BANNER ================= -->
+  <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      
+      <!-- Total Familias -->
+      <div class="bg-white rounded-2xl p-4 border border-brand-100 shadow-xs flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center text-brand-500 shrink-0">
+          <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-warm-600">Total Familias</p>
+          <h3 id="statTotalFamilies" class="text-xl font-bold text-warm-900 font-heading">0</h3>
+        </div>
+      </div>
+
+      <!-- En Gestación -->
+      <div class="bg-white rounded-2xl p-4 border border-brand-100 shadow-xs flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 shrink-0">
+          <i data-lucide="sparkles" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-warm-600">En Gestación</p>
+          <h3 id="statGestacion" class="text-xl font-bold text-brand-600 font-heading">0</h3>
+        </div>
+      </div>
+
+      <!-- A Término (37+ sem) -->
+      <div class="bg-white rounded-2xl p-4 border border-amberStage-100 shadow-xs flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-amberStage-50 flex items-center justify-center text-amberStage-500 shrink-0">
+          <i data-lucide="alarm-clock" class="w-6 h-6 animate-pulse"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-warm-600">A Término (37s+)</p>
+          <h3 id="statTermino" class="text-xl font-bold text-amberStage-700 font-heading">0</h3>
+        </div>
+      </div>
+
+      <!-- Puerperio / Posparto / Lactancia -->
+      <div class="bg-white rounded-2xl p-4 border border-lavender-100 shadow-xs flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-lavender-50 flex items-center justify-center text-lavender-500 shrink-0">
+          <i data-lucide="baby" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-warm-600">Puerperio / Lactancia</p>
+          <h3 id="statPuerperio" class="text-xl font-bold text-lavender-700 font-heading">0</h3>
+        </div>
+      </div>
+
+      <!-- Lactancia / Citas de la semana -->
+      <div class="bg-white rounded-2xl p-4 border border-sage-100 shadow-xs flex items-center gap-3.5 col-span-2 sm:col-span-1">
+        <div class="w-11 h-11 rounded-xl bg-sage-50 flex items-center justify-center text-sage-500 shrink-0">
+          <i data-lucide="calendar-check-2" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-warm-600">Próximas Citas</p>
+          <h3 id="statUpcomingAppointments" class="text-xl font-bold text-sage-700 font-heading">0</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= NAVIGATION TABS & SEARCH/FILTERS ================= -->
+  <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4">
+    <div class="bg-white rounded-2xl p-3 sm:p-4 border border-brand-200/60 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      
+      <!-- View Navigation Tabs -->
+      <div id="viewTabs" class="flex items-center gap-1.5 p-1 bg-warm-100/80 rounded-xl overflow-x-auto">
+        <button 
+          onclick="switchView('table')" 
+          id="tabTable" 
+          class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-xs bg-white text-brand-700 border border-brand-200/50 shrink-0"
+        >
+          <i data-lucide="table" class="w-4 h-4"></i>
+          <span>Tabla General</span>
+        </button>
+
+        <button 
+          onclick="switchView('kanban')" 
+          id="tabKanban" 
+          class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-warm-700 hover:text-brand-600 hover:bg-white/60 shrink-0"
+        >
+          <i data-lucide="columns-3" class="w-4 h-4"></i>
+          <span>Tablero Kanban</span>
+        </button>
+
+        <button 
+          onclick="switchView('calendar')" 
+          id="tabCalendar" 
+          class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-warm-700 hover:text-brand-600 hover:bg-white/60 shrink-0"
+        >
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          <span>Calendario & Citas</span>
+        </button>
+
+        <button 
+          onclick="switchView('accounting')" 
+          id="tabAccounting" 
+          class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-warm-700 hover:text-emerald-700 hover:bg-white/60 shrink-0"
+        >
+          <i data-lucide="wallet" class="w-4 h-4 text-emerald-600"></i>
+          <span>Contabilidad & Pagos</span>
+        </button>
+      </div>
+
+      <!-- Live Search & Stage Filters (Synced across views) -->
+      <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5">
+        <!-- Search Input -->
+        <div class="relative flex-1 min-w-[200px]">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-warm-600"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            oninput="handleSearch(this.value)" 
+            placeholder="Buscar familia, mamá, teléfono, notas..." 
+            class="w-full pl-9 pr-8 py-2 bg-warm-50 border border-brand-200/60 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-400 focus:bg-white transition-all"
+          />
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-warm-600 hover:text-brand-600">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Stage Filter Select -->
+        <div class="shrink-0">
+          <select 
+            id="stageFilterSelect" 
+            onchange="handleFilterStage(this.value)" 
+            class="py-2 px-3 bg-warm-50 border border-brand-200/60 rounded-xl text-xs sm:text-sm text-warm-800 font-medium focus:outline-none focus:ring-2 focus:ring-brand-400 cursor-pointer"
+          >
+            <option value="all">Todas las etapas</option>
+            <option value="gestacion">🌸 Gestación</option>
+            <option value="termino">⏳ A Término (37+ sem)</option>
+            <option value="puerperio">👶 Puerperio / Postparto</option>
+            <option value="lactancia">🤱 Lactancia Materna</option>
+          </select>
+        </div>
+
+        <!-- New Appointment Quick Trigger -->
+        <button 
+          onclick="openAppointmentModal()" 
+          class="shrink-0 p-2 sm:px-3 sm:py-2 bg-warm-100 hover:bg-brand-50 text-warm-800 hover:text-brand-600 font-medium text-xs sm:text-sm rounded-xl border border-brand-200/60 transition-all flex items-center gap-1.5"
+          title="Agendar nueva cita de atención"
+        >
+          <i data-lucide="calendar-plus" class="w-4 h-4 text-brand-500"></i>
+          <span class="hidden sm:inline">Agendar Cita</span>
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MAIN VIEWS CONTAINER ================= -->
+  <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-16 flex-1">
+    
+    <!-- ================= VIEW 1: GENERAL TABLE ================= -->
+    <section id="viewTable" class="block animate-in fade-in duration-200">
+      <div class="bg-white rounded-2xl border border-brand-200/70 shadow-sm overflow-hidden">
+        
+        <!-- Table Header Info Bar -->
+        <div class="px-5 py-3.5 bg-gradient-to-r from-warm-50 to-brand-50/40 border-b border-brand-100 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-xs sm:text-sm text-warm-800">Expedientes Registrados</span>
+            <span id="filteredFamiliesCount" class="text-xs px-2 py-0.5 rounded-full bg-brand-100 text-brand-700 font-bold">0</span>
+          </div>
+          <div class="text-xs text-warm-600 flex items-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-brand-400"></i>
+            <span>Haz clic en cualquier familia para abrir su Kardex 360°</span>
+          </div>
+        </div>
+
+        <!-- Responsive Table -->
+        <div class="overflow-x-auto min-h-[300px]">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-warm-100/70 text-xs uppercase font-semibold text-warm-700 border-b border-brand-200/50">
+              <tr>
+                <th scope="col" class="py-3 px-4">Familia / Mamá</th>
+                <th scope="col" class="py-3 px-4">Contacto</th>
+                <th scope="col" class="py-3 px-4 text-center">FUM</th>
+                <th scope="col" class="py-3 px-4 text-center">FPP / Parto</th>
+                <th scope="col" class="py-3 px-4 text-center">Semanas Actuales</th>
+                <th scope="col" class="py-3 px-4 text-center">Etapa</th>
+                <th scope="col" class="py-3 px-4">Próxima Cita</th>
+                <th scope="col" class="py-3 px-4">Red de Apoyo</th>
+                <th scope="col" class="py-3 px-4 text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="familiesTableBody" class="divide-y divide-brand-100/70 font-normal">
+              <!-- Rendered via Javascript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State in Table -->
+        <div id="tableEmptyState" class="hidden py-14 px-4 text-center">
+          <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-brand-50 flex items-center justify-center text-brand-400">
+            <i data-lucide="folder-search" class="w-8 h-8"></i>
+          </div>
+          <h3 class="text-base font-bold text-warm-900 font-heading">No se encontraron familias</h3>
+          <p class="text-xs sm:text-sm text-warm-600 max-w-sm mx-auto mt-1 mb-4">
+            No hay registros que coincidan con tu búsqueda o filtro actual.
+          </p>
+          <button onclick="openFamilyModal()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-500 text-white rounded-xl text-xs font-semibold shadow-xs hover:bg-brand-600">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Registrar nueva familia
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================= VIEW 2: KANBAN BOARD ================= -->
+    <section id="viewKanban" class="hidden animate-in fade-in duration-200">
+      
+      <!-- Kanban Columns Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        
+        <!-- Column 1: Gestación -->
+        <div class="bg-[#FCF9F7] rounded-2xl border border-brand-200/70 p-3.5 flex flex-col kanban-col shadow-xs" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'gestacion')" ondragleave="handleDragLeave(event)">
+          <!-- Column Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-brand-200/50 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-brand-400"></span>
+              <h3 class="font-bold text-sm text-warm-900">🌸 Gestación</h3>
+              <span id="badgeCountGestacion" class="text-xs px-2 py-0.5 rounded-full bg-brand-100 text-brand-700 font-bold">0</span>
+            </div>
+            <span class="text-[11px] text-warm-600 font-medium">1 a 36.6 sem</span>
+          </div>
+
+          <!-- Column Cards Container -->
+          <div id="kanbanColGestacion" class="flex-1 space-y-3 overflow-y-auto pr-1">
+            <!-- Cards rendered dynamically -->
+          </div>
+
+          <!-- Add Quick Card Button -->
+          <button onclick="openFamilyModalWithStage('gestacion')" class="mt-3 w-full py-2 bg-white hover:bg-brand-50 text-warm-700 hover:text-brand-600 border border-dashed border-brand-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Añadir en Gestación</span>
+          </button>
+        </div>
+
+        <!-- Column 2: A Término (37+ semanas) -->
+        <div class="bg-[#FFFBF5] rounded-2xl border border-amberStage-200 p-3.5 flex flex-col kanban-col shadow-xs" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'termino')" ondragleave="handleDragLeave(event)">
+          <!-- Column Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-amberStage-200 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-amberStage-500 animate-ping"></span>
+              <h3 class="font-bold text-sm text-amberStage-900">⏳ A Término</h3>
+              <span id="badgeCountTermino" class="text-xs px-2 py-0.5 rounded-full bg-amberStage-100 text-amberStage-800 font-bold">0</span>
+            </div>
+            <span class="text-[11px] text-amberStage-700 font-semibold">37 a 42 sem (Parto)</span>
+          </div>
+
+          <!-- Column Cards Container -->
+          <div id="kanbanColTermino" class="flex-1 space-y-3 overflow-y-auto pr-1">
+            <!-- Cards rendered dynamically -->
+          </div>
+
+          <!-- Add Quick Card Button -->
+          <button onclick="openFamilyModalWithStage('termino')" class="mt-3 w-full py-2 bg-white hover:bg-amberStage-50 text-amberStage-800 border border-dashed border-amberStage-300 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Añadir A Término</span>
+          </button>
+        </div>
+
+        <!-- Column 3: Puerperio / Postparto -->
+        <div class="bg-[#FAF8FD] rounded-2xl border border-lavender-200 p-3.5 flex flex-col kanban-col shadow-xs" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'puerperio')" ondragleave="handleDragLeave(event)">
+          <!-- Column Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-lavender-200 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-lavender-500"></span>
+              <h3 class="font-bold text-sm text-lavender-900">👶 Puerperio</h3>
+              <span id="badgeCountPuerperio" class="text-xs px-2 py-0.5 rounded-full bg-lavender-100 text-lavender-700 font-bold">0</span>
+            </div>
+            <span class="text-[11px] text-lavender-700 font-medium">Cuarto Trimestre</span>
+          </div>
+
+          <!-- Column Cards Container -->
+          <div id="kanbanColPuerperio" class="flex-1 space-y-3 overflow-y-auto pr-1">
+            <!-- Cards rendered dynamically -->
+          </div>
+
+          <!-- Add Quick Card Button -->
+          <button onclick="openFamilyModalWithStage('puerperio')" class="mt-3 w-full py-2 bg-white hover:bg-lavender-50 text-lavender-800 border border-dashed border-lavender-300 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Añadir en Puerperio</span>
+          </button>
+        </div>
+
+        <!-- Column 4: Lactancia Materna -->
+        <div class="bg-[#F6F9F6] rounded-2xl border border-sage-200 p-3.5 flex flex-col kanban-col shadow-xs" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'lactancia')" ondragleave="handleDragLeave(event)">
+          <!-- Column Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-sage-200 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-sage-500"></span>
+              <h3 class="font-bold text-sm text-sage-900">🤱 Lactancia</h3>
+              <span id="badgeCountLactancia" class="text-xs px-2 py-0.5 rounded-full bg-sage-100 text-sage-700 font-bold">0</span>
+            </div>
+            <span class="text-[11px] text-sage-700 font-medium">Acompañamiento & Banco</span>
+          </div>
+
+          <!-- Column Cards Container -->
+          <div id="kanbanColLactancia" class="flex-1 space-y-3 overflow-y-auto pr-1">
+            <!-- Cards rendered dynamically -->
+          </div>
+
+          <!-- Add Quick Card Button -->
+          <button onclick="openFamilyModalWithStage('lactancia')" class="mt-3 w-full py-2 bg-white hover:bg-sage-50 text-sage-800 border border-dashed border-sage-300 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Añadir en Lactancia</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================= VIEW 3: CALENDAR & APPOINTMENTS ================= -->
+    <section id="viewCalendar" class="hidden animate-in fade-in duration-200">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left: Interactive Calendar Grid -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-brand-200/70 p-5 shadow-sm">
+          
+          <!-- Month Navigation Bar -->
+          <div class="flex items-center justify-between pb-4 border-b border-brand-100">
+            <div>
+              <h2 id="calendarMonthTitle" class="font-heading font-bold text-xl text-warm-900">Septiembre 2026</h2>
+              <p class="text-xs text-warm-600">Haz clic en cualquier día para agendar o ver las citas programadas</p>
+            </div>
+            <div class="flex items-center gap-1 bg-warm-50 p-1 rounded-xl border border-brand-100">
+              <button onclick="prevCalendarMonth()" class="p-1.5 hover:bg-white rounded-lg text-warm-700 hover:text-brand-600 transition-colors">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <button onclick="currentCalendarMonth()" class="px-2.5 py-1 text-xs font-semibold hover:bg-white rounded-lg text-warm-700 transition-colors">
+                Hoy
+              </button>
+              <button onclick="nextCalendarMonth()" class="p-1.5 hover:bg-white rounded-lg text-warm-700 hover:text-brand-600 transition-colors">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Days of Week Headers -->
+          <div class="grid grid-cols-7 gap-1 text-center py-2 text-xs font-semibold text-warm-600 uppercase tracking-wider">
+            <span>Dom</span>
+            <span>Lun</span>
+            <span>Mar</span>
+            <span>Mié</span>
+            <span>Jue</span>
+            <span>Vie</span>
+            <span>Sáb</span>
+          </div>
+
+          <!-- Calendar Days Grid -->
+          <div id="calendarGrid" class="grid grid-cols-7 gap-1.5 min-h-[350px]">
+            <!-- Rendered via Javascript -->
+          </div>
+
+          <!-- Legend Bar -->
+          <div class="mt-4 pt-3 border-t border-brand-100 flex flex-wrap items-center gap-4 text-xs text-warm-700">
+            <span class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span> Citas Prenatales / Doula
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-sage-500"></span> Asesorías de Lactancia
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-lavender-500"></span> Visitas Posparto
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-amberStage-500"></span> FPP (Fechas de Parto)
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Right: Upcoming Appointments & Reminders Panel -->
+        <div class="bg-white rounded-2xl border border-brand-200/70 p-5 shadow-sm flex flex-col">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-brand-100 mb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center text-brand-500">
+                <i data-lucide="bell" class="w-4 h-4"></i>
+              </div>
+              <h3 class="font-heading font-bold text-base text-warm-900">Próximas Citas & Alertas</h3>
+            </div>
+            <button onclick="openAppointmentModal()" class="text-xs text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Agendar
+            </button>
+          </div>
+
+          <!-- Appointments List Container -->
+          <div id="calendarUpcomingList" class="flex-1 space-y-3 overflow-y-auto max-h-[460px] pr-1">
+            <!-- Rendered via Javascript -->
+          </div>
+
+          <!-- WhatsApp Quick Reminder Box -->
+          <div class="mt-4 pt-3 border-t border-brand-100 bg-brand-50/50 rounded-xl p-3 text-xs text-warm-800">
+            <p class="font-semibold text-brand-700 flex items-center gap-1 mb-1">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Recordatorios por WhatsApp
+            </p>
+            <p class="text-warm-600 leading-relaxed">
+              Cada cita tiene un botón directo para enviar un recordatorio amable pre-redactado con fecha y hora a la familia en un solo clic.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ================= VIEW 4: CONTABILIDAD & FINANZAS ================= -->
+    <section id="viewAccounting" class="hidden animate-in fade-in duration-200 space-y-6">
+      
+      <!-- Financial Metrics Banner -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total Pactado -->
+        <div class="bg-white rounded-2xl p-4 border border-brand-100 shadow-xs flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 shrink-0">
+            <i data-lucide="receipt" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-warm-600">Total Contratado</p>
+            <h3 id="finTotalContracted" class="text-xl sm:text-2xl font-bold text-warm-900 font-heading">₡500,000</h3>
+            <p class="text-[11px] text-warm-600">Honorarios pactados</p>
+          </div>
+        </div>
+
+        <!-- Total Cobrado / Pagado -->
+        <div class="bg-white rounded-2xl p-4 border border-emerald-100 shadow-xs flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+            <i data-lucide="badge-check" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-emerald-800">Total Cobrado</p>
+            <h3 id="finTotalPaid" class="text-xl sm:text-2xl font-bold text-emerald-700 font-heading">₡0</h3>
+            <p id="finCollectionRate" class="text-[11px] text-emerald-600 font-medium">0% recaudado</p>
+          </div>
+        </div>
+
+        <!-- Saldo Pendiente -->
+        <div class="bg-white rounded-2xl p-4 border border-amberStage-100 shadow-xs flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-amberStage-50 flex items-center justify-center text-amberStage-600 shrink-0">
+            <i data-lucide="clock-alert" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-amberStage-800">Saldo Pendiente</p>
+            <h3 id="finTotalPending" class="text-xl sm:text-2xl font-bold text-amberStage-700 font-heading">₡500,000</h3>
+            <p class="text-[11px] text-amberStage-700 font-medium">Por cobrar</p>
+          </div>
+        </div>
+
+        <!-- Progress Card -->
+        <div class="bg-white rounded-2xl p-4 border border-brand-100 shadow-xs flex flex-col justify-center">
+          <div class="flex items-center justify-between text-xs font-semibold text-warm-800 mb-1.5">
+            <span>Avance de Recaudación</span>
+            <span id="finProgressText" class="text-brand-600 font-bold">0%</span>
+          </div>
+          <div class="w-full bg-warm-100 rounded-full h-3 overflow-hidden border border-brand-100">
+            <div id="finProgressBar" class="bg-gradient-to-r from-emerald-400 to-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+          </div>
+          <p class="text-[10px] text-warm-600 mt-1.5">Metas y flujo de caja de acompañamientos</p>
+        </div>
+
+      </div>
+
+      <!-- Accounting Main Table -->
+      <div class="bg-white rounded-2xl border border-brand-200/70 shadow-sm overflow-hidden">
+        
+        <!-- Table Topbar -->
+        <div class="px-5 py-4 bg-gradient-to-r from-warm-50 to-brand-50/40 border-b border-brand-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <i data-lucide="wallet" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-warm-900">Estado Financiero por Familia</h3>
+              <p class="text-xs text-warm-600">Control de honorarios, abonos recibidos y saldos pendientes</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="openPaymentModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-xs transition-all">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Registrar Abono / Pago</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Content -->
+        <div class="overflow-x-auto min-h-[220px]">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-warm-100/70 text-xs uppercase font-semibold text-warm-700 border-b border-brand-200/50">
+              <tr>
+                <th scope="col" class="py-3 px-4">Familia / Mamá</th>
+                <th scope="col" class="py-3 px-4">Servicio & Hospital</th>
+                <th scope="col" class="py-3 px-4 text-right">Honorarios Pactados</th>
+                <th scope="col" class="py-3 px-4 text-right">Abonado (₡)</th>
+                <th scope="col" class="py-3 px-4 text-right">Saldo Pendiente</th>
+                <th scope="col" class="py-3 px-4 text-center">Estado de Pago</th>
+                <th scope="col" class="py-3 px-4 text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="accountingTableBody" class="divide-y divide-brand-100/70 font-normal">
+              <!-- Rendered via Javascript -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Transaction History & Receipts Ledger -->
+      <div class="bg-white rounded-2xl border border-brand-200/70 shadow-sm p-5 space-y-4">
+        
+        <div class="flex items-center justify-between pb-3 border-b border-brand-100">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-warm-100 text-warm-700 flex items-center justify-center">
+              <i data-lucide="receipt-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-warm-900">Historial de Abonos & Transacciones</h3>
+              <p class="text-xs text-warm-600">Registro detallado de depósitos (SINPE Móvil, transferencia, efectivo)</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="accountingTransactionsList" class="space-y-2.5">
+          <!-- Rendered via Javascript -->
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: REGISTRAR / EDITAR FAMILIA (OBSTETRIC ENGINE & KARDEX CREATOR) -->
+  <!-- ========================================================================= -->
+  <div id="familyModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 hidden animate-in fade-in duration-150">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-brand-200 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-warm-50 to-brand-50/60 border-b border-brand-100 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center shadow-sm">
+            <i data-lucide="baby" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="familyModalTitle" class="font-heading font-bold text-lg text-warm-900">Registrar Nueva Familia</h3>
+            <p class="text-xs text-warm-600">Expediente clínico y de acompañamiento personalizado</p>
+          </div>
+        </div>
+        <button onclick="closeFamilyModal()" class="w-8 h-8 rounded-full hover:bg-white text-warm-600 hover:text-warm-900 flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Form with automatic gestational calculation) -->
+      <form id="familyForm" onsubmit="saveFamily(event)" class="p-6 overflow-y-auto space-y-5 flex-1">
+        <input type="hidden" id="formFamilyId" value="" />
+
+        <!-- 1. Datos Principales -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-1.5">
+            <i data-lucide="users" class="w-3.5 h-3.5"></i> 1. Datos de la Familia
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Nombre de la Mamá / Gestante *</label>
+              <input type="text" id="formMotherName" required placeholder="Ej: Mariana Solano" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Nombre de la Pareja / Acompañante</label>
+              <input type="text" id="formPartnerName" placeholder="Ej: Esteban Morales" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Nombre del Bebé (o 'En camino')</label>
+              <input type="text" id="formBabyName" placeholder="Ej: Mateo / Por definir" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Canal de Contacto Principal *</label>
+              <div class="grid grid-cols-2 gap-2">
+                <select id="formContactChannel" class="px-3 py-2 text-xs sm:text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+                  <option value="whatsapp">WhatsApp</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="telefono">Llamada</option>
+                  <option value="email">Correo</option>
+                </select>
+                <input type="text" id="formPhone" required placeholder="Ej: 8888-9999" class="px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none" />
+              </div>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Foto de la Familia / Gestante</label>
+              <div class="flex items-center gap-3">
+                <div id="formPhotoPreview" class="w-12 h-12 rounded-xl bg-warm-100 border border-brand-200 flex items-center justify-center overflow-hidden shrink-0">
+                  <i data-lucide="image" class="w-5 h-5 text-warm-400"></i>
+                </div>
+                <div class="flex-1">
+                  <input type="file" id="formPhotoFile" accept="image/*" onchange="handlePhotoUpload(event)" class="text-xs text-warm-700 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-100 file:text-brand-700 hover:file:bg-brand-200 cursor-pointer w-full" />
+                  <input type="hidden" id="formPhoto" value="" />
+                  <p class="text-[10px] text-warm-500 mt-1">Sube una foto o déjalo vacío para usar la inicial</p>
+                </div>
+                <button type="button" onclick="clearPhotoInput()" id="clearPhotoBtn" class="hidden text-xs text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-50" title="Quitar foto">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-brand-100" />
+
+        <!-- 2. Cálculo Obstétrico (FUM / FPP / Semanas) -->
+        <div class="bg-brand-50/40 rounded-2xl p-4 border border-brand-200/60">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-brand-700 flex items-center gap-1.5">
+              <i data-lucide="calculator" class="w-3.5 h-3.5"></i> 2. Cálculo Obstétrico Automático
+            </h4>
+            <span class="text-[11px] text-brand-600 bg-brand-100/80 px-2 py-0.5 rounded-md font-medium">Regla de Naegele (280 días)</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">
+                Fecha Última Menstruación (FUM)
+              </label>
+              <input type="date" id="formFum" onchange="calculateFromFUM(this.value)" class="w-full px-3.5 py-2 text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+              <p class="text-[11px] text-warm-600 mt-1">Calcula FPP y semanas automáticamente</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">
+                Fecha Probable de Parto (FPP)
+              </label>
+              <input type="date" id="formFpp" onchange="calculateFromFPP(this.value)" class="w-full px-3.5 py-2 text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+              <p class="text-[11px] text-warm-600 mt-1">Si no sabes la FUM, ingresa la FPP del ultrasonido</p>
+            </div>
+          </div>
+
+          <!-- Dynamic Gestational Output Card -->
+          <div id="gestationalPreviewCard" class="mt-3 p-3 bg-white rounded-xl border border-brand-200 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p class="text-[11px] font-semibold text-warm-600 uppercase">Edad Gestacional Hoy</p>
+              <p id="calcWeeksDisplay" class="text-base font-bold text-brand-600">Ingresa FUM o FPP para calcular</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[11px] font-semibold text-warm-600 uppercase">Etapa Sugerida</p>
+              <span id="calcStageSuggestedBadge" class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-warm-100 text-warm-700">
+                Pendiente
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Etapa, Hospital y Acompañamiento -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-brand-700 mb-3 flex items-center gap-1.5">
+            <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i> 3. Etapa y Plan de Atención
+          </h4>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Etapa de Acompañamiento *</label>
+              <select id="formStage" required class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+                <option value="gestacion">🌸 Gestación (1 a 36.6 sem)</option>
+                <option value="termino">⏳ A Término (37 a 42 sem)</option>
+                <option value="puerperio">👶 Puerperio / Postparto</option>
+                <option value="lactancia">🤱 Lactancia Materna</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Paquete / Servicio</label>
+              <select id="formServicePackage" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+                <option value="Acompañamiento Integral Doula & Parto">Acompañamiento Integral Doula & Parto</option>
+                <option value="Preparación al Parto Intensiva">Preparación al Parto Intensiva</option>
+                <option value="Asesoría de Lactancia Materna">Asesoría de Lactancia Materna</option>
+                <option value="Masaje Prenatal & Relajación">Masaje Prenatal & Relajación</option>
+                <option value="Visita Domiciliaria Posparto">Visita Domiciliaria Posparto</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Lugar de Parto Planeado / Hospital</label>
+              <input type="text" id="formHospital" placeholder="Ej: Hospital Calderón Guardia / San Vicente de Paúl" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Honorarios Totales Pactados (₡) *</label>
+              <input type="number" id="formTotalFee" required placeholder="Ej: 200000" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none font-semibold text-emerald-700" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-warm-800 mb-1">Red de Apoyo Principal</label>
+              <input type="text" id="formSupportNetwork" placeholder="Ej: Pareja y familia cercana" class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Notas Generales de Seguimiento -->
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Notas Generales de Acompañamiento / Deseos de Parto</label>
+          <textarea id="formNotes" rows="3" placeholder="Ej: Acompañamiento prenatal integral, plan de parto y apoyo en trabajo de parto..." class="w-full px-3.5 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:bg-white focus:outline-none"></textarea>
+        </div>
+
+        <!-- Modal Actions Footer -->
+        <div class="pt-3 border-t border-brand-100 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeFamilyModal()" class="px-4 py-2 text-xs sm:text-sm font-semibold text-warm-700 bg-warm-100 hover:bg-warm-200 rounded-xl transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-5 py-2 text-xs sm:text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span id="saveFamilyBtnText">Guardar Expediente</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: EXPEDIENTE 360° COMPLETO (KARDEX DETALLADO DE LA FAMILIA) -->
+  <!-- ========================================================================= -->
+  <div id="kardexDetailModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 hidden animate-in fade-in duration-150">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl border border-brand-200 overflow-hidden modal-dialog-content">
+      
+      <!-- Detail Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-brand-50 via-warm-50 to-brand-100/40 border-b border-brand-200 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center gap-3.5">
+          <div id="kardexHeaderAvatar" class="w-12 h-12 rounded-2xl bg-brand-500 text-white font-heading font-bold text-xl flex items-center justify-center shadow-sm">
+            M
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 id="kardexHeaderName" class="font-heading font-bold text-xl text-warm-900">Familia</h2>
+              <span id="kardexHeaderStageBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-100 text-brand-700">
+                🌸 Gestación
+              </span>
+            </div>
+            <p id="kardexHeaderSubtitle" class="text-xs text-warm-600 font-medium">
+              Mamá · Bebé: En camino
+            </p>
+          </div>
+        </div>
+
+        <!-- Header Actions (WhatsApp, Edit, Print, Close) -->
+        <div class="flex items-center gap-2 no-print">
+          <a id="kardexWhatsappBtn" href="#" target="_blank" class="p-2 sm:px-3 sm:py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-colors border border-emerald-200">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">WhatsApp</span>
+          </a>
+          <button onclick="editCurrentKardexFamily()" class="p-2 sm:px-3 sm:py-1.5 bg-warm-100 hover:bg-warm-200 text-warm-800 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-colors">
+            <i data-lucide="edit-3" class="w-4 h-4 text-warm-700"></i>
+            <span class="hidden sm:inline">Editar</span>
+          </button>
+          <button onclick="window.print()" class="p-2 sm:px-3 sm:py-1.5 bg-warm-100 hover:bg-warm-200 text-warm-800 font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-colors" title="Imprimir Kardex">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+          </button>
+          <button onclick="closeKardexModal()" class="w-8 h-8 rounded-full hover:bg-white text-warm-600 hover:text-warm-900 flex items-center justify-center transition-colors">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Detail Navigation Tabs -->
+      <div class="px-6 py-2 bg-warm-50 border-b border-brand-100 flex items-center gap-2 overflow-x-auto no-print">
+        <button onclick="switchKardexTab('resumen')" id="ktabResumen" class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-white text-brand-700 shadow-xs border border-brand-200/50 shrink-0">
+          📋 Datos & Obstetricia
+        </button>
+        <button onclick="switchKardexTab('citas')" id="ktabCitas" class="px-3.5 py-1.5 text-xs font-bold rounded-lg text-warm-700 hover:text-brand-600 hover:bg-white shrink-0">
+          📅 Citas & Historial (<span id="kardexAptCount">0</span>)
+        </button>
+        <button onclick="switchKardexTab('notas')" id="ktabNotas" class="px-3.5 py-1.5 text-xs font-bold rounded-lg text-warm-700 hover:text-brand-600 hover:bg-white shrink-0">
+          📝 Bitácora & Sesiones (<span id="kardexNotesCount">0</span>)
+        </button>
+        <button onclick="switchKardexTab('finanzas')" id="ktabFinanzas" class="px-3.5 py-1.5 text-xs font-bold rounded-lg text-warm-700 hover:text-emerald-700 hover:bg-white shrink-0">
+          💰 Finanzas & Pagos
+        </button>
+        <button onclick="switchKardexTab('guia')" id="ktabGuia" class="px-3.5 py-1.5 text-xs font-bold rounded-lg text-warm-700 hover:text-brand-600 hover:bg-white shrink-0">
+          ✨ Guía de la Semana
+        </button>
+      </div>
+
+      <!-- Detail Modal Scrollable Content -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-6">
+        
+        <!-- ================= TAB 1: DATOS & OBSTETRICIA ================= -->
+        <div id="kardexTabResumen" class="space-y-5 block">
+          
+          <!-- Obstetric Metric Highlights -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="p-3.5 bg-brand-50/60 rounded-2xl border border-brand-200">
+              <p class="text-[11px] font-bold text-warm-600 uppercase">Edad Gestacional</p>
+              <h4 id="kdWeeks" class="text-xl font-bold text-brand-700 mt-0.5">34.2 sem</h4>
+              <p id="kdTrimester" class="text-[11px] text-brand-600 font-medium">3er Trimestre</p>
+            </div>
+            <div class="p-3.5 bg-amberStage-50/60 rounded-2xl border border-amberStage-200">
+              <p class="text-[11px] font-bold text-amberStage-800 uppercase">FPP (Parto Estimado)</p>
+              <h4 id="kdFpp" class="text-base font-bold text-amberStage-900 mt-0.5">18 Nov 2026</h4>
+              <p id="kdDaysRemaining" class="text-[11px] text-amberStage-700 font-medium">Faltan 40 días</p>
+            </div>
+            <div class="p-3.5 bg-warm-50 rounded-2xl border border-brand-100">
+              <p class="text-[11px] font-bold text-warm-600 uppercase">FUM</p>
+              <h4 id="kdFum" class="text-base font-bold text-warm-800 mt-0.5">11 Feb 2026</h4>
+              <p class="text-[11px] text-warm-600">Última menstruación</p>
+            </div>
+            <div class="p-3.5 bg-sage-50/60 rounded-2xl border border-sage-200">
+              <p class="text-[11px] font-bold text-sage-800 uppercase">Lugar de Parto</p>
+              <h4 id="kdHospital" class="text-sm font-bold text-sage-900 mt-0.5 truncate">Hospital</h4>
+              <p id="kdService" class="text-[11px] text-sage-700 truncate">Doula Integral</p>
+            </div>
+          </div>
+
+          <!-- Gestational Progress Bar -->
+          <div class="bg-white p-4 rounded-2xl border border-brand-200/70 shadow-xs">
+            <div class="flex items-center justify-between text-xs font-semibold text-warm-800 mb-1.5">
+              <span>Progreso de la Gestación (40 semanas)</span>
+              <span id="kdProgressPct" class="text-brand-600 font-bold">85%</span>
+            </div>
+            <div class="w-full bg-warm-100 rounded-full h-3 overflow-hidden border border-brand-100">
+              <div id="kdProgressBar" class="bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 h-full rounded-full transition-all duration-500" style="width: 85%;"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-warm-600 mt-1 font-medium">
+              <span>Semana 1</span>
+              <span>12s (Fin 1T)</span>
+              <span>27s (Fin 2T)</span>
+              <span>37s (A Término)</span>
+              <span>40s (FPP)</span>
+            </div>
+          </div>
+
+          <!-- Clinical & Contact Info Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="bg-warm-50/60 p-4 rounded-2xl border border-brand-100">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-warm-800 mb-3 flex items-center gap-1.5">
+                <i data-lucide="phone-call" class="w-3.5 h-3.5 text-brand-500"></i> Contacto & Red de Apoyo
+              </h4>
+              <ul class="text-xs space-y-2 text-warm-800">
+                <li class="flex justify-between py-1 border-b border-warm-200/50">
+                  <span class="text-warm-600 font-medium">Canal de Contacto:</span>
+                  <span id="kdContact" class="font-semibold capitalize">WhatsApp</span>
+                </li>
+                <li class="flex justify-between py-1 border-b border-warm-200/50">
+                  <span class="text-warm-600 font-medium">Pareja / Acompañante:</span>
+                  <span id="kdPartner" class="font-semibold text-warm-900">No registrado</span>
+                </li>
+                <li class="flex justify-between py-1 border-b border-warm-200/50">
+                  <span class="text-warm-600 font-medium">Lugar de Parto:</span>
+                  <span id="kdHospitalDetail" class="font-semibold text-brand-700">Por confirmar</span>
+                </li>
+                <li class="py-1">
+                  <span class="text-warm-600 font-medium block mb-0.5">Red de Apoyo Identificada:</span>
+                  <p id="kdSupport" class="font-semibold bg-white p-2 rounded-lg border border-brand-100/60 text-warm-900 leading-relaxed">
+                    Pareja y familia cercana.
+                  </p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-warm-50/60 p-4 rounded-2xl border border-brand-100">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-warm-800 mb-3 flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-brand-500"></i> Deseos & Observaciones Iniciales
+              </h4>
+              <p id="kdNotesGeneral" class="text-xs text-warm-800 leading-relaxed bg-white p-3 rounded-xl border border-brand-100/60 min-h-[110px]">
+                Sin notas generales registradas.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================= TAB 2: HISTORIAL DE CITAS ================= -->
+        <div id="kardexTabCitas" class="space-y-4 hidden">
+          
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-brand-700 flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-4 h-4"></i> Citas de Atención & Sesiones
+            </h4>
+            <button onclick="openAppointmentModalForCurrentFamily()" class="px-3 py-1.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-xs">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Agendar Nueva Sesión
+            </button>
+          </div>
+
+          <div id="kardexAppointmentsList" class="space-y-3">
+            <!-- Rendered dynamically -->
+          </div>
+
+        </div>
+
+
+        <!-- ================= TAB 3: BITÁCORA DE SESIONES & MATERIALES ================= -->
+        <div id="kardexTabNotas" class="space-y-5 hidden">
+          
+          <!-- Add / Edit Note Box -->
+          <div class="bg-brand-50/50 p-4 sm:p-5 rounded-2xl border border-brand-200/80 shadow-xs">
+            <div class="flex items-center justify-between mb-3">
+              <h4 id="noteFormHeaderTitle" class="text-xs font-bold uppercase tracking-wider text-brand-700 flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-4 h-4"></i> Bitácora de Sesión: Contenidos & Materiales
+              </h4>
+              <span id="noteEditingBadge" class="hidden text-[11px] font-bold px-2 py-0.5 rounded-md bg-amberStage-100 text-amberStage-800 border border-amberStage-200">
+                ✏️ Modo Edición
+              </span>
+            </div>
+
+            <form onsubmit="saveClinicalNote(event)" id="clinicalNoteForm" class="space-y-3.5">
+              <input type="hidden" id="noteFormId" value="" />
+
+              <!-- Row 1: Date, Tag & Title -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-warm-800 mb-1">Fecha de la Sesión *</label>
+                  <input type="date" id="newNoteDate" required class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-warm-800 mb-1">Categoría / Tipo *</label>
+                  <select id="newNoteTag" class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+                    <option value="Preparación al Parto">🌸 Preparación al Parto</option>
+                    <option value="Biomecánica & Masaje">🧘 Biomecánica & Masaje</option>
+                    <option value="Medidas de Confort & Rebozo">🧣 Confort & Rebozo</option>
+                    <option value="Plan de Parto & Derechos">📋 Plan de Parto & Derechos</option>
+                    <option value="Lactancia Materna">🤱 Lactancia Materna</option>
+                    <option value="Soporte Emocional & Miedos">💕 Soporte Emocional</option>
+                    <option value="Visita Posparto & Cuidados">👶 Visita Posparto</option>
+                    <option value="Sesión Intensiva">⚡ Sesión Intensiva</option>
+                    <option value="Alerta / Valoración Médica">⚠️ Alerta Médica</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-warm-800 mb-1">Título / Tema Principal *</label>
+                  <input type="text" id="newNoteTitle" required placeholder="Ej: Fisiología y posturas de dilatación" class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+                </div>
+              </div>
+
+              <!-- Row 2: Content Text -->
+              <div>
+                <label class="block text-xs font-semibold text-warm-800 mb-1">Contenidos Abordados, Evolución y Observaciones *</label>
+                <textarea id="newNoteText" required rows="3" placeholder="Detalla los temas vistos en la sesión, dudas o inquietudes de la mamá/pareja, sensaciones, ejercicios realizados..." class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none leading-relaxed"></textarea>
+              </div>
+
+              <!-- Row 3: Materials & Resources -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-warm-800">
+                    📦 Materiales & Recursos Entregados / Recomendados
+                  </label>
+                  <span class="text-[10px] text-warm-500 font-medium">Haz clic en los atajos para añadir:</span>
+                </div>
+                <input type="text" id="newNoteMaterials" placeholder="Ej: Guía de Plan de Parto en PDF, Préstamo de Rebozo 4.5m, Infografía de posturas fitball..." class="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+                
+                <!-- Quick Material Chips -->
+                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                  <button type="button" onclick="appendMaterialChip('Guía PDF Plan de Parto')" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors">
+                    + Guía PDF Plan Parto
+                  </button>
+                  <button type="button" onclick="appendMaterialChip('Préstamo de Rebozo mexicano')" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors">
+                    + Préstamo Rebozo
+                  </button>
+                  <button type="button" onclick="appendMaterialChip('Infografía de Biomecánica & Fitball')" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors">
+                    + Infografía Fitball
+                  </button>
+                  <button type="button" onclick="appendMaterialChip('Guía de Lactancia & Calostro')" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors">
+                    + Guía Lactancia
+                  </button>
+                  <button type="button" onclick="appendMaterialChip('Lista de Maleta Hospitalaria')" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors">
+                    + Maleta Hospital
+                  </button>
+                  <button type="button" onclick="appendMaterialChip('Video de Respiración & Masaje')" class="px-2 py-0.5 rounded-lg text-[10px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 transition-colors">
+                    + Video Masaje
+                  </button>
+                </div>
+              </div>
+
+              <!-- Row 4: Agreements / Homework -->
+              <div>
+                <label class="block text-xs font-semibold text-warm-800 mb-1">
+                  🤝 Acuerdos & Prácticas para Casa (Opcional)
+                </label>
+                <input type="text" id="newNoteAgreements" placeholder="Ej: Practicar balanceo pélvico 10 min/día con pareja, preparar preguntas para la ginecóloga..." class="w-full px-3.5 py-2 text-xs sm:text-sm bg-white border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+              </div>
+
+              <!-- Form Buttons -->
+              <div class="flex items-center justify-end gap-2 pt-2 border-t border-brand-200/50">
+                <button type="button" id="cancelEditNoteBtn" onclick="cancelEditClinicalNote()" class="hidden px-3.5 py-1.5 bg-warm-100 hover:bg-warm-200 text-warm-700 rounded-xl text-xs font-semibold transition-colors">
+                  Cancelar Edición
+                </button>
+                <button type="submit" id="saveNoteBtn" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-all">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                  <span id="saveNoteBtnText">Guardar Entrada en Bitácora</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Notes Timeline List Header & Container -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-warm-800 flex items-center gap-1.5">
+                <i data-lucide="list-ordered" class="w-3.5 h-3.5 text-brand-600"></i> Historial de Sesiones & Bitácora
+              </h4>
+              <span class="text-[11px] text-warm-500 font-medium">Orden cronológico inverso</span>
+            </div>
+            <div id="kardexNotesList" class="space-y-3">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ================= TAB 4: FINANZAS & PAGOS DE LA FAMILIA ================= -->
+        <div id="kardexTabFinanzas" class="space-y-5 hidden">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-3.5 bg-warm-50 rounded-2xl border border-brand-200">
+              <p class="text-[11px] font-bold text-warm-600 uppercase">Honorarios Acordados</p>
+              <h4 id="kdFinTotal" class="text-xl font-bold text-warm-900 mt-0.5">₡200,000</h4>
+            </div>
+            <div class="p-3.5 bg-emerald-50/70 rounded-2xl border border-emerald-200">
+              <p class="text-[11px] font-bold text-emerald-800 uppercase">Total Abonado</p>
+              <h4 id="kdFinPaid" class="text-xl font-bold text-emerald-700 mt-0.5">₡0</h4>
+            </div>
+            <div class="p-3.5 bg-amberStage-50/70 rounded-2xl border border-amberStage-200">
+              <p class="text-[11px] font-bold text-amberStage-800 uppercase">Saldo Pendiente</p>
+              <h4 id="kdFinPending" class="text-xl font-bold text-amberStage-700 mt-0.5">₡200,000</h4>
+            </div>
+          </div>
+
+          <!-- Payment Progress Bar -->
+          <div class="bg-white p-4 rounded-2xl border border-brand-200 shadow-xs">
+            <div class="flex items-center justify-between text-xs font-semibold text-warm-800 mb-1.5">
+              <span>Estado de Cancelación</span>
+              <span id="kdFinPercent" class="text-emerald-700 font-bold">0% pagado</span>
+            </div>
+            <div class="w-full bg-warm-100 rounded-full h-3 overflow-hidden border border-brand-100">
+              <div id="kdFinProgressBar" class="bg-gradient-to-r from-emerald-400 to-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Payments List -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-warm-800 flex items-center gap-1.5">
+                <i data-lucide="receipt" class="w-4 h-4 text-emerald-600"></i> Abonos & Comprobantes Registrados
+              </h4>
+              <button onclick="openPaymentModalForCurrentFamily()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-xs">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Registrar Abono
+              </button>
+            </div>
+
+            <div id="kardexPaymentsList" class="space-y-2">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ================= TAB 5: GUÍA DE LA SEMANA ================= -->
+        <div id="kardexTabGuia" class="space-y-4 hidden">
+          <div class="bg-gradient-to-br from-warm-50 to-brand-50/50 p-5 rounded-2xl border border-brand-200">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 id="guideWeekTitle" class="font-heading font-bold text-base text-warm-900">Semana de Gestación</h4>
+                <p id="guideFruitSize" class="text-xs text-brand-600 font-semibold">Tamaño aproximado</p>
+              </div>
+            </div>
+            
+            <div class="space-y-3 text-xs text-warm-800">
+              <div class="bg-white p-3.5 rounded-xl border border-brand-100">
+                <p class="font-bold text-brand-700 mb-1">👶 Desarrollo del Bebé:</p>
+                <p id="guideBabyDev" class="leading-relaxed text-warm-700"></p>
+              </div>
+
+              <div class="bg-white p-3.5 rounded-xl border border-brand-100">
+                <p class="font-bold text-brand-700 mb-1">🤰 Cambios & Sensaciones en la Mamá:</p>
+                <p id="guideMomDev" class="leading-relaxed text-warm-700"></p>
+              </div>
+
+              <div class="bg-white p-3.5 rounded-xl border border-brand-100">
+                <p class="font-bold text-brand-700 mb-1">💡 Tips de Doula & Acompañamiento:</p>
+                <p id="guideDoulaTips" class="leading-relaxed text-warm-700"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: AGENDAR / EDITAR CITA DE ATENCIÓN -->
+  <!-- ========================================================================= -->
+  <div id="appointmentModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 hidden animate-in fade-in duration-150">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-brand-200 overflow-hidden">
+      
+      <!-- Header -->
+      <div class="px-5 py-4 bg-gradient-to-r from-warm-50 to-brand-50/60 border-b border-brand-100 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-sage-500 text-white flex items-center justify-center shadow-xs">
+            <i data-lucide="calendar-plus" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-heading font-bold text-base text-warm-900">Agendar Cita de Atención</h3>
+            <p class="text-xs text-warm-600">Sesión de acompañamiento o asesoría</p>
+          </div>
+        </div>
+        <button onclick="closeAppointmentModal()" class="w-7 h-7 rounded-full hover:bg-white text-warm-600 hover:text-warm-900 flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="appointmentForm" onsubmit="saveAppointment(event)" class="p-5 space-y-3.5">
+        <input type="hidden" id="formAptId" value="" />
+
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Familia / Mamá *</label>
+          <select id="formAptFamilyId" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            <!-- Filled dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-warm-800 mb-1">Fecha *</label>
+            <input type="date" id="formAptDate" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-warm-800 mb-1">Hora *</label>
+            <input type="time" id="formAptTime" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Tipo de Sesión *</label>
+          <select id="formAptTitle" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            <option value="Primera Sesión de Preparación">🌸 Primera Sesión de Preparación</option>
+            <option value="Segunda Sesión de Preparación">🌸 Segunda Sesión de Preparación</option>
+            <option value="Tercera Sesión de Preparación">🌸 Tercera Sesión de Preparación</option>
+            <option value="Sesión de Preparación para Parto Intensiva">✨ Sesión de Preparación para Parto Intensiva</option>
+            <option value="Posible Sesión de Guardia">⏳ Posible Sesión de Guardia / Cierre</option>
+            <option value="Masaje Prenatal & Relajación">💆‍♀️ Masaje Prenatal & Relajación</option>
+            <option value="Revisión de Plan de Parto">📄 Revisión de Plan de Parto</option>
+            <option value="Asesoría de Lactancia Materna">🤱 Asesoría de Lactancia Materna</option>
+            <option value="Visita Domiciliaria Posparto">👶 Visita Domiciliaria Posparto</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Notas / Lugar</label>
+          <input type="text" id="formAptNotes" placeholder="Ej: A domicilio / Llevar rebozo y fitball" class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+        </div>
+
+        <div class="pt-2 border-t border-brand-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeAppointmentModal()" class="px-3.5 py-2 text-xs font-semibold text-warm-700 bg-warm-100 hover:bg-warm-200 rounded-xl transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-sage-600 hover:bg-sage-700 rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+            <i data-lucide="calendar-check" class="w-4 h-4"></i>
+            Guardar Cita
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 4: REGISTRAR ABONO / PAGO (CONTABILIDAD) -->
+  <!-- ========================================================================= -->
+  <div id="paymentModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 hidden animate-in fade-in duration-150">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-brand-200 overflow-hidden">
+      
+      <!-- Header -->
+      <div class="px-5 py-4 bg-gradient-to-r from-warm-50 to-emerald-50/60 border-b border-brand-100 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-heading font-bold text-base text-warm-900">Registrar Abono / Pago</h3>
+            <p class="text-xs text-warm-600">Control de ingresos y comprobantes</p>
+          </div>
+        </div>
+        <button onclick="closePaymentModal()" class="w-7 h-7 rounded-full hover:bg-white text-warm-600 hover:text-warm-900 flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="paymentForm" onsubmit="savePayment(event)" class="p-5 space-y-3.5">
+        <input type="hidden" id="formPaymentId" value="" />
+
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Familia / Mamá *</label>
+          <select id="formPaymentFamilyId" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            <!-- Filled dynamically -->
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-warm-800 mb-1">Monto del Abono (₡) *</label>
+            <input type="number" id="formPaymentAmount" required placeholder="Ej: 50000" class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none font-bold text-emerald-700" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-warm-800 mb-1">Fecha de Pago *</label>
+            <input type="date" id="formPaymentDate" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Método de Pago *</label>
+          <select id="formPaymentMethod" required class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none">
+            <option value="SINPE Móvil">📱 SINPE Móvil</option>
+            <option value="Transferencia Bancaria">🏦 Transferencia Bancaria (IBAN)</option>
+            <option value="Efectivo">💵 Efectivo</option>
+            <option value="Otro">💳 Otro / Tarjeta</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-warm-800 mb-1">Detalle / N° de Comprobante</label>
+          <input type="text" id="formPaymentNotes" placeholder="Ej: Comprobante #102948 - Abono 50% inicial" class="w-full px-3 py-2 text-sm bg-warm-50 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-400 focus:outline-none" />
+        </div>
+
+        <div class="pt-2 border-t border-brand-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="closePaymentModal()" class="px-3.5 py-2 text-xs font-semibold text-warm-700 bg-warm-100 hover:bg-warm-200 rounded-xl transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            Guardar Abono
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 px-4 py-3 bg-warm-900 text-white rounded-2xl shadow-xl border border-brand-400/40 text-xs sm:text-sm font-medium">
+    <i data-lucide="check-circle" class="w-4 h-4 text-brand-300"></i>
+    <span id="toastMessage">Operación exitosa</span>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script src="kardex.js"></script>
+</body>
+</html>

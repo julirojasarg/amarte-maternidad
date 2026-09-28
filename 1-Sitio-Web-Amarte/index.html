@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amarte Maternidad | Juliana Rojas Argüello | Doula & Lactancia en Costa Rica</title>
+  
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="Acompañamiento continuo, respetuoso y basado en evidencia en embarazo, parto y posparto. Juliana Rojas Argüello: Doula (Mamasol), Asesora de Lactancia (Prolactar España), Masaje Prenatal (Instituto ICATEMA), Estudiante avanzada de Enfermería UCR." />
+  <meta name="keywords" content="juliana rojas arguello, doula costa rica, asesora de lactancia, mamasol, prolactar espana, ucr enfermeria, preparacion para el parto, amarte maternidad, pulpo de apego crochet" />
+  <meta property="og:title" content="Amarte Maternidad | Juliana Rojas Argüello" />
+  <meta property="og:description" content="Acompañamiento respetuoso y consciente en embarazo, parto y lactancia materna en Costa Rica." />
+  <meta property="og:image" content="logo.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#FDF7F8',
+              100: '#FCEEF0',
+              200: '#F5C2C7',
+              300: '#E89EA8',
+              400: '#E07A8A',
+              500: '#D96579',
+              600: '#C24D61',
+              700: '#9E3849',
+              800: '#752A36',
+              900: '#4D1B23',
+            },
+            warm: {
+              50: '#FDFBF7',
+              100: '#FAF6EE',
+              200: '#F4ECE0',
+              300: '#E8DCCB',
+              800: '#5A4A42',
+              900: '#362B28',
+            }
+          },
+          fontFamily: {
+            heading: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            brand: ['"Quicksand"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-[#FDFBF7] text-warm-900 antialiased font-sans flex flex-col min-h-screen">
+
+  <!-- ================= NAVBAR ================= -->
+  <header id="navbar" class="sticky top-0 z-40 transition-all duration-300 glass-header border-b border-brand-200/40 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="logo.png" alt="Amarte Maternidad Logo" class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-5 lg:gap-6 text-sm font-medium text-warm-800">
+        <a href="#inicio" class="hover:text-brand-500 transition-colors">Inicio</a>
+        <a href="#parto" class="hover:text-brand-500 transition-colors">Preparación Parto</a>
+        <a href="#lactancia" class="hover:text-brand-500 transition-colors">Lactancia Materna</a>
+        <a href="#sobre-mi" class="hover:text-brand-500 transition-colors">Sobre Mí</a>
+        <a href="#testimonios" class="hover:text-brand-500 transition-colors">Testimonios</a>
+        <a href="#tienda" class="hover:text-brand-500 transition-colors">Tienda & Crochet</a>
+        <a href="#faq" class="hover:text-brand-500 transition-colors">Preguntas</a>
+      </nav>
+
+      <!-- Right Action CTAs -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        
+        <!-- Cart Button -->
+        <button 
+          onclick="toggleCart()" 
+          class="relative p-2.5 rounded-full bg-white hover:bg-brand-100 text-warm-800 border border-brand-200/50 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center justify-center"
+          aria-label="Abrir carrito de compras"
+        >
+          <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <!-- Dynamic Cart Counter Badge -->
+          <span class="cart-count hidden absolute -top-1 -right-1 bg-brand-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-bounce">
+            0
+          </span>
+        </button>
+
+        <!-- WhatsApp Direct Contact CTA -->
+        <a 
+          href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios%20de%20doula%20y%20lactancia%20en%20Amarte%20Maternidad." 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          <span>WhatsApp 8552-2806</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button 
+          onclick="toggleMobileMenu()" 
+          class="md:hidden p-2 rounded-xl text-warm-800 hover:bg-brand-100 transition-colors"
+          aria-label="Abrir menú"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-[#FAF6EE] border-b border-brand-200/50 px-6 py-5">
+      <nav class="flex flex-col gap-4 text-base font-medium text-warm-900">
+        <a href="#inicio" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Inicio</a>
+        <a href="#parto" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Preparación para el Parto</a>
+        <a href="#lactancia" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Asesoría de Lactancia</a>
+        <a href="#sobre-mi" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Sobre Mí</a>
+        <a href="#testimonios" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Testimonios</a>
+        <a href="#tienda" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Tienda & Crochet</a>
+        <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Preguntas Frecuentes</a>
+        <a 
+          href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20recibir%20informaci%C3%B3n." 
+          target="_blank" 
+          class="mt-2 text-center bg-brand-500 text-white py-3 rounded-full font-semibold shadow-md flex items-center justify-center gap-2"
+        >
+          <span>Escribir al WhatsApp (+506 8552-2806)</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ================= HERO SECTION ================= -->
+  <section id="inicio" class="relative overflow-hidden pt-8 pb-16 lg:py-20">
+    <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-brand-200/30 to-brand-100/50 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute -bottom-10 right-0 w-80 h-80 bg-[#FCEEF0]/60 rounded-full blur-2xl pointer-events-none -z-10"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Content -->
+        <div class="lg:col-span-7 text-center lg:text-left">
+          
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-100 border border-brand-200 text-brand-700 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+            Acompañamiento Perinatal & Doula en Costa Rica 🇨🇷
+          </div>
+
+          <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl text-warm-900 font-bold leading-tight tracking-tight mb-6">
+            Nacer y maternar con <br class="hidden sm:inline" />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 italic">
+              amor, respeto y consciencia.
+            </span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-warm-800 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8 font-normal">
+            Soy <strong>Juliana Rojas Argüello</strong>, estudiante avanzada de Enfermería en la UCR, Doula (Mamasol), Asesora de Lactancia (Prolactar España) y formada en Masaje Prenatal (Instituto ICATEMA). Te ofrezco contención emocional, herramientas físicas y educación basada en evidencia para vivir tu embarazo, parto y lactancia informada, segura y en calma.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+            <a 
+              href="#parto" 
+              class="w-full sm:w-auto text-center px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-full font-semibold shadow-lg shadow-brand-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            >
+              🤰 Preparación para el Parto
+            </a>
+            <a 
+              href="#lactancia" 
+              class="w-full sm:w-auto text-center px-8 py-4 bg-white hover:bg-brand-50 text-brand-700 border border-brand-200 rounded-full font-semibold shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            >
+              🤱 Asesoría de Lactancia
+            </a>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-brand-200/50 text-center lg:text-left">
+            <div>
+              <span class="block font-bold text-xl sm:text-2xl text-brand-600">UCR / Prolactar</span>
+              <span class="text-xs text-warm-800 font-medium">Formación Científica</span>
+            </div>
+            <div>
+              <span class="block font-bold text-xl sm:text-2xl text-brand-600">Mamasol CR</span>
+              <span class="text-xs text-warm-800 font-medium">Doula Certificada</span>
+            </div>
+            <div>
+              <span class="block font-bold text-xl sm:text-2xl text-brand-600">Presencial & Virtual</span>
+              <span class="text-xs text-warm-800 font-medium">Costa Rica</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Visual Showcase -->
+        <div class="lg:col-span-5 relative flex justify-center">
+          <div class="relative w-72 sm:w-96 aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
+            <img 
+              src="imagenes/DSC00856.jpg" 
+              alt="Juliana Rojas Argüello - Amarte Maternidad" 
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+            
+            <div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-brand-200/50 shadow-md">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold">
+                  🌸
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-warm-900">Juliana Rojas Argüello</p>
+                  <p class="text-[11px] text-warm-800">Doula de Parto & Asesora de Lactancia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute -top-4 -right-2 sm:-right-4 bg-white px-4 py-2.5 rounded-2xl shadow-xl border border-brand-200/60 flex items-center gap-3 animate-soft-pulse">
+            <span class="text-xl">🤱</span>
+            <div>
+              <p class="text-xs font-bold text-warm-900">Amarte Maternidad</p>
+              <p class="text-[10px] text-brand-600 font-semibold">Costa Rica 🇨🇷</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= NOTA ACLARATORIA DE ROL OBLIGATORIA ================= -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 mb-12">
+    <div class="bg-gradient-to-r from-brand-50 to-[#FFF7F5] border-l-4 border-brand-500 p-5 sm:p-6 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div class="w-10 h-10 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center flex-shrink-0 text-xl font-bold">
+        ℹ️
+      </div>
+      <div class="text-sm text-warm-900 leading-relaxed">
+        <strong class="font-bold text-brand-700 block mb-0.5">Aclaración Profesional sobre mi Rol:</strong>
+        Como doula brindo acompañamiento continuo, respetuoso y basado en evidencia. No realizo procedimientos clínicos ni sustituyo al equipo de salud obstétrico.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= SECCIÓN 1: CURSOS Y PREPARACIÓN PARA EL PARTO ================= -->
+  <section id="parto" class="py-16 bg-white/70 border-t border-brand-200/40 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-100/80 px-3.5 py-1.5 rounded-full border border-brand-200/50">
+          🤰 Preparación para el Parto & Doula
+        </span>
+        <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-4">
+          Cursos & Acompañamiento para el Parto
+        </h2>
+        <p class="text-warm-800 text-base sm:text-lg">
+          Herramientas basadas en evidencia, biomecánica pélvica, técnicas de manejo del dolor y acompañamiento continuo para vivir tu nacimiento con seguridad y serenidad.
+        </p>
+      </div>
+
+      <!-- Talleres Individuales de Parto -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        
+        <!-- Sesión 1: Virtual de Preparación -->
+        <div class="bg-white rounded-3xl p-7 sm:p-8 border border-brand-200/70 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              💻
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">100% Virtual</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Sesión Virtual de Preparación para el Parto
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Proceso fisiológico del nacimiento, técnicas de respiración consciente, herramientas para afrontar el dolor y el miedo, orientación sobre derechos del parto y normativas hospitalarias en Costa Rica.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión por sesión:</span>
+              <span class="font-bold text-xl text-brand-600">₡20.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Sesión Virtual de Preparación para el Parto', '₡20.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
+          >
+            Agendar Sesión Virtual (₡20.000)
+          </button>
+        </div>
+
+        <!-- Sesión 2: Práctica Presencial Biomecánica & Confort -->
+        <div class="bg-white rounded-3xl p-7 sm:p-8 border border-brand-200/70 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              🧘‍♀️
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">Taller Práctico Presencial</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Sesión Práctica Presencial: Biomecánica & Parto
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Ejercicios prácticos con esferodinamia (pelotas fitball), posturas de dilatación pélvica, técnicas de acompañamiento y masajes con rebozo, medidas de alivio no farmacológico del dolor y rol de la pareja.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión presencial:</span>
+              <span class="font-bold text-xl text-brand-600">₡30.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Sesión Práctica Presencial: Biomecánica & Parto', '₡30.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
+          >
+            Reservar Sesión Práctica (₡30.000)
+          </button>
+        </div>
+
+      </div>
+
+      <!-- PAQUETES INTEGRALES DE ACOMPAÑAMIENTO AL PARTO -->
+      <div class="mb-4">
+        <h3 class="font-heading font-bold text-2xl text-warm-900 text-center mb-8">
+          Paquetes Integrales de Acompañamiento Doula
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Paquete 1 -->
+        <div class="bg-white rounded-3xl p-8 border-2 border-brand-200 shadow-soft flex flex-col justify-between relative">
+          <div>
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-100 px-3 py-1 rounded-full">
+                Preparación & Posparto
+              </span>
+              <span class="text-2xl font-bold text-brand-600">₡100.000</span>
+            </div>
+            <h3 class="font-heading font-bold text-2xl sm:text-3xl text-warm-900 mb-4">
+              Paquete de Acompañamiento al Parto 1
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-6">
+              Programa integral de preparación previa y seguimiento en el posparto inmediato para vivir tu nacimiento con seguridad y serenidad.
+            </p>
+            <ul class="space-y-3 text-sm text-warm-800 mb-8">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>1 sesión virtual</strong> de valoración inicial y diseño de plan de cuidados.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>2 sesiones presenciales</strong> de preparación física, biomecánica y emocional para el parto.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span>Elaboración guiada de tu <strong>plan de parto personalizado</strong>.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>1 sesión de lactancia materna</strong> y visita al recién nacido en el posparto.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>Acompañamiento continuo por WhatsApp 24/7</strong> durante todo el embarazo.</span>
+              </li>
+            </ul>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Paquete de Acompañamiento al Parto 1', '₡100.000')"
+            class="w-full py-4 px-6 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm transition-all shadow-md text-center cursor-pointer active:scale-95"
+          >
+            Consultar Paquete 1 (₡100.000)
+          </button>
+        </div>
+
+        <!-- Paquete 2: Continuo -->
+        <div class="bg-gradient-to-br from-[#FAF5EE] to-[#FFF0F2] rounded-3xl p-8 border-2 border-brand-500 shadow-xl flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-brand-500 text-white font-bold text-xs uppercase tracking-wider px-6 py-1.5 rounded-bl-2xl shadow-sm">
+            Acompañamiento Continuo
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between gap-4 mb-4 mt-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-brand-700 bg-brand-200/70 px-3 py-1 rounded-full">
+                Experiencia Integral
+              </span>
+              <span class="text-3xl font-bold text-brand-700">₡200.000</span>
+            </div>
+            <h3 class="font-heading font-bold text-2xl sm:text-3xl text-warm-900 mb-4">
+              Paquete de Acompañamiento al Parto 2
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-6">
+              El cuidado más completo y cercano: preparación prenatal exhaustiva, presencia activa en la labor de parto en casa y en centro hospitalario.
+            </p>
+            <ul class="space-y-3 text-sm text-warm-800 mb-8">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>1 sesión virtual</strong> de valoración y plan de cuidados.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>3 sesiones presenciales</strong> de preparación práctica y emocional.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span>Elaboración de tu <strong>plan de parto</strong> y 1 sesión de lactancia con visita al recién nacido.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>Acompañamiento presencial durante la labor de parto en casa</strong> (fase temprana/pasiva).</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>Acompañamiento hospitalario continuo</strong> durante el parto (sujeto a normativas del centro; si no se permite el ingreso, este rubro se descuenta).</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span><strong>Soporte WhatsApp 24/7</strong> continuo e ilimitado.</span>
+              </li>
+            </ul>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Paquete de Acompañamiento al Parto 2 (Continuo)', '₡200.000')"
+            class="w-full py-4 px-6 rounded-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-sm transition-all shadow-lg text-center cursor-pointer active:scale-95"
+          >
+            Reservar Paquete Continuo (₡200.000)
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= SECCIÓN 2: ASESORÍA DE LACTANCIA MATERNA ================= -->
+  <section id="lactancia" class="py-16 bg-gradient-to-b from-[#FAF5EE] to-[#FFF8F9] border-t border-brand-200/50 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-700 bg-brand-100/90 px-3.5 py-1.5 rounded-full border border-brand-200/60">
+          🤱 Asesoría de Lactancia Materna
+        </span>
+        <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-4">
+          Lactancia Consciente, Respetuosa & Sin Dolor
+        </h2>
+        <p class="text-warm-800 text-base sm:text-lg">
+          Acompañamiento profesional y certificado (Prolactar España) en etapa prenatal y posparto para disfrutar un vínculo nutritivo y seguro con tu bebé.
+        </p>
+      </div>
+
+      <!-- Services Cards Grid: Lactancia -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Lactancia 1: Virtual -->
+        <div class="bg-white rounded-3xl p-7 border border-brand-200/60 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              🤱
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">100% Virtual</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Asesoría de Lactancia Virtual
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Consulta individual por videollamada para resolución de dudas, técnicas de acople y agarre profundo, aumento de producción, extracción y conservación de leche materna.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión virtual:</span>
+              <span class="font-bold text-xl text-brand-600">₡20.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Virtual', '₡20.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
+          >
+            Agendar Asesoría Virtual (₡20.000)
+          </button>
+        </div>
+
+        <!-- Lactancia 2: Presencial Domicilio / Consultorio -->
+        <div class="bg-white rounded-3xl p-7 border border-brand-200/60 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              🏠
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">Presencial a Domicilio</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Asesoría de Lactancia Presencial
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Visita presencial personalizada: evaluación física de la toma en directo, corrección guiada del agarre para evitar dolor o grietas, revisión de frenillo/anatomía oral y posturas ergonómicas.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión presencial:</span>
+              <span class="font-bold text-xl text-brand-600">₡30.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Presencial', '₡30.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md"
+          >
+            Agendar Presencial (₡30.000)
+          </button>
+        </div>
+
+        <!-- Lactancia 3: Taller Prenatal de Lactancia & Calostro -->
+        <div class="bg-white rounded-3xl p-7 border border-brand-200/60 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              ✨
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">Preparación Prenatal</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Taller Prenatal de Lactancia & Calostro
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Preparación durante el embarazo: técnica de extracción prenatal de calostro, fisiología de la bajada de la leche, primeras horas tras el parto y mitos frecuentes de la lactancia.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión taller:</span>
+              <span class="font-bold text-xl text-brand-600">₡25.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Taller Prenatal de Lactancia y Extracción de Calostro', '₡25.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
+          >
+            Consultar Taller (₡25.000)
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= PERFIL PROFESIONAL ("SOBRE MÍ") ================= -->
+  <section id="sobre-mi" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Image & Frame -->
+        <div class="lg:col-span-5 relative flex justify-center">
+          <div class="relative w-80 sm:w-full max-w-sm aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
+            <img 
+              src="imagenes/DSC00995.jpg" 
+              alt="Juliana Rojas Argüello - Doula y Asesora de Lactancia" 
+              class="w-full h-full object-cover object-center"
+            />
+          </div>
+          
+          <div class="absolute -bottom-6 -right-2 sm:right-6 bg-white p-4 rounded-2xl shadow-xl border border-brand-200 max-w-[240px]">
+            <p class="text-xs font-bold text-brand-600">Formación Universitaria & Certificada</p>
+            <p class="text-[11px] text-warm-800 mt-0.5">UCR • Mamasol • Prolactar • ICATEMA</p>
+          </div>
+        </div>
+
+        <!-- Text Bio -->
+        <div class="lg:col-span-7">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-100/80 px-3.5 py-1.5 rounded-full border border-brand-200/50">
+            Sobre Mí
+          </span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-3">
+            Hola, soy Juliana Rojas Argüello
+          </h2>
+          <p class="text-brand-600 font-semibold text-base mb-6">
+            Doula de Parto & Asesora de Lactancia Materna
+          </p>
+          
+          <!-- Trayectoria -->
+          <div class="space-y-4 text-warm-800 text-base leading-relaxed mb-6">
+            <p>
+              ¡Bienvenida a <strong>Amarte Maternidad</strong>! Mi vocación es brindar un espacio seguro, amoroso e informado para las familias que transitan el hermoso y desafiante camino de la gestación, el parto y el posparto.
+            </p>
+            <div class="bg-white p-5 rounded-2xl border border-brand-200/60 shadow-sm space-y-2">
+              <h4 class="font-bold text-warm-900 text-sm mb-2">Mi Formación y Trayectoria:</h4>
+              <ul class="space-y-2.5 text-sm text-warm-800">
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-500">🎓</span>
+                  <span><strong>Estudiante avanzada de la Licenciatura en Enfermería</strong>, Universidad de Costa Rica (UCR).</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-500">🤱</span>
+                  <span><strong>Asesora de Lactancia Materna certificada</strong> por Prolactar España.</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-500">🌸</span>
+                  <span><strong>Doula certificada</strong> por Mamasol Costa Rica.</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-500">💆‍♀️</span>
+                  <span><strong>Formada en Masaje Prenatal</strong> en Instituto ICATEMA.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Aclaración de Rol -->
+          <div class="bg-[#FAF5EE] border-l-4 border-brand-500 p-4 rounded-xl text-xs sm:text-sm text-warm-900 space-y-1.5 mb-8">
+            <p class="font-bold text-brand-700">Acompañamiento Respetuoso y Complementario:</p>
+            <p>
+              <strong>No atiendo partos en casa ni realizo intervenciones médicas de partería clínica.</strong> Mi labor como doula se enfoca en el apoyo emocional, físico, informativo y de confort continuo, respetando siempre el criterio y la labor del equipo médico y obstétrico de tu centro de salud.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-4 items-center">
+            <a 
+              href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20conversar%20sobre%20tus%20servicios%20de%20doula%20y%20lactancia." 
+              target="_blank" 
+              class="inline-flex items-center gap-2 text-sm font-bold text-white bg-brand-500 hover:bg-brand-600 px-6 py-3.5 rounded-full transition-all shadow-md cursor-pointer"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              <span>Conversar con Juli (+506 8552-2806)</span>
+            </a>
+            <a 
+              href="https://instagram.com/amarte.maternidad.cr" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-sm font-bold text-brand-600 bg-brand-50 hover:bg-brand-100 px-5 py-3.5 rounded-full border border-brand-200 transition-colors"
+            >
+              <span>@amarte.maternidad.cr</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= TESTIMONIOS (TESTIMONIO DESTACADO) ================= -->
+  <section id="testimonios" class="py-20 bg-warm-100/70 border-y border-brand-200/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-100/80 px-3.5 py-1.5 rounded-full border border-brand-200/50">
+          Voces de Amor y Confianza
+        </span>
+        <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-4">
+          Testimonios de Familias Acompañadas
+        </h2>
+        <p class="text-warm-800 text-base sm:text-lg">
+          Experiencias reales de perseverancia, lactancia gozosa y nacimientos conscientes en Costa Rica.
+        </p>
+      </div>
+
+      <!-- Testimonio Real Destacado -->
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-gradient-to-br from-white via-[#FFF8FA] to-white p-8 sm:p-12 rounded-[2.5rem] border-2 border-brand-300/80 shadow-xl relative overflow-hidden">
+          
+          <div class="absolute -top-6 -right-6 text-9xl text-brand-100/40 select-none font-serif">“</div>
+          
+          <div class="flex items-center gap-2 text-amber-400 mb-6 text-lg">
+            ★★★★★
+            <span class="text-xs font-bold text-brand-600 bg-brand-100 px-3 py-1 rounded-full ml-2">Historia Real de Superación</span>
+          </div>
+
+          <p class="text-warm-900 text-base sm:text-lg leading-relaxed italic mb-8 relative z-10 font-medium">
+            "Desde que quedé embarazada soñaba con darle pecho a mi bebé, realmente me hace muy feliz poder hacerlo, claro que no ha sido fácil han habido momentos en que dudo si puedo continuar pero sigo perseverando, como mamá primeriza quizá he caído en algunos errores pero el acompañamiento en cada asesoría han sido demasiado importante para lograrlo y poder continuar con esta aventura. Mejorar un buen agarre y saber cómo enfrentar una poca producción donde se necesita refuerzo han sido mis piedritas en el camino pero la ayuda y acompañamiento de Juli me han orientado para no desistir y lograr disfrutar esta etapa tan hermosa. Gracias por darle una luz a esta mamá 💙"
+          </p>
+
+          <div class="flex items-center gap-4 pt-6 border-t border-brand-200/50">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-500 to-brand-400 text-white flex items-center justify-center font-bold text-base shadow-md">
+              🤱
+            </div>
+            <div>
+              <h4 class="font-bold text-base text-warm-900">Mamá primeriza</h4>
+              <p class="text-xs sm:text-sm text-brand-600 font-medium">Asesoría de Lactancia Materna con Juli</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= TIENDA ONLINE & LÍNEA CROCHET ================= -->
+  <section id="tienda" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-100/80 px-3.5 py-1.5 rounded-full border border-brand-200/50">
+            Tienda Maternal & Artesanal
+          </span>
+          <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-2">
+            Línea Crochet de Apego & Productos Esenciales
+          </h2>
+          <p class="text-warm-800 text-base">
+            Hecho a mano con amor y selección segura para mamá y bebé en Costa Rica 🇨🇷.
+          </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-2">
+          <button 
+            onclick="filterProducts('todos', this)" 
+            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-brand-500 text-white shadow-md transition-all cursor-pointer"
+          >
+            Todos
+          </button>
+          <button 
+            onclick="filterProducts('crochet', this)" 
+            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
+          >
+            🧶 Crochet & Apego
+          </button>
+          <button 
+            onclick="filterProducts('lactancia', this)" 
+            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
+          >
+            Lactancia
+          </button>
+          <button 
+            onclick="filterProducts('posparto', this)" 
+            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
+          >
+            Posparto
+          </button>
+          <button 
+            onclick="filterProducts('bienestar', this)" 
+            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
+          >
+            Bienestar & Porteo
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Grid Rendered Dynamically via app.js -->
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Products will be injected by app.js -->
+      </div>
+
+      <!-- Store guarantee info -->
+      <div class="mt-16 bg-white rounded-3xl p-6 sm:p-8 border border-brand-200/50 shadow-soft grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div class="flex flex-col items-center">
+          <span class="text-3xl mb-2">🧶</span>
+          <h4 class="font-bold text-sm text-warm-900">Tejidos 100% Hipoalergénicos</h4>
+          <p class="text-xs text-warm-800 mt-1">Hilos suaves y seguros para recién nacidos.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-3xl mb-2">💬</span>
+          <h4 class="font-bold text-sm text-warm-900">Compra Directa por WhatsApp</h4>
+          <p class="text-xs text-warm-800 mt-1">Coordinación directa de SINPE Móvil y detalles.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-3xl mb-2">🚚</span>
+          <h4 class="font-bold text-sm text-warm-900">Envíos a todo Costa Rica</h4>
+          <p class="text-xs text-warm-800 mt-1">Por Correos de Costa Rica o mensajero express.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= PREGUNTAS FRECUENTES (FAQ) ================= -->
+  <section id="faq" class="py-20 bg-warm-100/60 border-t border-brand-200/40">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-600 bg-brand-100/80 px-3.5 py-1.5 rounded-full border border-brand-200/50">
+          Resolviendo tus Dudas
+        </span>
+        <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-4">
+          Preguntas Frecuentes
+        </h2>
+        <p class="text-warm-800 text-base sm:text-lg">
+          Información clara sobre el acompañamiento de doula y lactancia con Juliana Rojas Argüello.
+        </p>
+      </div>
+
+      <!-- Accordion Container -->
+      <div class="space-y-4">
+        
+        <!-- FAQ 1 -->
+        <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+            <span>¿Qué hace una Doula y qué diferencia tiene con la atención médica?</span>
+            <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
+            Como doula brindo <strong>acompañamiento continuo emocional, físico e informativo</strong>. No realizo procedimientos clínicos (como tactos o auscultación fetal) ni atiendo partos domiciliarios como partera médica. Mi labor complementa la atención médica hospitalaria o clínica de tu ginecólogo/obstetra y apoya activamente a tu pareja.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+            <span>¿En qué centros de salud de Costa Rica puedo tener acompañamiento hospitalario?</span>
+            <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
+            Acompaño en hospitales privados del país (Clínica Bíblica, CIMA, La Católica, Metropolitano) y en centros donde se permita el ingreso de doula de acuerdo a su reglamento interno. Si en algún hospital público o privado no se autoriza el ingreso de la doula, el rubro correspondiente a la fase hospitalaria se descuenta del paquete acordado.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+            <span>¿Por qué es especial el Pulpo de Apego en Crochet?</span>
+            <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
+            El pulpo de apego tejido a mano en hilo 100% hipoalergénico posee tentáculos en espiral que recrean la textura y forma del cordón umbilical. Al abrazarlo, el bebé recién nacido o prematuro experimenta una sensación reconfortante de seguridad en el útero, facilitando la calma y autorregulación del sueño.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+            <span>¿Cómo se coordina el pago de servicios y productos?</span>
+            <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
+            Todos los pagos se coordinan de forma rápida y segura mediante <strong>SINPE Móvil al +506 8552-2806</strong> o por transferencia bancaria nacional. Los paquetes de acompañamiento cuentan con facilidades de pago en cuotas durante el embarazo.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= BANNER FINAL CTA ================= -->
+  <section class="py-16 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 text-white relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+        Conversemos y preparemos juntas tu nacimiento
+      </h2>
+      <p class="text-white/90 text-base sm:text-lg max-w-2xl mx-auto mb-8 font-normal">
+        Escríbeme por WhatsApp al <strong>+506 8552-2806</strong> para resolver tus dudas y comenzar este acompañamiento con amor y evidencia.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a 
+          href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20agendar%20una%20consulta%20con%20Amarte%20Maternidad." 
+          target="_blank" 
+          class="w-full sm:w-auto px-8 py-4 bg-white text-brand-700 hover:bg-brand-50 font-bold rounded-full shadow-lg transition-all transform hover:-translate-y-0.5 text-center"
+        >
+          Escribir por WhatsApp (8552-2806)
+        </a>
+        <a 
+          href="#servicios" 
+          class="w-full sm:w-auto px-8 py-4 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-bold transition-all text-center"
+        >
+          Ver Paquetes en ₡
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-[#FAF5EE] border-t border-brand-200/50 pt-16 pb-12 text-warm-800 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        
+        <!-- Col 1: Brand details -->
+        <div class="lg:col-span-2">
+          <a href="#" class="inline-block mb-4">
+            <img src="logo.png" alt="Amarte Maternidad" class="h-12 w-auto object-contain" />
+          </a>
+          <p class="text-warm-800 text-sm leading-relaxed max-w-sm mb-4">
+            <strong>Amarte Maternidad</strong> • Juliana Rojas Argüello. Acompañamiento respetuoso y educación perinatal basada en evidencia en Costa Rica.
+          </p>
+          <p class="text-xs text-warm-800/80 mb-6 italic">
+            "Como doula brindo acompañamiento continuo, respetuoso y basado en evidencia. No realizo procedimientos clínicos ni sustituyo al equipo de salud obstétrico."
+          </p>
+          <div class="flex items-center gap-3">
+            <a 
+              href="https://instagram.com/amarte.maternidad.cr" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-white hover:bg-brand-500 hover:text-white text-brand-600 border border-brand-200 flex items-center justify-center transition-all shadow-sm"
+              aria-label="Instagram @amarte.maternidad.cr"
+            >
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a 
+              href="https://wa.me/50685522806" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-10 h-10 rounded-full bg-white hover:bg-emerald-500 hover:text-white text-emerald-600 border border-brand-200 flex items-center justify-center transition-all shadow-sm"
+              aria-label="WhatsApp directo +506 8552-2806"
+            >
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Col 2: Servicios -->
+        <div>
+          <h4 class="font-bold text-warm-900 mb-4">Servicios & Cursos</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#parto" class="hover:text-brand-500 transition-colors">Preparación Parto Virtual (₡20k)</a></li>
+            <li><a href="#parto" class="hover:text-brand-500 transition-colors">Sesión Práctica Presencial (₡30k)</a></li>
+            <li><a href="#parto" class="hover:text-brand-500 transition-colors">Paquete Doula Parto 1 (₡100k)</a></li>
+            <li><a href="#parto" class="hover:text-brand-500 transition-colors">Paquete Doula Continuo 2 (₡200k)</a></li>
+            <li><a href="#lactancia" class="hover:text-brand-500 transition-colors font-medium text-brand-600">Asesorías de Lactancia (₡20k-₡30k)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Enlaces Rápidos -->
+        <div>
+          <h4 class="font-bold text-warm-900 mb-4">Enlaces</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#inicio" class="hover:text-brand-500 transition-colors">Inicio</a></li>
+            <li><a href="#sobre-mi" class="hover:text-brand-500 transition-colors">Sobre Juliana Rojas</a></li>
+            <li><a href="#testimonios" class="hover:text-brand-500 transition-colors">Testimonios Reales</a></li>
+            <li><a href="#tienda" class="hover:text-brand-500 transition-colors">Tienda & Crochet de Apego</a></li>
+            <li><a href="#faq" class="hover:text-brand-500 transition-colors">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contacto & Ubicación -->
+        <div>
+          <h4 class="font-bold text-warm-900 mb-4">Contacto Oficial</h4>
+          <ul class="space-y-2.5">
+            <li class="flex items-center gap-2">
+              <span>📱</span>
+              <a href="tel:+50685522806" class="hover:text-brand-500 font-semibold">+506 8552-2806</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <span>💬</span>
+              <a href="https://wa.me/50685522806" target="_blank" class="hover:text-brand-500">WhatsApp Directo</a>
+            </li>
+            <li class="flex items-center gap-2">
+              <span>📍</span>
+              <span>Costa Rica (GAM / Virtual)</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span>📸</span>
+              <span>@amarte.maternidad.cr</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-brand-200/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-warm-800">
+        <p>© 2026 Amarte Maternidad • Juliana Rojas Argüello (amarte.maternidad.cr).</p>
+        <p>Hecho con amor y dedicación en Costa Rica 🇨🇷</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ================= CARRO DE COMPRAS DRAWER (SLIDE-OVER) ================= -->
+  <div id="cart-backdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
+    
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-brand-200/40 flex items-center justify-between bg-[#FAF5EE]">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        <h3 class="font-heading font-bold text-lg text-warm-900">Tu Carrito Maternal</h3>
+      </div>
+      <button onclick="toggleCart()" class="p-2 rounded-full hover:bg-brand-100 text-warm-800 transition-colors cursor-pointer" aria-label="Cerrar carrito">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Items List -->
+    <div class="flex-1 overflow-y-auto p-6">
+      
+      <!-- Empty State -->
+      <div id="cart-empty" class="text-center py-12 flex flex-col items-center justify-center">
+        <div class="w-16 h-16 rounded-full bg-brand-100 flex items-center justify-center text-3xl mb-4 text-brand-500">
+          🛍️
+        </div>
+        <h4 class="font-bold text-base text-warm-900 mb-1">Tu carrito está vacío</h4>
+        <p class="text-xs text-warm-800 max-w-xs mb-6">Explora nuestra selección de productos y pulpos de apego en crochet.</p>
+        <a href="#tienda" onclick="toggleCart()" class="px-6 py-2.5 rounded-full bg-brand-500 text-white font-medium text-xs hover:bg-brand-600 transition-colors shadow-sm">
+          Ver Catálogo & Crochet
+        </a>
+      </div>
+
+      <!-- Items Container -->
+      <div id="cart-items-container">
+        <!-- Rendered by app.js -->
+      </div>
+
+    </div>
+
+    <!-- Drawer Footer -->
+    <div id="cart-footer" class="p-6 border-t border-brand-200/40 bg-[#FAF5EE] hidden">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-sm text-warm-800 font-medium">Total estimado:</span>
+        <span id="cart-total-amount" class="text-xl font-bold text-warm-900">₡0</span>
+      </div>
+      <p class="text-[11px] text-warm-800 mb-4 text-center">
+        * Al completar el pedido se enviará el detalle al WhatsApp de Juli (8552-2806) para coordinar pago por SINPE Móvil y envío en Costa Rica.
+      </p>
+      <button 
+        onclick="checkoutViaWhatsApp()"
+        class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer text-sm"
+      >
+        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <span>Completar Pedido por WhatsApp</span>
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
+  <aside class="fixed bottom-6 right-6 z-40 flex items-center gap-3">
+    <div class="hidden sm:block bg-white text-warm-900 text-xs font-semibold px-4 py-2 rounded-2xl shadow-lg border border-brand-200">
+      ¿Conversamos con Juli? +506 8552-2806 💕
+    </div>
+    <a 
+      href="https://wa.me/50685522806?text=Hola%20Juli,%20tengo%20una%20consulta%20sobre%20Amarte%20Maternidad." 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="whatsapp-float-btn w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl transition-transform transform hover:scale-110 active:scale-95"
+      aria-label="Abrir WhatsApp al 8552-2806"
+    >
+      <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+  </aside>
+
+
+  <!-- ================= NOTIFICATION TOAST CONTAINER ================= -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
