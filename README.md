@@ -23,6 +23,7 @@ Amarte Maternidad/
 ├── package.json          # Metadatos del proyecto y scripts de arranque
 ├── railway.json          # Configuración de despliegue continuo en Railway
 ├── Dockerfile            # Configuración opcional para despliegue en contenedor
+├── DEPLOYMENT.md         # Guía completa de despliegue, CI/CD y Railway
 ├── .env.example          # Plantilla de variables de entorno
 ├── .gitignore            # Archivos excluidos del control de versiones
 └── README.md             # Esta documentación
@@ -78,29 +79,21 @@ Y visita [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 🚂 Paso a Paso: Desplegar en Railway
+## 🚂 Despliegue en Producción (Railway & CI/CD)
 
-Railway permite desplegar y mantener tu sitio activo 24/7 con HTTPS gratuito y dominio personalizado.
+El proyecto cuenta con **Despliegue Continuo (CI/CD)** automático integrado entre **GitHub** y **Railway**:
 
-1. **Inicia sesión en Railway**:
-   - Entra a [railway.app](https://railway.app) e inicia sesión con tu cuenta de **GitHub**.
+* **URL de Producción:** [https://amarte-lactancia-production.up.railway.app](https://amarte-lactancia-production.up.railway.app)
+* **Kardex Doula:** [https://amarte-lactancia-production.up.railway.app/kardex](https://amarte-lactancia-production.up.railway.app/kardex)
+* **Monitor de Salud:** [https://amarte-lactancia-production.up.railway.app/health](https://amarte-lactancia-production.up.railway.app/health)
+* **Repositorio Vinculado:** `julirojasarg/amarte-maternidad` (rama `main`)
 
-2. **Crear el proyecto**:
-   - Haz clic en **"+ New Project"**.
-   - Selecciona **"Deploy from GitHub repo"**.
-   - Elige el repositorio `amarte-maternidad`.
+### ⚡ ¿Cómo se publican los cambios? (Despliegue Automático)
+1. Cada vez que hagas `git push origin main` o se apruebe y fusione un **Pull Request** a la rama `main`, GitHub notificará automáticamente a Railway mediante webhooks.
+2. Railway compilará el código y desplegará la nueva versión en aproximadamente 30 a 60 segundos con cero tiempo de inactividad (*zero-downtime*).
+3. No requieres ingresar a Railway ni correr comandos adicionales para actualizar la web.
 
-3. **Despliegue Automático**:
-   - Railway detectará automáticamente el archivo `railway.json` y `package.json`.
-   - Comenzará el proceso de construcción y despliegue inmediatamente.
-
-4. **Generar el Dominio Público**:
-   - Una vez finalizado el despliegue, haz clic en la tarjeta del servicio.
-   - Ve a la pestaña **Settings** > sección **Networking**.
-   - Haz clic en **"Generate Domain"** (obtendrás una URL del tipo `amarte-maternidad.up.railway.app`).
-   - *(Opcional)* Si cuentas con dominio propio (ej. `amarte.maternidad.cr`), puedes agregarlo en **"Custom Domain"**.
-
-> 💡 **Despliegue Continuo (CI/CD):** A partir de este momento, cada vez que hagas `git push` a la rama `main` en GitHub, Railway actualizará el sitio en vivo automáticamente en cuestión de segundos.
+> 📖 Para una guía paso a paso completa sobre configuración, despliegue manual por CLI, rollback y monitoreo de logs, consulta [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
