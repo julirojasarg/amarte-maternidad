@@ -6,12 +6,29 @@ Este documento detalla la arquitectura de despliegue continuo (CI/CD), la vincul
 
 ## 🌐 Entorno de Producción Actual
 
-* **URL Pública:** [https://amarte-lactancia-production.up.railway.app](https://amarte-lactancia-production.up.railway.app)
-* **Endpoint de Salud (Healthcheck):** [https://amarte-lactancia-production.up.railway.app/health](https://amarte-lactancia-production.up.railway.app/health)
-* **Kardex Doula:** [https://amarte-lactancia-production.up.railway.app/kardex](https://amarte-lactancia-production.up.railway.app/kardex)
+* **Dominio Principal:** [https://amartecr.com](https://amartecr.com)
+* **Dominio WWW:** [https://www.amartecr.com](https://www.amartecr.com)
+* **URL Railway (Respaldo):** [https://amarte-lactancia-production.up.railway.app](https://amarte-lactancia-production.up.railway.app)
+* **Endpoint de Salud (Healthcheck):** [https://amartecr.com/health](https://amartecr.com/health)
+* **Kardex Doula:** [https://amartecr.com/kardex](https://amartecr.com/kardex)
 * **Repositorio GitHub:** [`julirojasarg/amarte-maternidad`](https://github.com/julirojasarg/amarte-maternidad) (Rama de producción: `main`)
 * **Proyecto en Railway:** `amarte-lactancia` (`ID: 4a68075b-152e-46fd-885c-f1dad50e38b1`)
 * **Servicio en Railway:** `amarte-lactancia` (`ID: 7bdc9ab4-ad5b-4c17-872d-a0f238500b35`)
+
+---
+
+## ☁️ Configuración de DNS en Cloudflare
+
+Para que tu dominio apunte correctamente a Railway a través de Cloudflare:
+
+| Tipo | Nombre (Host) | Contenido / Destino | Proxy Status (Cloudflare) |
+|---|---|---|---|
+| **CNAME** | `@` (o `amartecr.com`) | `fohv6a9v.up.railway.app` | DNS Only (o Proxied) |
+| **CNAME** | `www` | `a0djjc2b.up.railway.app` | DNS Only (o Proxied) |
+| **TXT** *(si solicita verificación)* | `_railway-verify` | `railway-verify=242b67bd79a6deb4e647c4995b0d05523b45b09d4c2da700bdb9c89363f0f192` | DNS Only |
+| **TXT** *(si solicita verificación)* | `_railway-verify.www` | `railway-verify=93a9e5378f314856e90127232ba3b421294ade9c5f7b0ac4380c1c199f0ca253` | DNS Only |
+
+*Nota sobre SSL en Cloudflare:* Asegúrate de tener el modo SSL/TLS en **Full** o **Full (Strict)** en Cloudflare para evitar bucles de redirección (*redirect loops*).
 
 ---
 
