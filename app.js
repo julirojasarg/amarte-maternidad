@@ -213,14 +213,17 @@ function formatCRC(amount) {
   return '₡' + amount.toLocaleString('es-CR');
 }
 
-// Render Products with filtering
+// Render Products with filtering (solo productos disponibles en stock)
 function renderProducts(category = 'todos') {
   const container = document.getElementById('products-grid');
   if (!container) return;
 
+  // Filtrar solo los productos disponibles en stock
+  const availableProducts = productsData.filter(p => p.inStock !== false);
+
   const filtered = category === 'todos' 
-    ? productsData 
-    : productsData.filter(p => p.category === category);
+    ? availableProducts 
+    : availableProducts.filter(p => p.category === category);
 
   container.innerHTML = filtered.map(product => {
     let categoryLabel = 'Bienestar';
