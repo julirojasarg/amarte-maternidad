@@ -75,17 +75,16 @@
         <a href="#lactancia" class="hover:text-brand-500 transition-colors">Lactancia Materna</a>
         <a href="#sobre-mi" class="hover:text-brand-500 transition-colors">Sobre Mí</a>
         <a href="#testimonios" class="hover:text-brand-500 transition-colors">Testimonios</a>
-        <a href="#tienda" class="hover:text-brand-500 transition-colors">Tienda & Crochet</a>
         <a href="#faq" class="hover:text-brand-500 transition-colors">Preguntas</a>
       </nav>
 
       <!-- Right Action CTAs -->
       <div class="flex items-center gap-3 sm:gap-4">
         
-        <!-- Cart Button -->
+        <!-- Cart Button (Oculto temporalmente) -->
         <button 
           onclick="toggleCart()" 
-          class="relative p-2.5 rounded-full bg-white hover:bg-brand-100 text-warm-800 border border-brand-200/50 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center justify-center"
+          class="hidden relative p-2.5 rounded-full bg-white hover:bg-brand-100 text-warm-800 border border-brand-200/50 shadow-sm transition-all active:scale-95 cursor-pointer items-center justify-center"
           aria-label="Abrir carrito de compras"
         >
           <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +131,6 @@
         <a href="#lactancia" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Asesoría de Lactancia</a>
         <a href="#sobre-mi" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Sobre Mí</a>
         <a href="#testimonios" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Testimonios</a>
-        <a href="#tienda" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Tienda & Crochet</a>
         <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Preguntas Frecuentes</a>
         <a 
           href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20recibir%20informaci%C3%B3n." 
@@ -694,8 +692,8 @@
   </section>
 
 
-  <!-- ================= TIENDA ONLINE & LÍNEA CROCHET ================= -->
-  <section id="tienda" class="py-20">
+  <!-- ================= TIENDA ONLINE & LÍNEA CROCHET (OCULTO TEMPORALMENTE) ================= -->
+  <section id="tienda" class="hidden py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
@@ -802,29 +800,16 @@
           </div>
         </div>
 
-        <!-- FAQ 3 -->
+        <!-- FAQ 3: Pago de Servicios -->
         <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
           <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
-            <span>¿Por qué es especial el Pulpo de Apego en Crochet?</span>
+            <span>¿Cómo se coordina el pago de los servicios?</span>
             <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
-            El pulpo de apego tejido a mano en hilo 100% hipoalergénico posee tentáculos en espiral que recrean la textura y forma del cordón umbilical. Al abrazarlo, el bebé recién nacido o prematuro experimenta una sensación reconfortante de seguridad en el útero, facilitando la calma y autorregulación del sueño.
-          </div>
-        </div>
-
-        <!-- FAQ 4 -->
-        <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
-          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
-            <span>¿Cómo se coordina el pago de servicios y productos?</span>
-            <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
-            Todos los pagos se coordinan de forma rápida y segura mediante <strong>SINPE Móvil al +506 8552-2806</strong> o por transferencia bancaria nacional. Los paquetes de acompañamiento cuentan con facilidades de pago en cuotas durante el embarazo.
+            Todos los pagos se coordinan de forma rápida y segura mediante <strong>SINPE Móvil al +506 8552-2806</strong> o por transferencia bancaria nacional. Los paquetes de acompañamiento de doula cuentan con facilidades de pago en cuotas durante el embarazo.
           </div>
         </div>
 
@@ -920,7 +905,6 @@
             <li><a href="#inicio" class="hover:text-brand-500 transition-colors">Inicio</a></li>
             <li><a href="#sobre-mi" class="hover:text-brand-500 transition-colors">Sobre Juliana Rojas</a></li>
             <li><a href="#testimonios" class="hover:text-brand-500 transition-colors">Testimonios Reales</a></li>
-            <li><a href="#tienda" class="hover:text-brand-500 transition-colors">Tienda & Crochet de Apego</a></li>
             <li><a href="#faq" class="hover:text-brand-500 transition-colors">Preguntas Frecuentes</a></li>
           </ul>
         </div>
