@@ -75,17 +75,16 @@
         <a href="#lactancia" class="hover:text-brand-500 transition-colors">Lactancia Materna</a>
         <a href="#sobre-mi" class="hover:text-brand-500 transition-colors">Sobre Mí</a>
         <a href="#testimonios" class="hover:text-brand-500 transition-colors">Testimonios</a>
-        <a href="#tienda" class="hover:text-brand-500 transition-colors">Tienda & Crochet</a>
         <a href="#faq" class="hover:text-brand-500 transition-colors">Preguntas</a>
       </nav>
 
       <!-- Right Action CTAs -->
       <div class="flex items-center gap-3 sm:gap-4">
         
-        <!-- Cart Button -->
+        <!-- Cart Button (Oculto temporalmente) -->
         <button 
           onclick="toggleCart()" 
-          class="relative p-2.5 rounded-full bg-white hover:bg-brand-100 text-warm-800 border border-brand-200/50 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center justify-center"
+          class="hidden relative p-2.5 rounded-full bg-white hover:bg-brand-100 text-warm-800 border border-brand-200/50 shadow-sm transition-all active:scale-95 cursor-pointer items-center justify-center"
           aria-label="Abrir carrito de compras"
         >
           <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +131,6 @@
         <a href="#lactancia" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Asesoría de Lactancia</a>
         <a href="#sobre-mi" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Sobre Mí</a>
         <a href="#testimonios" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Testimonios</a>
-        <a href="#tienda" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Tienda & Crochet</a>
         <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Preguntas Frecuentes</a>
         <a 
           href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20recibir%20informaci%C3%B3n." 
@@ -275,8 +273,8 @@
         </p>
       </div>
 
-      <!-- Talleres Individuales de Parto -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <!-- Talleres y Sesiones Individuales -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         
         <!-- Sesión 1: Virtual de Preparación -->
         <div class="bg-white rounded-3xl p-7 sm:p-8 border border-brand-200/70 shadow-soft shadow-card-hover flex flex-col justify-between group">
@@ -327,6 +325,32 @@
             class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
           >
             Reservar Sesión Práctica (₡30.000)
+          </button>
+        </div>
+
+        <!-- Sesión 3: Masaje Prenatal Relajante & Terapéutico -->
+        <div class="bg-white rounded-3xl p-7 sm:p-8 border border-brand-200/70 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              💆‍♀️
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">Terapia Manual Corporal</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Masaje Prenatal Terapéutico
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Técnicas especializadas y seguras (formación en Instituto ICATEMA) para aliviar tensión en espalda, lumbares y piernas cansadas, promover la relajación profunda y conectar con tu bebé.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión por sesión:</span>
+              <span class="font-bold text-xl text-brand-600">₡20.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Masaje Prenatal Terapéutico', '₡20.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md active:scale-95"
+          >
+            Agendar Masaje Prenatal (₡20.000)
           </button>
         </div>
 
@@ -454,18 +478,18 @@
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-16">
         <span class="text-xs font-bold uppercase tracking-widest text-brand-700 bg-brand-100/90 px-3.5 py-1.5 rounded-full border border-brand-200/60">
-          🤱 Asesoría de Lactancia Materna
+          🤱 Lactancia Materna & Primeros Cuidados
         </span>
         <h2 class="font-heading text-3xl sm:text-4xl text-warm-900 font-bold mt-4 mb-4">
-          Lactancia Consciente, Respetuosa & Sin Dolor
+          Lactancia Consciente, Respetuosa & Cuidados del Bebé
         </h2>
         <p class="text-warm-800 text-base sm:text-lg">
-          Acompañamiento profesional y certificado (Prolactar España) en etapa prenatal y posparto para disfrutar un vínculo nutritivo y seguro con tu bebé.
+          Acompañamiento profesional y certificado (Prolactar España y formación en Enfermería UCR) en etapa prenatal y posparto para disfrutar un vínculo nutritivo y seguro con tu bebé.
         </p>
       </div>
 
-      <!-- Services Cards Grid: Lactancia -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Services Cards Grid: Lactancia & Cuidados -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Lactancia 1: Virtual -->
         <div class="bg-white rounded-3xl p-7 border border-brand-200/60 shadow-soft shadow-card-hover flex flex-col justify-between group">
@@ -487,7 +511,7 @@
           </div>
           <button 
             onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Virtual', '₡20.000')"
-            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
           >
             Agendar Asesoría Virtual (₡20.000)
           </button>
@@ -513,7 +537,7 @@
           </div>
           <button 
             onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Presencial', '₡30.000')"
-            class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md active:scale-95"
           >
             Agendar Presencial (₡30.000)
           </button>
@@ -539,7 +563,33 @@
           </div>
           <button 
             onclick="openServiceWhatsApp('Taller Prenatal de Lactancia y Extracción de Calostro', '₡25.000')"
-            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
+          >
+            Consultar Taller (₡25.000)
+          </button>
+        </div>
+
+        <!-- Lactancia 4: Taller de Cuidados del Recién Nacido -->
+        <div class="bg-white rounded-3xl p-7 border border-brand-200/60 shadow-soft shadow-card-hover flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              👶
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-700 inline-block mb-2">Primeros Cuidados & Familia</span>
+            <h3 class="font-heading font-bold text-2xl text-warm-900 mb-3 group-hover:text-brand-600 transition-colors">
+              Taller de Cuidados del Recién Nacido
+            </h3>
+            <p class="text-sm text-warm-800 leading-relaxed mb-5">
+              Preparación práctica basada en evidencia: higiene y primer baño, cura del cordón umbilical, pautas de sueño seguro, alivio de cólicos y gases, llanto y signos de alarma en el bebé.
+            </p>
+            <div class="bg-[#FAF5EE] rounded-2xl p-3.5 mb-6 border border-brand-200/30 flex items-center justify-between">
+              <span class="text-xs text-warm-800">Inversión taller:</span>
+              <span class="font-bold text-xl text-brand-600">₡25.000</span>
+            </div>
+          </div>
+          <button 
+            onclick="openServiceWhatsApp('Taller de Cuidados del Recién Nacido', '₡25.000')"
+            class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
           >
             Consultar Taller (₡25.000)
           </button>
@@ -694,8 +744,8 @@
   </section>
 
 
-  <!-- ================= TIENDA ONLINE & LÍNEA CROCHET ================= -->
-  <section id="tienda" class="py-20">
+  <!-- ================= TIENDA ONLINE & LÍNEA CROCHET (OCULTO TEMPORALMENTE) ================= -->
+  <section id="tienda" class="hidden py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
@@ -718,31 +768,13 @@
             onclick="filterProducts('todos', this)" 
             class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-brand-500 text-white shadow-md transition-all cursor-pointer"
           >
-            Todos
+            Todos los Disponibles
           </button>
           <button 
             onclick="filterProducts('crochet', this)" 
             class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
           >
             🧶 Crochet & Apego
-          </button>
-          <button 
-            onclick="filterProducts('lactancia', this)" 
-            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
-          >
-            Lactancia
-          </button>
-          <button 
-            onclick="filterProducts('posparto', this)" 
-            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
-          >
-            Posparto
-          </button>
-          <button 
-            onclick="filterProducts('bienestar', this)" 
-            class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-warm-800 hover:bg-brand-100 transition-all cursor-pointer border border-brand-200/40"
-          >
-            Bienestar & Porteo
           </button>
         </div>
       </div>
@@ -820,29 +852,16 @@
           </div>
         </div>
 
-        <!-- FAQ 3 -->
+        <!-- FAQ 3: Pago de Servicios -->
         <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
           <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
-            <span>¿Por qué es especial el Pulpo de Apego en Crochet?</span>
+            <span>¿Cómo se coordina el pago de los servicios?</span>
             <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
-            El pulpo de apego tejido a mano en hilo 100% hipoalergénico posee tentáculos en espiral que recrean la textura y forma del cordón umbilical. Al abrazarlo, el bebé recién nacido o prematuro experimenta una sensación reconfortante de seguridad en el útero, facilitando la calma y autorregulación del sueño.
-          </div>
-        </div>
-
-        <!-- FAQ 4 -->
-        <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
-          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
-            <span>¿Cómo se coordina el pago de servicios y productos?</span>
-            <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-          <div class="faq-content px-6 pb-6 text-sm text-warm-800 leading-relaxed">
-            Todos los pagos se coordinan de forma rápida y segura mediante <strong>SINPE Móvil al +506 8552-2806</strong> o por transferencia bancaria nacional. Los paquetes de acompañamiento cuentan con facilidades de pago en cuotas durante el embarazo.
+            Todos los pagos se coordinan de forma rápida y segura mediante <strong>SINPE Móvil al +506 8552-2806</strong> o por transferencia bancaria nacional. Los paquetes de acompañamiento de doula cuentan con facilidades de pago en cuotas durante el embarazo.
           </div>
         </div>
 
@@ -923,11 +942,13 @@
         <div>
           <h4 class="font-bold text-warm-900 mb-4">Servicios & Cursos</h4>
           <ul class="space-y-2.5">
+            <li><a href="#parto" class="hover:text-brand-500 transition-colors">Masaje Prenatal Terapéutico (₡20k)</a></li>
             <li><a href="#parto" class="hover:text-brand-500 transition-colors">Preparación Parto Virtual (₡20k)</a></li>
             <li><a href="#parto" class="hover:text-brand-500 transition-colors">Sesión Práctica Presencial (₡30k)</a></li>
             <li><a href="#parto" class="hover:text-brand-500 transition-colors">Paquete Doula Parto 1 (₡100k)</a></li>
             <li><a href="#parto" class="hover:text-brand-500 transition-colors">Paquete Doula Continuo 2 (₡200k)</a></li>
             <li><a href="#lactancia" class="hover:text-brand-500 transition-colors font-medium text-brand-600">Asesorías de Lactancia (₡20k-₡30k)</a></li>
+            <li><a href="#lactancia" class="hover:text-brand-500 transition-colors">Taller Cuidados del Recién Nacido (₡25k)</a></li>
           </ul>
         </div>
 
@@ -938,7 +959,6 @@
             <li><a href="#inicio" class="hover:text-brand-500 transition-colors">Inicio</a></li>
             <li><a href="#sobre-mi" class="hover:text-brand-500 transition-colors">Sobre Juliana Rojas</a></li>
             <li><a href="#testimonios" class="hover:text-brand-500 transition-colors">Testimonios Reales</a></li>
-            <li><a href="#tienda" class="hover:text-brand-500 transition-colors">Tienda & Crochet de Apego</a></li>
             <li><a href="#faq" class="hover:text-brand-500 transition-colors">Preguntas Frecuentes</a></li>
           </ul>
         </div>
