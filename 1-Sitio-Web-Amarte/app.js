@@ -11,7 +11,7 @@ const productsData = [
   // Línea Crochet & Apego (Productos y fotos reales locales - DISPONIBLES)
   {
     id: "prod-crochet-1",
-    name: "Pulpo de Apego & Mordedor Sensorial en Crochet",
+    name: "Pulpo de apego y mordedor sensorial en crochet",
     category: "crochet",
     inStock: true,
     badge: "Hecho a mano con amor",
@@ -19,12 +19,12 @@ const productsData = [
     priceFormatted: "₡12,500",
     image: "imagenes/crochet-pulpo.jpg",
     btnText: "Personalizar y pedir por WhatsApp",
-    inquiryMsg: "¡Hola Juli! 💕 Me gustaría personalizar y pedir el *Pulpo de Apego & Mordedor Sensorial en Crochet* (₡12,500). ¿Qué colores y combinaciones tienen disponibles?",
+    inquiryMsg: "¡Hola Juli! 💕 Me gustaría personalizar y pedir el *Pulpo de apego y mordedor sensorial en crochet* (₡12,500). ¿Qué colores y combinaciones tienen disponibles?",
     description: "Tejido artesanal en hilo de algodón hipoalergénico con aro de madera natural suave para dentición y tentáculos en espiral que evocan el cordón umbilical, aportando calma, autorregulación y apego seguro."
   },
   {
     id: "prod-crochet-2",
-    name: "Juguetes y Colgantes para Gimnasio de Estimulación en Crochet",
+    name: "Juguetes y colgantes para gimnasio de estimulación en crochet",
     category: "crochet",
     inStock: true,
     badge: "Estimulación temprana",
@@ -32,12 +32,12 @@ const productsData = [
     priceFormatted: "₡18,000",
     image: "imagenes/crochet-juguetes.jpg",
     btnText: "Pedir por WhatsApp",
-    inquiryMsg: "¡Hola Juli! 💕 Me interesa adquirir el *Set de Juguetes y Colgantes para Gimnasio de Estimulación en Crochet* (₡18,000). ¿Me podrías indicar los detalles para coordinar la entrega?",
+    inquiryMsg: "¡Hola Juli! 💕 Me interesa adquirir el *Set de Juguetes y colgantes para gimnasio de estimulación en crochet* (₡18,000). ¿Me podrías indicar los detalles para coordinar la entrega?",
     description: "Set de colgantes sensoriales tejidos a mano (jirafa, elefante, león y cuentas de madera natural) diseñados para favorecer el agarre, la coordinación motriz y el juego libre y seguro de tu bebé."
   },
   {
     id: "prod-crochet-3",
-    name: "Guirnalda con Nombre Personalizado en Crochet",
+    name: "Guirnalda con nombre personalizado en crochet",
     category: "crochet",
     inStock: true,
     badge: "Personalizado",
@@ -45,14 +45,14 @@ const productsData = [
     priceFormatted: "₡15,000",
     image: "imagenes/crochet-nombres.jpg",
     btnText: "Encargar con nombre por WhatsApp",
-    inquiryMsg: "¡Hola Juli! 💕 Quisiera encargar una *Guirnalda con Nombre Personalizado en Crochet*. ¿Cómo podemos coordinar las letras, colores y detalles?",
+    inquiryMsg: "¡Hola Juli! 💕 Quisiera encargar una *Guirnalda con nombre personalizado en crochet*. ¿Cómo podemos coordinar las letras, colores y detalles?",
     description: "Letras tejidas a mano en tonos neutros y cálidos con detalles de estrellitas. Ideal para la decoración del cuarto del bebé, sesiones de fotos de recién nacido o regalo de baby shower."
   },
 
   // Lactancia (Sin Stock)
   {
     id: "prod-1",
-    name: "Almohada de Lactancia Ergonómica",
+    name: "Almohada de lactancia ergonómica",
     category: "lactancia",
     inStock: false,
     price: 32500,
@@ -62,7 +62,7 @@ const productsData = [
   },
   {
     id: "prod-2",
-    name: "Extractor de Leche Eléctrico Manos Libres",
+    name: "Extractor de leche eléctrico manos libres",
     category: "lactancia",
     inStock: false,
     price: 48000,
@@ -72,7 +72,7 @@ const productsData = [
   },
   {
     id: "prod-3",
-    name: "Extractor de Leche Manual Anatómico",
+    name: "Extractor de leche manual anatómico",
     category: "lactancia",
     inStock: false,
     price: 24000,
@@ -82,7 +82,7 @@ const productsData = [
   },
   {
     id: "prod-4",
-    name: "Recolector de Leche Materna de Silicona (Tipo Haakaa)",
+    name: "Recolector de leche materna de silicona (tipo Haakaa)",
     category: "lactancia",
     inStock: false,
     price: 11500,
@@ -92,7 +92,7 @@ const productsData = [
   },
   {
     id: "prod-7",
-    name: "Calentador Rápido de Biberones y Leche",
+    name: "Calentador rápido de biberones y leche",
     category: "lactancia",
     inStock: false,
     price: 26500,
@@ -102,7 +102,7 @@ const productsData = [
   },
   {
     id: "prod-11",
-    name: "Collar de Lactancia y Dentición en Silicona",
+    name: "Collar de lactancia y dentición en silicona",
     category: "lactancia",
     inStock: false,
     price: 8500,
@@ -114,7 +114,7 @@ const productsData = [
   // Posparto (Sin Stock)
   {
     id: "prod-5",
-    name: "Kit de Recuperación Posparto Integral",
+    name: "Kit de recuperación posparto integral",
     category: "posparto",
     inStock: false,
     price: 42000,
@@ -124,7 +124,7 @@ const productsData = [
   },
   {
     id: "prod-12",
-    name: "Pack de Pañales Ecológicos Reutilizables",
+    name: "Pack de pañales ecológicos reutilizables",
     category: "posparto",
     inStock: false,
     price: 22000,
@@ -134,7 +134,7 @@ const productsData = [
   },
   {
     id: "prod-13",
-    name: "Pijama Suave de Maternidad y Lactancia",
+    name: "Pijama suave de maternidad y lactancia",
     category: "posparto",
     inStock: false,
     price: 29500,
@@ -146,7 +146,7 @@ const productsData = [
   // Bienestar & Porteo (Sin Stock)
   {
     id: "prod-6",
-    name: "Fular Ergonómico de Porteo Suave",
+    name: "Fular ergonómico de porteo suave",
     category: "bienestar",
     inStock: false,
     price: 28000,
@@ -156,7 +156,7 @@ const productsData = [
   },
   {
     id: "prod-8",
-    name: "Monitor de Bebé con Cámara HD & Visión Nocturna",
+    name: "Monitor de bebé con cámara HD y visión nocturna",
     category: "bienestar",
     inStock: false,
     price: 45000,
@@ -166,7 +166,7 @@ const productsData = [
   },
   {
     id: "prod-9",
-    name: "Chupón Anatómico de Silicona Médica",
+    name: "Chupón anatómico de silicona médica",
     category: "bienestar",
     inStock: false,
     price: 6500,
@@ -176,7 +176,7 @@ const productsData = [
   },
   {
     id: "prod-10",
-    name: "Chupón Calmante Ergonómico",
+    name: "Chupón calmante ergonómico",
     category: "bienestar",
     inStock: false,
     price: 5800,
@@ -186,7 +186,7 @@ const productsData = [
   },
   {
     id: "prod-14",
-    name: "Espejo Retrovisor de Seguridad para Carro",
+    name: "Espejo retrovisor de seguridad para carro",
     category: "bienestar",
     inStock: false,
     price: 13500,
@@ -213,14 +213,17 @@ function formatCRC(amount) {
   return '₡' + amount.toLocaleString('es-CR');
 }
 
-// Render Products with filtering
+// Render Products with filtering (solo productos disponibles en stock)
 function renderProducts(category = 'todos') {
   const container = document.getElementById('products-grid');
   if (!container) return;
 
+  // Filtrar solo los productos disponibles en stock
+  const availableProducts = productsData.filter(p => p.inStock !== false);
+
   const filtered = category === 'todos' 
-    ? productsData 
-    : productsData.filter(p => p.category === category);
+    ? availableProducts 
+    : availableProducts.filter(p => p.category === category);
 
   container.innerHTML = filtered.map(product => {
     let categoryLabel = 'Bienestar';
