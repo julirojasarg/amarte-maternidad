@@ -154,3 +154,44 @@ html {
     transform: translateY(15px);
   }
 }
+
+/* Costa Rica Coverage Map */
+.canton-path {
+  transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+.zone-gam {
+  fill: #F4A261;
+  stroke: #FFFFFF;
+  stroke-width: 1.2;
+}
+.zone-gam:hover {
+  fill: #E76F51;
+  filter: drop-shadow(0 0 3px rgba(231, 111, 81, 0.4));
+}
+.zone-occidente {
+  fill: #E9C46A;
+  stroke: #FFFFFF;
+  stroke-width: 1.2;
+}
+.zone-occidente:hover {
+  fill: #D4A33B;
+  filter: drop-shadow(0 0 3px rgba(212, 163, 59, 0.4));
+}
+.zone-norte {
+  fill: #E76F51;
+  stroke: #FFFFFF;
+  stroke-width: 1.2;
+}
+.zone-norte:hover {
+  fill: #C85A32;
+  filter: drop-shadow(0 0 3px rgba(200, 90, 50, 0.4));
+}
+.zone-virtual {
+  fill: #F2ECE4;
+  stroke: #E2DBD0;
+  stroke-width: 0.9;
+}
+.zone-virtual:hover {
+  fill: #E7DFC5;
+}
