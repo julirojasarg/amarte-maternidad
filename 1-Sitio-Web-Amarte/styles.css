@@ -196,16 +196,22 @@ html {
   fill: #E7DFC5;
 }
 
-/* Map Interactive Pins & Tooltips (aparecen de forma suave y fija al tocar el pin) */
+/* Map Interactive Pins & Tooltips (aparecen solo al pasar el cursor) */
 .map-pin {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
   outline: none;
-  cursor: pointer;
+}
+.map-pin:hover,
+.map-pin:focus-visible {
+  transform: scale(1.15);
 }
 
 .map-tooltip {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(6px);
 }
 
 /* Reveal when hovering pin */
@@ -213,6 +219,7 @@ html {
 .map-pin:focus .map-tooltip,
 .map-pin:focus-visible .map-tooltip {
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* Canton highlight feedback */
