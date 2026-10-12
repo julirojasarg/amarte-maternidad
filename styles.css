@@ -106,7 +106,7 @@ html {
 }
 
 .faq-item.active .faq-content {
-  max-height: 450px;
+  max-height: 800px;
   opacity: 1;
   margin-top: 1rem;
 }
