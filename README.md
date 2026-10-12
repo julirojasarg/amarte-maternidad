@@ -20,6 +20,10 @@ Amarte Maternidad/
 ├── logo.png              # Logotipo oficial
 ├── imagenes/             # Fotografías reales de productos, sesiones y recursos
 ├── server.js             # Servidor HTTP para producción (Railway) y pruebas
+├── analytics.js          # Analítica agregada de secciones, navegación y contactos
+├── analytics-consent.js  # Preferencia de consentimiento analítico
+├── analytics-dashboard.html # Interfaz privada de analítica
+├── privacidad.html       # Aviso público de privacidad y analítica
 ├── package.json          # Metadatos del proyecto y scripts de arranque
 ├── railway.json          # Configuración de despliegue continuo en Railway
 ├── Dockerfile            # Configuración opcional para despliegue en contenedor
@@ -94,6 +98,14 @@ El proyecto cuenta con **Despliegue Continuo (CI/CD)** automático integrado ent
 3. No requieres ingresar a Railway ni correr comandos adicionales para actualizar la web.
 
 > 📖 Para una guía paso a paso completa sobre configuración, despliegue manual por CLI, rollback y monitoreo de logs, consulta [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## 📊 Analítica propia
+
+El servidor guarda contadores agregados en PostgreSQL. La analítica propia está desactivada hasta que la persona visitante la acepta; rechazarla no afecta el sitio ni sus funciones. La elección se recuerda en una cookie de preferencia durante un año. El panel privado está en [`/admin/analytics`](https://amartecr.com/admin/analytics) y permite filtrar por fechas, página, sección, elemento y fuente. Incluye actividad diaria, exposiciones aproximadas a secciones, navegación elegida, aperturas de FAQ y contactos por CTA, además de visitas generales por provincia y zona aproximada. El [aviso de privacidad](https://amartecr.com/privacidad) explica el tratamiento y los proveedores técnicos.
+
+Las cargas se cuentan para `/` y `/kardex` únicamente con aceptación de analítica; las interacciones de secciones, navegación, FAQ y contactos también requieren aceptación y solo se miden en `/`. `analytics_daily` agrega páginas/eventos por día y fuente; `analytics_province_daily` y `analytics_canton_daily` guardan conteos geográficos separados, sin fuente ni datos de interacción. Una migración consolida los conteos históricos por fuente y provincia de forma independiente. `analytics_detail_daily` guarda eventos diarios por sección y elemento categorizado, sin ubicación. No se calculan visitantes únicos ni recorridos individuales. La base analítica no guarda IP ni coordenadas; una cookie de preferencia recuerda aceptación/rechazo por un año. El servidor usa coordenadas aproximadas que recibe de Cloudflare en memoria para estimar cantón y las descarta. No guarda texto de WhatsApp, nombre de producto/servicio, mensaje ni URL de referencia completa. Actualmente no se enlazan clics con pedidos o ventas. El detalle nuevo empieza con este despliegue; el histórico anterior no atribuye los clics a un botón o sección. El Kardex se excluye del resumen comercial por defecto y la tienda oculta no se instrumenta. Las tablas activas se purgan diariamente al superar 25 meses; las copias de seguridad y los registros técnicos de Cloudflare/Railway siguen sus políticas y configuraciones. El panel muestra el mapa y la tabla por cantón y provincia; al seleccionar un cantón aparece su nombre y conteo. El mapa usa límites oficiales del IGN 2022 y siete rangos de color. Fuente: [capa cantonal del IGN en SNIT/ArcGIS](https://services8.arcgis.com/gEjMfQjIBmRHMGao/arcgis/rest/services/Cantones_de_Costa_Rica/FeatureServer).
+
+El servicio PostgreSQL `Postgres` y las variables protegidas `DATABASE_URL`, `ANALYTICS_ADMIN_USER`, `ANALYTICS_ADMIN_PASSWORD` y `ANALYTICS_CF_TOKEN` están configurados en Railway producción. El panel solicita el usuario y contraseña guardados en esas variables. Las visitas solo se asignan a provincia cuando Cloudflare envía encabezados geográficos válidos y el token de origen requerido. Los pasos están en [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 

@@ -4,7 +4,10 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copiar configuración de paquetes
-COPY package.json ./
+COPY package*.json ./
+
+# Instalar la dependencia PostgreSQL requerida por la analítica propia
+RUN npm ci --omit=dev
 
 # Copiar todo el código fuente del proyecto
 COPY . .
