@@ -234,6 +234,25 @@ async function recordCantonAnalytics(location, page = '/') {
   );
 }
 
+function getAnalyticsCountry(req) {
+  if (!hasTrustedCloudflareHeaders(req)) return 'Encabezado no confiable';
+  const country = String(req.headers['cf-ipcountry'] || '').trim().toUpperCase();
+  if (!country) return 'País no informado';
+  return /^[A-Z]{2}$/.test(country) ? country : 'Código no reconocido';
+}
+
+async function recordCountryAnalytics(country, page = '/') {
+  if (!analyticsPool || page !== '/') return;
+  await analyticsReady;
+  await analyticsPool.query(
+    `INSERT INTO analytics_country_daily (visit_date, page, country, count)
+     VALUES ($1::date, $2, $3, 1)
+     ON CONFLICT (visit_date, page, country)
+     DO UPDATE SET count = analytics_country_daily.count + 1`,
+    [costaRicaDate(), page, country]
+  );
+}
+
 function validateDetailedEvent(payload) {
   const event = String(payload.event || '');
   const element = String(payload.element || '');
@@ -298,6 +317,13 @@ async function initializeAnalytics() {
     province text NOT NULL,
     count bigint NOT NULL DEFAULT 0 CHECK (count >= 0),
     PRIMARY KEY (visit_date, page, canton_code)
+  )`);
+  await analyticsPool.query(`CREATE TABLE IF NOT EXISTS analytics_country_daily (
+    visit_date date NOT NULL,
+    page text NOT NULL CHECK (page = '/'),
+    country text NOT NULL CHECK (country IN ('Encabezado no confiable', 'País no informado', 'Código no reconocido') OR country ~ '^[A-Z]{2}$'),
+    count bigint NOT NULL DEFAULT 0 CHECK (count >= 0),
+    PRIMARY KEY (visit_date, page, country)
   )`);
   const migrationClient = await analyticsPool.connect();
   try {
@@ -365,7 +391,7 @@ async function initializeAnalytics() {
 
 async function purgeExpiredAnalytics() {
   if (!analyticsPool) return;
-  const tables = ['analytics_daily', 'analytics_province_daily', 'analytics_canton_daily', 'analytics_detail_daily'];
+  const tables = ['analytics_daily', 'analytics_province_daily', 'analytics_canton_daily', 'analytics_country_daily', 'analytics_detail_daily'];
   for (const table of tables) {
     await analyticsPool.query(`DELETE FROM ${table} WHERE visit_date < ((NOW() AT TIME ZONE 'America/Costa_Rica')::date - INTERVAL '25 months')`);
   }
@@ -494,6 +520,10 @@ const server = http.createServer((req, res) => {
       SELECT visit_date, 'province_visit'::text AS event, page, province, zone, 'Geografía'::text AS source, count,
         ''::text AS section, ''::text AS element, ''::text AS canton, 'geographic'::text AS measurement
       FROM analytics_province_daily WHERE visit_date BETWEEN $1::date AND $2::date
+      UNION ALL
+      SELECT visit_date, 'country_visit'::text AS event, page, country AS province, ''::text AS zone, 'Geografía'::text AS source, count,
+        ''::text AS section, ''::text AS element, ''::text AS canton, 'geographic'::text AS measurement
+      FROM analytics_country_daily WHERE visit_date BETWEEN $1::date AND $2::date
       ORDER BY visit_date DESC, count DESC`, [dateFrom, dateTo])
       .then(result => { res.writeHead(200, { 'Content-Type': 'application/json; charset=UTF-8', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(result.rows)); })
       .catch(error => { console.error('[analytics] No se pudo leer el resumen:', error.message); res.writeHead(503); res.end('No se pudo consultar la base de datos.'); });
@@ -608,12 +638,15 @@ const server = http.createServer((req, res) => {
         if (!['amartecr.com', 'www.amartecr.com'].includes(host)) return;
         const userAgent = String(req.headers['user-agent'] || '');
         if (!/bot|crawler|spider|headless|preview/i.test(userAgent)) {
-          const location = hasTrustedCloudflareHeaders(req) ? getLocation(req.headers) : { province: 'Sin determinar', zone: 'Sin determinar', canton: '', cantonCode: '' };
+          const trustedCloudflareHeaders = hasTrustedCloudflareHeaders(req);
+          const location = trustedCloudflareHeaders ? getLocation(req.headers) : { province: 'Sin determinar', zone: 'Sin determinar', canton: '', cantonCode: '' };
+          const country = getAnalyticsCountry(req);
           const source = getTrafficSource(req.headers.referer);
           Promise.all([
             recordAnalytics('pageview', source, analyticsPage),
             analyticsPage === '/' ? recordProvinceAnalytics(location, analyticsPage) : Promise.resolve(),
-            analyticsPage === '/' ? recordCantonAnalytics(location, analyticsPage) : Promise.resolve()
+            analyticsPage === '/' ? recordCantonAnalytics(location, analyticsPage) : Promise.resolve(),
+            analyticsPage === '/' ? recordCountryAnalytics(country, analyticsPage) : Promise.resolve()
           ]).catch(error => console.error('[analytics] No se pudo registrar visita:', error.message));
         }
       }
