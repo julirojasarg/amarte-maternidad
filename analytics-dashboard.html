@@ -106,6 +106,7 @@
       <section><h2>Fuentes de llegada</h2><div id="sourceTable"></div></section>
     </div>
     <section id="provincePanel"><h2>Visitas por provincia</h2><p class="empty">Conteos agregados de visitas generales del sitio público para el rango seleccionado.</p><div id="provinceTable"></div></section>
+    <section id="countryPanel"><h2>Visitas por país</h2><p class="empty">Conteos agregados de visitas del sitio público según el código de país de Cloudflare. El desglose empieza con esta versión; los registros anteriores no guardaron el país.</p><div id="countryTable"></div></section>
   </main>
   <script>
     const $ = id => document.getElementById(id);
@@ -176,6 +177,10 @@
       const safeGeoCount=value=>number(value);
       renderTable('provinceTable',['Provincia','Visitas'],[...byProvince].sort((a,b)=>b[1]-a[1]).map(([province,total])=>[province,safeGeoCount(total)]));
       renderTable('zoneTable',['Zona','Visitas'],[...byZone].sort((a,b)=>b[1]-a[1]).map(([zone,total])=>[zone,safeGeoCount(total)]));
+      const countryNames=new Intl.DisplayNames(['es'],{type:'region'}),countryRows=rawRows.filter(row=>row.event==='country_visit'&&row.page==='/');
+      const countryLabel=code=>code==='XX'?'País desconocido (XX)':code==='T1'?'Red Tor (T1)':/^[A-Z]{2}$/.test(code)?(countryNames.of(code)||code):code;
+      const byCountry=new Map();countryRows.forEach(row=>byCountry.set(row.province,(byCountry.get(row.province)||0)+Number(row.count)));
+      renderTable('countryTable',['País / estado de ubicación','Visitas'],[...byCountry].sort((a,b)=>b[1]-a[1]).map(([country,total])=>[countryLabel(country),safeGeoCount(total)]));
       renderCantonMap();
       $('status').textContent=`${number(rawRows.length)} grupos agregados · sin visitantes identificables ni recorridos individuales. El historial anterior no identifica botón o sección.`;
     }
