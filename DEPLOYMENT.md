@@ -151,6 +151,56 @@ railway service source connect --repo julirojasarg/amarte-maternidad --branch ma
 
 ---
 
+## 📊 Analítica propia y panel privado
+
+La analítica propia se encuentra desactivada por defecto. Solo se activa después de pulsar «Aceptar analítica»; la elección se recuerda durante un año en una cookie de preferencia (`amarte_analytics`) sin ID de visitante. Rechazarla deja disponible el sitio y sus funciones. El servidor verifica esa preferencia tanto para las vistas como para los eventos enviados por el navegador. El aviso público está en `/privacidad`.
+
+### Datos y límites
+
+`analytics_daily` combina fecha (zona horaria `America/Costa_Rica`), evento, página y fuente categorizada. `analytics_province_daily` combina fecha, página pública, provincia/zona y contador; `analytics_canton_daily` combina fecha, página `/`, código/nombre de cantón, provincia y contador. Ninguna de las dos tablas geográficas incluye fuente, sección, botón, FAQ o clic de contacto. Al inicializar, una migración divide las dimensiones históricas de geografía y fuente en sus conteos marginales independientes. `analytics_detail_daily` combina fecha, evento (`section_view`, `navigation_click`, `faq_open`, `whatsapp_click` u `outbound_click`), página pública, sección, elemento de catálogo, fuente categorizada y contador, sin geografía. Para asignar cantón, las coordenadas aproximadas que Cloudflare deriva de la IP se usan solo en memoria y no se guardan en la base analítica. Los clics actuales expresan interés general; no se enlazan a pedidos, clientes ni ventas. El servidor valida IDs de sección, CTA y FAQ contra catálogos permitidos; no acepta texto de botones, servicios o mensajes desde el navegador. Las fuentes se agrupan como Directo, Google, Instagram, Facebook, TikTok, YouTube, Interno u Otro sitio.
+
+Una `section_view` es exposición aproximada: el elemento entra a una franja central visible durante al menos 1,2 segundos; no confirma lectura. La navegación, FAQ y CTA miden acciones distintas. No se vinculan eventos entre sí ni equivalen a personas únicas. Los clics a WhatsApp significan intención de abrir el contacto, no una conversación o venta. El detalle comienza al desplegar esta versión; los clics previos conservan su total histórico sin sección ni botón conocido. Las interacciones comerciales solo se miden en `/`; `/kardex` se excluye por defecto y la tienda oculta no se instrumenta.
+
+Los IDs de eventos son categorías mantenidas en `server.js`, `analytics.js` e `index.html`: las secciones visibles se deduplican una vez por carga; el menú registra el destino y la posición (escritorio, móvil, pie, contenido o banner); las FAQ se cuentan al abrirse; y los CTA de servicio envían solo su ID permitido. Al añadir o renombrar una sección, CTA o FAQ se deben actualizar los catálogos de servidor/panel y sus atributos o llamadas explícitas. No reutilizar texto del botón, nombre libre del servicio, precio ni mensaje de WhatsApp como dimensión.
+
+Para pruebas internas sin contaminar los conteos, abre una ruta con `?analytics=off` (por ejemplo, `https://amartecr.com/?analytics=off`). Esa carga omite tanto la vista HTML como los eventos del navegador y no solicita la elección.
+
+La agrupación geográfica aproximada se limita a conteos generales de visitas aceptadas al sitio público; se mantiene separada de fuente, secciones, FAQ, CTA y contactos. El dashboard incluye el mapa de visitas por cantón, armado con límites oficiales del IGN 2022. La ubicación se deriva de IP mediante Cloudflare y es aproximada; no es una dirección ni punto preciso. San José, Alajuela, Heredia y Cartago → Valle Central; Guanacaste → Chorotega; Puntarenas → Pacífico / Brunca; Limón → Caribe. Si no llegan encabezados confiables, se registra “Sin determinar” y no se estima cantón. Fuente de límites: [capa cantonal oficial del IGN 2022 en SNIT/ArcGIS](https://services8.arcgis.com/gEjMfQjIBmRHMGao/arcgis/rest/services/Cantones_de_Costa_Rica/FeatureServer). Los eventos no guardan mensaje, parámetros de consulta, producto específico ni enlace completo.
+
+La base de datos de la aplicación purga diariamente filas activas con más de 25 meses (y también hace una purga al iniciar). Esto no define el plazo de retención de los respaldos administrados por Railway ni de los registros técnicos de Cloudflare/Railway; revisa esos plazos en sus consolas y condiciones vigentes antes de describirlos como parte de la retención propia. La aplicación registra en su salida método, ruta y estado, pero no imprime deliberadamente IP ni encabezados completos. Railway documenta HTTP logs con `srcIp`, agente de usuario y hora; al estar Cloudflare delante, no se ha comprobado qué dirección ve Railway para cada solicitud. Cloudflare necesariamente recibe la IP para entregar la conexión y derivar ubicación. El ajuste **Remove visitor IP headers** en Managed Transforms puede evitar enviar al origen los encabezados `CF-Connecting-IP` y `X-Forwarded-For`; no oculta la IP a Cloudflare ni controla registros de borde de Railway.
+
+El panel y su API requieren HTTP Basic Auth. El usuario se configura en `ANALYTICS_ADMIN_USER` y la contraseña en `ANALYTICS_ADMIN_PASSWORD` dentro de Railway; no se guardan en el repositorio. El endpoint de eventos limita el conjunto de interacciones a 300 solicitudes por minuto por instancia; el contador se reinicia al reiniciar el servidor y es compartido por visitantes de esa instancia. Ese límite no cubre las vistas HTML. Para reducir automatizaciones, se recomienda una regla de tasa de Cloudflare para `/`, `/kardex` y `/api/analytics/event`.
+
+### Configuración aplicada en Railway
+
+- Se creó el servicio PostgreSQL `Postgres` en el proyecto `amarte-lactancia`, entorno `production`.
+- `DATABASE_URL` del servicio web apunta a `Postgres.DATABASE_URL`.
+- `ANALYTICS_ADMIN_USER`, `ANALYTICS_ADMIN_PASSWORD` y `ANALYTICS_CF_TOKEN` están guardadas como variables del servicio web. Nunca pongas la contraseña o el token en el repositorio ni en código del navegador.
+- El código está desplegado y la tabla quedó inicializada. El resumen del panel consulta PostgreSQL; la base empieza a llenarse con visitas y clics nuevos.
+- Railway cobra según el consumo de CPU, memoria, almacenamiento y tráfico, sujeto al plan y créditos del espacio. [Precios de Railway](https://docs.railway.com/pricing).
+
+Para desarrollo local, define `DATABASE_URL` y `ANALYTICS_ADMIN_PASSWORD`. `PGSSLMODE=disable` se puede usar solo con PostgreSQL local sin TLS.
+
+### Habilitar el desglose geográfico en Cloudflare
+
+El servidor solo asigna provincia y cantón cuando la solicitud llega por Cloudflare, trae encabezados de ubicación y coincide el token secreto de origen. El panel presenta geografía únicamente para visitas generales de `/`; nunca cruza ubicación con sección, botón, FAQ o fuente. Los conteos geográficos agregados se muestran aun si son menores de cinco. Configura lo siguiente en Cloudflare:
+
+1. En **DNS**, cambia los registros de `amartecr.com` y `www.amartecr.com` a **Proxied** (nube naranja). Conserva SSL/TLS en **Full** o **Full (Strict)**.
+2. En **Rules → Settings → Managed Transforms**, confirma que **Add visitor location headers** esté activo. Cloudflare envía `CF-IPCountry`, `CF-Region` y `CF-Region-Code` al origen. No hace falta crear una regla para esos tres encabezados. [Referencia oficial de encabezados](https://developers.cloudflare.com/rules/transform/managed-transforms/reference/).
+3. Para reducir los encabezados de IP que llegan a la aplicación, activa también **Remove visitor IP headers** si está disponible en tu cuenta. Esto no impide que Cloudflare procese la IP para servir y geolocalizar la solicitud.
+4. En **Rules → Transform Rules → Modify Request Header**, crea una regla para hosts `amartecr.com` y `www.amartecr.com`. En la expresión de filtro usa `http.host in {"amartecr.com" "www.amartecr.com"}`; agrega el encabezado de solicitud `X-Amarte-Origin-Token` con el mismo valor que la variable protegida `ANALYTICS_CF_TOKEN` en Railway. Esta regla separada autoriza los encabezados Cloudflare en el servidor; el transform administrado de ubicación no la crea. El valor es secreto entre Cloudflare y el servidor: no lo pongas en archivos públicos, en código del navegador ni en el chat.
+5. Las solicitudes a `*.up.railway.app` no se cuentan como visitas del sitio público y no tienen ubicación asignable.
+
+El servidor valida el token antes de aceptar provincia y zona; las solicitudes que llegan sin él se agregan como “Sin determinar”. Una vez creada la regla, no hace falta publicar de nuevo: los nuevos conteos se clasifican cuando Cloudflare envía los encabezados válidos. Cloudflare explica la configuración de [Managed Transforms](https://developers.cloudflare.com/rules/transform/managed-transforms/configure/). También se puede configurar una regla de límite de solicitudes para proteger las vistas y los eventos del sitio.
+
+### Abrir el panel
+
+Visita [`https://amartecr.com/admin/analytics`](https://amartecr.com/admin/analytics). Inicia sesión con el usuario y la contraseña configurados en `ANALYTICS_ADMIN_USER` y `ANALYTICS_ADMIN_PASSWORD`. La base comienza vacía y acumula datos desde este despliegue.
+
+El panel permite elegir fechas desde/hasta, página, sección, elemento y fuente; comparar actividad diaria; ver exposición/navegación/contacto por sección; distinguir los CTA de WhatsApp por servicio y posición; revisar aperturas de FAQ y contactos externos; y ver el mapa, la tabla completa de visitas por cantón, las visitas por zona y la tabla de visitas por provincia al final del dashboard. Al hacer clic o enfocar un cantón se presenta su nombre y conteo. Los cuadros geográficos usan solo visitas generales y el rango de fechas, no los otros filtros de interés, y muestran los conteos aunque sean pequeños. El mapa ofrece siete rangos de color. Kardex aparece como opción explícita pero está fuera del resumen comercial inicial. El API acepta fechas ISO y limita las consultas a los 25 meses de retención. Las métricas no reconstruyen recorridos ni afirman conversiones individuales.
+
+---
+
 ## 🔍 Monitoreo y Solución de Problemas
 
 1. **¿Qué hacer si un despliegue falla?**

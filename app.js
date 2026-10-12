@@ -524,10 +524,11 @@ window.checkoutViaWhatsApp = function() {
 };
 
 // WhatsApp Inquiries for Official Services & Packages
-window.openServiceWhatsApp = function(serviceName, modality = '') {
+window.openServiceWhatsApp = function(serviceName, modality = '', analyticsCta = '') {
   let detail = modality ? `${serviceName} (${modality})` : serviceName;
   const message = `¡Hola Juli! 💕🌸\n\nEstoy interesada/o en recibir información y agendar el servicio de: *${detail}* en *Amarte Maternidad*.\n\n¿Podrías contarme sobre disponibilidad de fechas y cómo podemos coordinar? ¡Muchas gracias!`;
   const url = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+  if (analyticsCta && typeof window.trackAnalytics === 'function') window.trackAnalytics('whatsapp_click', analyticsCta);
   window.open(url, '_blank');
 };
 
@@ -555,7 +556,12 @@ function setupFAQ() {
       trigger.addEventListener('click', () => {
         const isActive = item.classList.contains('active');
         items.forEach(other => other.classList.remove('active'));
-        if (!isActive) item.classList.add('active');
+        if (!isActive) {
+          item.classList.add('active');
+          if (typeof window.trackAnalytics === 'function' && trigger.dataset.analyticsFaq) {
+            window.trackAnalytics('faq_open', trigger.dataset.analyticsFaq);
+          }
+        }
       });
     }
   });

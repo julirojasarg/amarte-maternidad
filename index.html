@@ -100,6 +100,7 @@
         <!-- WhatsApp Direct Contact CTA -->
         <a 
           href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios%20de%20doula%20y%20lactancia%20en%20Amarte%20Maternidad." 
+          data-analytics-cta="header_whatsapp"
           target="_blank" 
           rel="noopener noreferrer" 
           class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0"
@@ -136,6 +137,7 @@
         <a href="#faq" onclick="toggleMobileMenu()" class="hover:text-brand-500 py-1">Preguntas frecuentes</a>
         <a 
           href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20recibir%20informaci%C3%B3n." 
+          data-analytics-cta="mobile_menu_whatsapp"
           target="_blank" 
           class="mt-2 text-center bg-brand-500 text-white py-3 rounded-full font-semibold shadow-md flex items-center justify-center gap-2"
         >
@@ -303,7 +305,7 @@
             </div>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Sesión virtual de preparación para el parto', '₡20.000')"
+            onclick="openServiceWhatsApp('Sesión virtual de preparación para el parto', '₡20.000', 'service_parto_preparacion_virtual')"
             class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
           >
             Agendar sesión virtual (₡20.000)
@@ -332,7 +334,7 @@
             </div>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Sesión práctica presencial: biomecánica y parto', '₡30.000')"
+            onclick="openServiceWhatsApp('Sesión práctica presencial: biomecánica y parto', '₡30.000', 'service_parto_biomecanica_presencial')"
             class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
           >
             Reservar sesión práctica (₡30.000)
@@ -361,7 +363,7 @@
             </div>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Masaje Prenatal con Drenaje Linfático', '₡25.000')"
+            onclick="openServiceWhatsApp('Masaje Prenatal con Drenaje Linfático', '₡25.000', 'service_masaje_prenatal')"
             class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md active:scale-95"
           >
             Agendar masaje prenatal (₡25.000)
@@ -390,7 +392,7 @@
             </div>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Masaje Posparto y Cierre de Caderas', '₡25.000')"
+            onclick="openServiceWhatsApp('Masaje Posparto y Cierre de Caderas', '₡25.000', 'service_masaje_posparto')"
             class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md active:scale-95"
           >
             Agendar masaje posparto (₡25.000)
@@ -400,7 +402,7 @@
       </div>
 
       <!-- PAQUETES INTEGRALES DE ACOMPAÑAMIENTO AL PARTO -->
-      <div class="mb-4">
+      <div id="paquetes" data-analytics-section="paquetes" class="mb-4">
         <h3 class="font-heading font-bold text-2xl text-warm-900 text-center mb-8">
           Paquetes integrales de acompañamiento doula
         </h3>
@@ -447,7 +449,7 @@
             </ul>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Paquete de acompañamiento al parto 1', '₡100.000')"
+            onclick="openServiceWhatsApp('Paquete de acompañamiento al parto 1', '₡100.000', 'service_paquete_parto_inicial')"
             class="w-full py-4 px-6 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm transition-all shadow-md text-center cursor-pointer active:scale-95"
           >
             Consultar paquete 1 (₡100.000)
@@ -501,7 +503,7 @@
             </ul>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Paquete de acompañamiento al parto 2 (Continuo)', '₡200.000')"
+            onclick="openServiceWhatsApp('Paquete de acompañamiento al parto 2 (Continuo)', '₡200.000', 'service_paquete_parto_continuo')"
             class="w-full py-4 px-6 rounded-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-sm transition-all shadow-lg text-center cursor-pointer active:scale-95"
           >
             Reservar paquete continuo (₡200.000)
@@ -563,7 +565,7 @@
             </div>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Virtual', '₡20.000')"
+            onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Virtual', '₡20.000', 'service_lactancia_virtual')"
             class="w-full py-3.5 px-4 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-sm transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
           >
             Agendar asesoría virtual (₡20.000)
@@ -596,7 +598,7 @@
             </div>
           </div>
           <button 
-            onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Presencial', '₡30.000')"
+            onclick="openServiceWhatsApp('Asesoría de Lactancia Materna Presencial', '₡30.000', 'service_lactancia_presencial')"
             class="w-full py-3.5 px-4 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md active:scale-95"
           >
             Agendar presencial (₡30.000)
@@ -632,13 +634,13 @@
           </div>
           <div class="grid grid-cols-2 gap-2">
             <button 
-              onclick="openServiceWhatsApp('Asesoría Prenatal de Lactancia', 'Presencial ₡25.000')"
+              onclick="openServiceWhatsApp('Asesoría Prenatal de Lactancia', 'Presencial ₡25.000', 'service_taller_lactancia_presencial')"
               class="w-full py-3 px-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs transition-all text-center cursor-pointer shadow-sm active:scale-95"
             >
               Presencial (₡25k)
             </button>
             <button 
-              onclick="openServiceWhatsApp('Asesoría Prenatal de Lactancia', 'Virtual ₡20.000')"
+              onclick="openServiceWhatsApp('Asesoría Prenatal de Lactancia', 'Virtual ₡20.000', 'service_taller_lactancia_virtual')"
               class="w-full py-3 px-2 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-xs transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
             >
               Virtual (₡20k)
@@ -672,13 +674,13 @@
           </div>
           <div class="grid grid-cols-2 gap-2">
             <button 
-              onclick="openServiceWhatsApp('Taller de cuidados del recién nacido', 'Presencial ₡25.000')"
+              onclick="openServiceWhatsApp('Taller de cuidados del recién nacido', 'Presencial ₡25.000', 'service_taller_recien_nacido_presencial')"
               class="w-full py-3 px-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs transition-all text-center cursor-pointer shadow-sm active:scale-95"
             >
               Presencial (₡25k)
             </button>
             <button 
-              onclick="openServiceWhatsApp('Taller de cuidados del recién nacido', 'Virtual ₡20.000')"
+              onclick="openServiceWhatsApp('Taller de cuidados del recién nacido', 'Virtual ₡20.000', 'service_taller_recien_nacido_virtual')"
               class="w-full py-3 px-2 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-700 hover:text-white font-semibold text-xs transition-all border border-brand-200 text-center cursor-pointer shadow-sm active:scale-95"
             >
               Virtual (₡20k)
@@ -876,6 +878,7 @@
           <!-- CTA WhatsApp Button -->
           <a 
             href="https://wa.me/50685522806?text=¡Hola%20Juli!%20💕🌸%20Quisiera%20consultar%20sobre%20la%20disponibilidad%20de%20tus%20servicios%20presenciales%20o%20virtuales%20para%20mi%20zona." 
+            data-analytics-cta="coverage_whatsapp"
             target="_blank" 
             rel="noopener noreferrer"
             class="w-full py-4 px-5 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-semibold text-sm transition-all text-center cursor-pointer shadow-md flex items-center justify-center gap-2 active:scale-95"
@@ -964,6 +967,7 @@
           <div class="flex flex-wrap gap-4 items-center">
             <a 
               href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20conversar%20sobre%20tus%20servicios%20de%20doula%20y%20lactancia." 
+              data-analytics-cta="about_whatsapp"
               target="_blank" 
               class="inline-flex items-center gap-2 text-sm font-bold text-white bg-brand-500 hover:bg-brand-600 px-6 py-3.5 rounded-full transition-all shadow-md cursor-pointer"
             >
@@ -972,6 +976,7 @@
             </a>
             <a 
               href="https://instagram.com/amarte.maternidad.cr" 
+              data-analytics-outbound="about_instagram"
               target="_blank" 
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 text-sm font-bold text-brand-600 bg-brand-50 hover:bg-brand-100 px-5 py-3.5 rounded-full border border-brand-200 transition-colors"
@@ -1119,7 +1124,7 @@
         
         <!-- FAQ 1 -->
         <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
-          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer" data-analytics-faq="doula_role">
             <span>¿Qué hace una doula y qué diferencia tiene con la atención médica?</span>
             <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -1132,7 +1137,7 @@
 
         <!-- FAQ 2 -->
         <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
-          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer" data-analytics-faq="care_centers">
             <span>¿En qué centros de salud de Costa Rica puedo tener acompañamiento hospitalario?</span>
             <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -1145,7 +1150,7 @@
 
         <!-- FAQ 3: Pago de Servicios -->
         <div class="faq-item bg-white rounded-2xl border border-brand-200/60 shadow-sm overflow-hidden transition-all duration-300">
-          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer">
+          <button class="faq-trigger w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-warm-900 hover:text-brand-600 transition-colors cursor-pointer" data-analytics-faq="payment_options">
             <span>¿Cómo se coordina el pago de los servicios?</span>
             <svg class="faq-chevron w-5 h-5 text-brand-500 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -1199,7 +1204,7 @@
 
 
   <!-- ================= BANNER FINAL CTA ================= -->
-  <section class="py-16 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 text-white relative overflow-hidden">
+  <section id="contacto" class="py-16 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 text-white relative overflow-hidden">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
       <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
         Conversemos y preparemos juntas tu nacimiento
@@ -1210,13 +1215,15 @@
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a 
           href="https://wa.me/50685522806?text=Hola%20Juli,%20quisiera%20agendar%20una%20consulta%20con%20Amarte%20Maternidad." 
+          data-analytics-cta="banner_whatsapp"
           target="_blank" 
           class="w-full sm:w-auto px-8 py-4 bg-white text-brand-700 hover:bg-brand-50 font-bold rounded-full shadow-lg transition-all transform hover:-translate-y-0.5 text-center"
         >
           Escribir por WhatsApp (8552-2806)
         </a>
         <a 
-          href="#servicios" 
+          href="#paquetes"
+          data-analytics-nav="banner_link"
           class="w-full sm:w-auto px-8 py-4 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-bold transition-all text-center"
         >
           Ver paquetes en ₡
@@ -1227,7 +1234,7 @@
 
 
   <!-- ================= FOOTER ================= -->
-  <footer class="bg-[#FAF5EE] border-t border-brand-200/50 pt-16 pb-12 text-warm-800 text-sm">
+  <footer id="footer" class="bg-[#FAF5EE] border-t border-brand-200/50 pt-16 pb-12 text-warm-800 text-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
@@ -1246,6 +1253,7 @@
           <div class="flex items-center gap-3">
             <a 
               href="https://instagram.com/amarte.maternidad.cr" 
+              data-analytics-outbound="footer_instagram"
               target="_blank" 
               rel="noopener noreferrer"
               class="w-10 h-10 rounded-full bg-white hover:bg-brand-500 hover:text-white text-brand-600 border border-brand-200 flex items-center justify-center transition-all shadow-sm"
@@ -1255,6 +1263,7 @@
             </a>
             <a 
               href="https://wa.me/50685522806" 
+              data-analytics-cta="footer_whatsapp_icon"
               target="_blank" 
               rel="noopener noreferrer"
               class="w-10 h-10 rounded-full bg-white hover:bg-emerald-500 hover:text-white text-emerald-600 border border-brand-200 flex items-center justify-center transition-all shadow-sm"
@@ -1299,11 +1308,11 @@
           <ul class="space-y-2.5">
             <li class="flex items-center gap-2">
               <span>📱</span>
-              <a href="tel:+50685522806" class="hover:text-brand-500 font-semibold">+506 8552-2806</a>
+              <a href="tel:+50685522806" data-analytics-outbound="footer_phone" class="hover:text-brand-500 font-semibold">+506 8552-2806</a>
             </li>
             <li class="flex items-center gap-2">
               <span>💬</span>
-              <a href="https://wa.me/50685522806" target="_blank" class="hover:text-brand-500">WhatsApp directo</a>
+              <a href="https://wa.me/50685522806" data-analytics-cta="footer_whatsapp_text" target="_blank" class="hover:text-brand-500">WhatsApp directo</a>
             </li>
             <li class="flex items-center gap-2">
               <span>📍</span>
@@ -1322,6 +1331,7 @@
         <p>© 2026 Amarte Maternidad • Juliana Rojas Argüello (amarte.maternidad.cr).</p>
         <p>Hecho con amor y dedicación en Costa Rica 🇨🇷</p>
       </div>
+      <p class="mt-4 text-center text-xs text-warm-700">La analítica propia funciona solo si la aceptas. Consulta el <a href="/privacidad" class="underline">aviso de privacidad</a> o <a href="#" data-analytics-settings class="underline">cambia tu elección</a>. Las ubicaciones son aproximadas y se presentan como conteos agregados.</p>
 
     </div>
   </footer>
@@ -1397,6 +1407,7 @@
     </div>
     <a 
       href="https://wa.me/50685522806?text=Hola%20Juli,%20tengo%20una%20consulta%20sobre%20Amarte%20Maternidad." 
+      data-analytics-cta="floating_whatsapp"
       target="_blank" 
       rel="noopener noreferrer"
       class="whatsapp-float-btn w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl transition-transform transform hover:scale-110 active:scale-95"
@@ -1411,6 +1422,8 @@
   <div id="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="app.js"></script>
+  <script src="analytics-consent.js?v=1" defer></script>
+  <script src="analytics.js?v=2.2" defer></script>
+  <script src="app.js?v=2.2"></script>
 </body>
 </html>

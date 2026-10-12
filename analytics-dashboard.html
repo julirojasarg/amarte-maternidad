@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Analítica | Amarte Maternidad</title>
+  <style>
+    :root { color-scheme:light; --ink:#4d1b23; --muted:#75646a; --line:#eadde0; --pink:#d96579; --pink-dark:#a92e50; --blue:#7188bd; --green:#4c9276; --gold:#d2a54c; --paper:#fdfbf7; }
+    * { box-sizing:border-box; }
+    body { margin:0; padding:30px 18px 52px; background:var(--paper); color:var(--ink); font:15px/1.5 system-ui,sans-serif; }
+    main { max-width:1250px; margin:auto; }
+    h1 { margin:0; font:600 2rem Georgia,serif; }
+    h2 { margin:0 0 14px; font-size:1.08rem; }
+    p { color:var(--muted); }
+    .top { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+    .top p { margin:6px 0 0; }
+    button, select, input { font:inherit; }
+    button { border:0; border-radius:999px; padding:10px 18px; background:var(--pink); color:white; font-weight:700; cursor:pointer; }
+    button:disabled { opacity:.6; cursor:wait; }
+    .filters { display:grid; grid-template-columns:repeat(4,minmax(130px,1fr)); align-items:end; gap:12px; margin:22px 0 10px; padding:16px; background:white; border:1px solid var(--line); border-radius:16px; }
+    .field label { display:block; margin-bottom:5px; color:var(--muted); font-size:.82rem; }
+    .field input,.field select { width:100%; min-width:0; padding:9px 10px; border:1px solid var(--line); border-radius:9px; color:var(--ink); background:white; }
+    #status { min-height:24px; margin:8px 2px; }
+    .cards { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin:16px 0; }
+    .card, section { background:white; border:1px solid var(--line); border-radius:16px; padding:16px; }
+    .card span { display:block; color:var(--muted); font-size:.84rem; }
+    .card strong { display:block; margin-top:4px; font-size:1.7rem; }
+    .card small { color:var(--muted); font-size:.77rem; }
+    .panel { margin:14px 0; }
+    .panel-head { display:flex; justify-content:space-between; align-items:start; gap:16px; }
+    .panel-head p { margin:0; font-size:.86rem; }
+    .metric-picker { min-width:230px; }
+    .metric-picker label { display:block; color:var(--muted); font-size:.82rem; margin-bottom:4px; }
+    .metric-picker select { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:9px; background:white; color:var(--ink); }
+    #chart { width:100%; height:290px; display:block; overflow:visible; margin-top:12px; }
+    #chart text { fill:var(--muted); font:12px system-ui,sans-serif; }
+    #chart .grid { stroke:var(--line); stroke-width:1; }
+    #chart .line { fill:none; stroke:var(--pink-dark); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    #chart .point { fill:var(--pink-dark); }
+    .map-panel { margin:14px 0; }
+    #cantonMap { width:min(100%,620px); height:auto; display:block; margin:0 auto; }
+    #cantonMap .canton { stroke:#c9aeb4; stroke-width:1.35; vector-effect:non-scaling-stroke; cursor:pointer; }
+    #cantonMap .canton:focus { outline:none; stroke:var(--ink); stroke-width:2.5; }
+    #cantonMap .canton.selected { stroke:#321018; stroke-width:3; }
+    #cantonSelection { min-height:24px; margin:8px 0 0; text-align:center; font-weight:650; color:var(--ink); }
+    .map-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:8px 14px; margin:12px 0 0; color:var(--muted); font-size:.82rem; }
+    .map-legend span { display:inline-flex; align-items:center; gap:6px; }
+    .map-swatch { width:16px; height:12px; display:inline-block; border:1px solid #d8cbd0; border-radius:3px; }
+    .geo-tables,.tables { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .geo-tables { margin:14px 0; }
+    #cantonPanel { margin:14px 0; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th,td { padding:8px 6px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--muted); font-weight:650; }
+    th.numeric,td.numeric { text-align:right; white-space:nowrap; }
+    .empty { color:var(--muted); margin:8px 0; }
+    @media(max-width:1000px) { .filters { grid-template-columns:repeat(3,minmax(0,1fr)); } .cards { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(max-width:600px) { body { padding:22px 12px 38px; } .top { align-items:flex-start; } h1 { font-size:1.55rem; } .filters { grid-template-columns:repeat(2,minmax(0,1fr)); padding:12px; } .cards { grid-template-columns:repeat(2,minmax(0,1fr)); } .panel-head { flex-direction:column; } .metric-picker { width:100%; } #chart { height:235px; } .geo-tables,.tables { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="top"><div><h1>Interés y contactos</h1><p>Actividad agregada del sitio · hora de Costa Rica</p></div><button id="refresh" type="button">Actualizar</button></div>
+    <form id="filters" class="filters">
+      <div class="field"><label for="dateFrom">Desde</label><input id="dateFrom" type="date" required></div>
+      <div class="field"><label for="dateTo">Hasta</label><input id="dateTo" type="date" required></div>
+      <div class="field"><label for="pageFilter">Página</label><select id="pageFilter"><option value="/">Sitio público</option><option value="/kardex">Herramienta interna · Kardex</option></select></div>
+      <div class="field"><label for="sectionFilter">Sección</label><select id="sectionFilter"><option value="all">Todas</option></select></div>
+      <div class="field"><label for="elementFilter">Botón / elemento</label><select id="elementFilter"><option value="all">Todos</option></select></div>
+      <div class="field"><label for="sourceFilter">Fuente</label><select id="sourceFilter"><option value="all">Todas</option></select></div>
+    </form>
+    <p id="status" role="status" aria-live="polite">Cargando…</p>
+    <div class="cards">
+      <div class="card"><span>Vistas de página</span><strong id="pageviews">—</strong><small>cargas, no personas únicas</small></div>
+      <div class="card"><span>Secciones expuestas</span><strong id="sectionViews">—</strong><small>visibles ≥ 1,2 segundos</small></div>
+      <div class="card"><span>Navegación elegida</span><strong id="navigation">—</strong><small>clics en enlaces internos</small></div>
+      <div class="card"><span>Preguntas abiertas</span><strong id="faqs">—</strong><small>aperturas de FAQ</small></div>
+      <div class="card"><span>Consultas por WhatsApp</span><strong id="whatsapp">—</strong><small>intención de contacto, no conversación</small></div>
+      <div class="card"><span>Otros contactos</span><strong id="outbound">—</strong><small>Instagram y teléfono</small></div>
+    </div>
+    <section class="panel">
+      <div class="panel-head"><div><h2>Actividad por día</h2><p id="chartCaption">Conteos del indicador seleccionado</p></div>
+        <div class="metric-picker"><label for="metricFilter">Indicador del gráfico</label><select id="metricFilter">
+          <option value="section_view">Secciones expuestas</option><option value="navigation_click">Navegación elegida</option><option value="whatsapp_click">Clics a WhatsApp</option><option value="faq_open">Preguntas abiertas</option><option value="outbound_click">Otros contactos</option><option value="pageview">Vistas de página</option>
+        </select></div>
+      </div>
+      <svg id="chart" viewBox="0 0 1000 290" role="img" aria-label="Actividad diaria agregada"></svg>
+    </section>
+    <section class="map-panel">
+      <h2>Mapa de visitas por cantón</h2>
+      <p class="empty">Sombreado por cantidad de visitas generales del sitio público en el período. Los valores son conteos agregados y no incluyen IP ni coordenadas.</p>
+      <p id="mapStatus" class="empty" role="status" aria-live="polite">Cargando límites cantonales…</p>
+      <svg id="cantonMap" viewBox="0 0 520 660" role="img" aria-label="Mapa de Costa Rica sombreado por visitas generales por cantón"></svg>
+      <p id="cantonSelection" aria-live="polite">Selecciona un cantón para ver su nombre y cantidad de visitas.</p>
+      <div id="mapLegend" class="map-legend" aria-label="Leyenda del mapa"></div>
+    </section>
+    <div class="geo-tables">
+      <section id="cantonPanel"><h2>Visitas por cantón</h2><p class="empty">Visitas generales del sitio público para el rango seleccionado, ordenadas de mayor a menor.</p><div id="cantonTable"></div></section>
+      <section><h2>Visitas por zona aproximada</h2><p class="empty">Agrupación amplia por provincia; no identifica cantón ni ubicación exacta.</p><div id="zoneTable"></div></section>
+    </div>
+    <div class="tables">
+      <section><h2>Interés por sección</h2><div id="sectionTable"></div></section>
+      <section><h2>Contactos por botón y ubicación</h2><div id="ctaTable"></div></section>
+      <section><h2>Preguntas frecuentes abiertas</h2><div id="faqTable"></div></section>
+      <section><h2>Fuentes de llegada</h2><div id="sourceTable"></div></section>
+    </div>
+    <section id="provincePanel"><h2>Visitas por provincia</h2><p class="empty">Conteos agregados de visitas generales del sitio público para el rango seleccionado.</p><div id="provinceTable"></div></section>
+  </main>
+  <script>
+    const $ = id => document.getElementById(id);
+    const number = value => Number(value || 0).toLocaleString('es-CR');
+    const safeDetailCount = value => number(value);
+    const sum = rows => rows.reduce((total,row)=>total+Number(row.count),0);
+    const sectionNames = { inicio:'Inicio', parto:'Preparación para el parto', paquetes:'Paquetes de parto', lactancia:'Lactancia', cobertura:'Cobertura', 'sobre-mi':'Sobre mí', testimonios:'Testimonios', faq:'Preguntas frecuentes', contacto:'Contacto final', footer:'Pie de página', sitewide:'Contacto general' };
+    const elementNames = {
+      visible_section:'Exposición', nav_desktop:'Menú de escritorio', nav_mobile:'Menú móvil', footer_links:'Enlaces del pie', content_link:'Enlace dentro del contenido', banner_link:'Banner de contacto',
+      header_whatsapp:'WhatsApp · encabezado', mobile_menu_whatsapp:'WhatsApp · menú móvil', floating_whatsapp:'WhatsApp · botón flotante',
+      service_parto_preparacion_virtual:'Preparación para el parto · virtual', service_parto_biomecanica_presencial:'Preparación para el parto · presencial', service_masaje_prenatal:'Masaje prenatal', service_masaje_posparto:'Masaje posparto', service_paquete_parto_inicial:'Paquete de parto · inicial', service_paquete_parto_continuo:'Paquete de parto · continuo',
+      service_lactancia_virtual:'Asesoría de lactancia · virtual', service_lactancia_presencial:'Asesoría de lactancia · presencial', service_taller_lactancia_presencial:'Taller de lactancia · presencial', service_taller_lactancia_virtual:'Taller de lactancia · virtual', service_taller_recien_nacido_presencial:'Taller de recién nacido · presencial', service_taller_recien_nacido_virtual:'Taller de recién nacido · virtual',
+      coverage_whatsapp:'WhatsApp · cobertura', about_whatsapp:'WhatsApp · Sobre mí', banner_whatsapp:'WhatsApp · contacto final', footer_whatsapp_icon:'WhatsApp · icono del pie', footer_whatsapp_text:'WhatsApp · enlace del pie', about_instagram:'Instagram · Sobre mí', footer_instagram:'Instagram · pie', footer_phone:'Teléfono · pie',
+      doula_role:'Rol de la doula', care_centers:'Centros de atención', payment_options:'Opciones de pago', historical_unattributed:'Histórico · botón sin detalle'
+    };
+    const eventNames = { pageview:'Vistas de página', section_view:'Secciones expuestas', navigation_click:'Navegación elegida', whatsapp_click:'Clics a WhatsApp', faq_open:'Preguntas abiertas', outbound_click:'Otros contactos' };
+    let rawRows=[],cantonGeoJson=null,selectedCanton='';
+    function costaRicaToday(){const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Costa_Rica',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}`;}
+    function shiftDate(iso,days){const d=new Date(`${iso}T00:00:00Z`);d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10);}
+    function label(map,value){return map[value]||value||'Histórico sin detalle';}
+    function fillSelect(id,values,previous,labelMap=sectionNames){const select=$(id),current=previous||select.value;select.replaceChildren(new Option('Todas','all'));[...values].filter(Boolean).sort((a,b)=>a.localeCompare(b,'es')).forEach(value=>select.add(new Option(label(labelMap,value),value)));select.value=[...select.options].some(option=>option.value===current)?current:'all';}
+    function filteredRows(){const page=$('pageFilter').value,section=$('sectionFilter').value,element=$('elementFilter').value,source=$('sourceFilter').value;return rawRows.filter(row=>(page==='all'||row.page===page)&&(section==='all'||row.section===section)&&(element==='all'||row.element===element)&&(source==='all'||row.source===source));}
+    function renderTable(targetId,headers,rows){const target=$(targetId);if(!rows.length){target.innerHTML='<p class="empty">No hay datos en este período y selección.</p>';return;}const table=document.createElement('table'),head=table.insertRow();headers.forEach((header,i)=>{const th=document.createElement('th');th.textContent=header;if(i===headers.length-1)th.className='numeric';head.appendChild(th);});rows.forEach(data=>{const tr=table.insertRow();data.forEach((value,i)=>{const td=tr.insertCell();td.textContent=String(value);if(i===data.length-1)td.className='numeric';});});target.replaceChildren(table);}
+    function selectCanton(name,province,count,svg){selectedCanton=name;svg.querySelectorAll('.canton').forEach(shape=>shape.classList.toggle('selected',shape.dataset.canton===name));$('cantonSelection').textContent=`${name}${province?` · ${province}`:''}: ${number(count)} ${Number(count)===1?'visita':'visitas'}`;}
+    function drawChart(rows){const svg=$('chart');svg.replaceChildren();const ns='http://www.w3.org/2000/svg',make=(tag,attrs={})=>{const el=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([key,value])=>el.setAttribute(key,value));return el;};
+      const event=$('metricFilter').value,byDay=new Map();rows.filter(row=>row.event===event).forEach(row=>{const day=String(row.visit_date).slice(0,10);byDay.set(day,(byDay.get(day)||0)+Number(row.count));});
+      const days=[];for(let cursor=new Date(`${$('dateFrom').value}T00:00:00Z`),end=new Date(`${$('dateTo').value}T00:00:00Z`);cursor<=end;cursor.setUTCDate(cursor.getUTCDate()+1))days.push(cursor.toISOString().slice(0,10));
+      $('chartCaption').textContent=`${eventNames[event]} · ${$('dateFrom').value} al ${$('dateTo').value}`;
+      if(!byDay.size){const t=make('text',{x:500,y:145,'text-anchor':'middle'});t.textContent='No hay eventos de este tipo en el período seleccionado.';svg.append(t);return;}
+      const width=1000,height=290,left=54,right=20,top=18,bottom=40,plotW=width-left-right,plotH=height-top-bottom,max=Math.max(1,...days.map(day=>byDay.get(day)||0)),x=i=>left+(days.length<2?plotW/2:i*plotW/(days.length-1)),y=v=>top+plotH-(v/max)*plotH;
+      for(let i=0;i<=4;i++){const value=Math.round(max*i/4),yy=y(value);svg.append(make('line',{x1:left,y1:yy,x2:width-right,y2:yy,class:'grid'}));const text=make('text',{x:left-8,y:yy+4,'text-anchor':'end'});text.textContent=number(value);svg.append(text);}
+      let segment='';days.forEach((day,i)=>{const value=byDay.get(day)||0;segment+=`${segment?'L':'M'} ${x(i)} ${y(value)} `;if(value>0){const point=make('circle',{cx:x(i),cy:y(value),r:3.5,class:'point'}),title=make('title');title.textContent=`${day}: ${number(value)}`;point.append(title);svg.append(point);}});if(segment)svg.append(make('path',{d:segment,class:'line'}));
+      new Set([0,Math.round((days.length-1)/2),days.length-1]).forEach(i=>{const text=make('text',{x:x(i),y:height-12,'text-anchor':'middle'});text.textContent=days[i].slice(5).replace('-','/');svg.append(text);});
+    }
+    function renderCantonMap(){const svg=$('cantonMap'),legend=$('mapLegend'),status=$('mapStatus'),ns='http://www.w3.org/2000/svg',make=(tag,attrs={})=>{const el=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([key,value])=>el.setAttribute(key,String(value)));return el;};svg.replaceChildren();legend.replaceChildren();
+      if(!cantonGeoJson?.features?.length){status.textContent='No se pudo cargar el mapa de cantones.';return;}
+      const visits=new Map();rawRows.filter(row=>row.measurement==='geographic'&&row.page==='/'&&row.canton).forEach(row=>visits.set(String(row.canton),(visits.get(String(row.canton))||0)+Number(row.count)));
+      const cantonRows=cantonGeoJson.features.map(feature=>{const properties=feature.properties||{},canton=properties.canton||'Cantón',province=properties.provincia||'';return {canton,province,count:visits.get(canton)||0};}).sort((a,b)=>b.count-a.count||a.province.localeCompare(b.province,'es')||a.canton.localeCompare(b.canton,'es'));
+      renderTable('cantonTable',['Cantón','Provincia','Visitas'],cantonRows.map(row=>[row.canton,row.province,number(row.count)]));
+      const totals=[...visits.values()],max=Math.max(0,...totals),thresholds=max>=1?[1]:[];if(max>=1)for(let i=1;i<7;i++){const cutoff=Math.ceil(max*i/7);if(cutoff>thresholds[thresholds.length-1]&&cutoff<=max)thresholds.push(cutoff);}const colors=['#e9e1e2','#d6e8ff','#91c9f7','#4db6ac','#61c46e','#b5cf42','#f1c75b','#ef8a47','#cd4b59'];
+      const coords=[];function collect(value){if(typeof value?.[0]==='number')coords.push(value);else if(Array.isArray(value))value.forEach(collect);}cantonGeoJson.features.forEach(feature=>collect(feature.geometry.coordinates));
+      const minLon=Math.min(...coords.map(point=>point[0])),maxLon=Math.max(...coords.map(point=>point[0])),minLat=Math.min(...coords.map(point=>point[1])),maxLat=Math.max(...coords.map(point=>point[1])),pad=10,w=520,h=660,scale=Math.min((w-2*pad)/(maxLon-minLon),(h-2*pad)/(maxLat-minLat)),mapW=(maxLon-minLon)*scale,mapH=(maxLat-minLat)*scale,offsetX=(w-mapW)/2,offsetY=(h-mapH)/2;
+      const point=([lon,lat])=>[offsetX+(lon-minLon)*scale,offsetY+(maxLat-lat)*scale];
+      function pathFor(rings){return rings.map(ring=>ring.map((coordinate,index)=>{const [x,y]=point(coordinate);return `${index?'L':'M'}${x.toFixed(1)},${y.toFixed(1)}`;}).join(' ')+' Z').join(' ');}
+      function colorFor(total){if(total<1)return colors[0];let band=0;thresholds.forEach((cutoff,index)=>{if(total>=cutoff)band=index;});return colors[Math.min(colors.length-1,band+1)];}
+      cantonGeoJson.features.forEach(feature=>{const props=feature.properties||{},geometry=feature.geometry||{},name=props.canton||'Cantón',province=props.provincia||'',total=visits.get(name)||0,polygons=geometry.type==='Polygon'?[geometry.coordinates]:geometry.type==='MultiPolygon'?geometry.coordinates:[];polygons.forEach(polygon=>{const shape=make('path',{d:pathFor(polygon),class:`canton${selectedCanton===name?' selected':''}`,fill:colorFor(total),tabindex:'0',role:'button','aria-label':`${name}${province?`, ${province}`:''}: ${number(total)} visitas`});shape.dataset.canton=name;const title=make('title');title.textContent=`${name}${province?`, ${province}`:''}: ${number(total)} ${total===1?'visita':'visitas'}`;shape.append(title);const activate=()=>selectCanton(name,province,total,svg);shape.addEventListener('click',activate);shape.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});svg.append(shape);});});
+      if(selectedCanton){const selected=cantonRows.find(row=>row.canton===selectedCanton);if(selected)selectCanton(selected.canton,selected.province,selected.count,svg);}else $('cantonSelection').textContent='Selecciona un cantón para ver su nombre y cantidad de visitas.';
+      const labels=max<1?['0 visitas']:['0 visitas',...thresholds.map((cutoff,index)=>index===thresholds.length-1?`${cutoff}+`:`${cutoff}–${thresholds[index+1]-1}`)],legendColors=max<1?[colors[0]]:[colors[0],...thresholds.map((_,index)=>colors[index+1])];labels.forEach((text,index)=>{const item=document.createElement('span'),swatch=document.createElement('i');swatch.className='map-swatch';swatch.style.background=legendColors[index];item.append(swatch,document.createTextNode(text));legend.append(item);});
+      const located=totals.reduce((a,b)=>a+b,0),publicPageviews=rawRows.filter(row=>row.event==='pageview'&&row.page==='/').reduce((sum,row)=>sum+Number(row.count),0),unassigned=Math.max(0,publicPageviews-located);
+      status.textContent=`${number(located)} de ${number(publicPageviews)} visitas públicas tienen cantón aproximado; ${number(unassigned)} no tienen cantón asignado. Ese resto puede incluir registros históricos sin detalle cantonal y visitas cuya ubicación no se pudo resolver. La ubicación es aproximada; el sombreado no muestra direcciones ni puntos exactos.`;
+    }
+    function render(){const rows=filteredRows(),count=event=>sum(rows.filter(row=>row.event===event));
+      $('pageviews').textContent=number(count('pageview'));$('sectionViews').textContent=number(count('section_view'));$('navigation').textContent=number(count('navigation_click'));$('faqs').textContent=number(count('faq_open'));$('whatsapp').textContent=number(count('whatsapp_click'));$('outbound').textContent=number(count('outbound_click'));
+      drawChart(rows);
+      const sections=new Map();rows.filter(row=>['section_view','navigation_click','whatsapp_click','faq_open','outbound_click'].includes(row.event)&&row.section&&row.section!=='sitewide').forEach(row=>{const bucket=sections.get(row.section)||{views:0,navigation:0,whatsapp:0,faq:0,outbound:0};bucket[{section_view:'views',navigation_click:'navigation',whatsapp_click:'whatsapp',faq_open:'faq',outbound_click:'outbound'}[row.event]]+=Number(row.count);sections.set(row.section,bucket);});
+      const sectionRows=[...sections].sort((a,b)=>(b[1].views+b[1].navigation+b[1].whatsapp+b[1].faq+b[1].outbound)-(a[1].views+a[1].navigation+a[1].whatsapp+a[1].faq+a[1].outbound)).map(([id,v])=>[label(sectionNames,id),safeDetailCount(v.views),safeDetailCount(v.navigation),safeDetailCount(v.whatsapp),safeDetailCount(v.faq),safeDetailCount(v.outbound)]);
+      renderTable('sectionTable',['Sección','Exposición','Navegación','WhatsApp','FAQ','Otros'],sectionRows);
+      const contacts=rows.filter(row=>row.event==='whatsapp_click'||row.event==='outbound_click').map(row=>({section:row.section,element:row.element||'historical_unattributed',event:row.event,count:Number(row.count)}));
+      const ctaTotals=new Map();contacts.forEach(row=>{const key=[row.event,row.section,row.element].join('|'),prior=ctaTotals.get(key)||{event:row.event,section:row.section,element:row.element,count:0};prior.count+=row.count;ctaTotals.set(key,prior);});
+      const ctaRows=[...ctaTotals.values()].sort((a,b)=>b.count-a.count).map(row=>[row.event==='whatsapp_click'?'WhatsApp':'Otro contacto',label(elementNames,row.element),label(sectionNames,row.section),safeDetailCount(row.count)]);
+      renderTable('ctaTable',['Acción','Botón / destino','Sección del sitio','Clics'],ctaRows);
+      const faqTotals=new Map();rows.filter(row=>row.event==='faq_open').forEach(row=>faqTotals.set(row.element,(faqTotals.get(row.element)||0)+Number(row.count)));
+      renderTable('faqTable',['Pregunta','Aperturas'],[...faqTotals].sort((a,b)=>b[1]-a[1]).map(([id,total])=>[label(elementNames,id),safeDetailCount(total)]));
+      const sources=new Map();rows.filter(row=>row.event==='pageview').forEach(row=>sources.set(row.source,(sources.get(row.source)||0)+Number(row.count)));
+      renderTable('sourceTable',['Fuente','Visitas'],[...sources].sort((a,b)=>b[1]-a[1]).map(([source,total])=>[source,number(total)]));
+      const geoRows=rawRows.filter(row=>row.event==='province_visit'&&row.page==='/');
+      const byProvince=new Map(),byZone=new Map();geoRows.forEach(row=>{const province=row.province||'Sin determinar',zone=row.zone||'Sin determinar';byProvince.set(province,(byProvince.get(province)||0)+Number(row.count));byZone.set(zone,(byZone.get(zone)||0)+Number(row.count));});
+      const safeGeoCount=value=>number(value);
+      renderTable('provinceTable',['Provincia','Visitas'],[...byProvince].sort((a,b)=>b[1]-a[1]).map(([province,total])=>[province,safeGeoCount(total)]));
+      renderTable('zoneTable',['Zona','Visitas'],[...byZone].sort((a,b)=>b[1]-a[1]).map(([zone,total])=>[zone,safeGeoCount(total)]));
+      renderCantonMap();
+      $('status').textContent=`${number(rawRows.length)} grupos agregados · sin visitantes identificables ni recorridos individuales. El historial anterior no identifica botón o sección.`;
+    }
+    async function load(){const button=$('refresh');button.disabled=true;$('status').textContent='Actualizando…';try{const from=$('dateFrom').value,to=$('dateTo').value;if(!from||!to||from>to)throw Error('Revisa las fechas: “Desde” debe ser anterior o igual a “Hasta”.');const response=await fetch(`/api/analytics/summary?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,{cache:'no-store'});if(!response.ok){const message=await response.text();throw Error(response.status===503?'Base de datos no disponible.':message||`Error ${response.status}.`);}rawRows=await response.json();const saved={section:$('sectionFilter').value,element:$('elementFilter').value,source:$('sourceFilter').value};fillSelect('sectionFilter',new Set(rawRows.map(row=>row.section)),saved.section);fillSelect('elementFilter',new Set(rawRows.map(row=>row.element)),saved.element,elementNames);fillSelect('sourceFilter',new Set(rawRows.filter(row=>row.event==='pageview').map(row=>row.source)),saved.source);render();}catch(error){rawRows=[];render();$('status').textContent=error.message;}finally{button.disabled=false;}}
+    const today=costaRicaToday();$('dateTo').value=today;$('dateFrom').value=shiftDate(today,-29);$('dateTo').max=today;
+    $('filters').addEventListener('submit',event=>{event.preventDefault();load();});$('filters').addEventListener('change',event=>{if(event.target.id==='dateFrom'||event.target.id==='dateTo')load();else render();});$('metricFilter').addEventListener('change',render);$('refresh').addEventListener('click',load);fetch('/analytics-cantons.json',{cache:'force-cache'}).then(response=>{if(!response.ok)throw Error('Mapa no disponible');return response.json();}).then(data=>{cantonGeoJson=data;renderCantonMap();}).catch(()=>{$('mapStatus').textContent='No se pudo cargar el mapa de cantones.';});load();
+  </script>
+</body>
+</html>
