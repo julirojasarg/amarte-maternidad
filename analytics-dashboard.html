@@ -103,7 +103,8 @@
       <section><h2>Interés por sección</h2><div id="sectionTable"></div></section>
       <section><h2>Contactos por botón y ubicación</h2><div id="ctaTable"></div></section>
       <section><h2>Preguntas frecuentes abiertas</h2><div id="faqTable"></div></section>
-      <section><h2>Fuentes de llegada</h2><div id="sourceTable"></div></section>
+      <section><h2>Fuentes externas o sin referente</h2><p class="empty">Clasifica el dominio referente que envía el navegador. «Sin referente» también puede incluir marcadores o apps que no lo comparten.</p><div id="sourceTable"></div></section>
+      <section><h2>Referentes del propio sitio</h2><p class="empty">Puede ser navegación desde otra página o una recarga. No indica cómo llegó originalmente la persona.</p><div id="internalSourceTable"></div></section>
     </div>
     <section id="provincePanel"><h2>Visitas por provincia</h2><p class="empty">Conteos agregados de visitas generales del sitio público para el rango seleccionado.</p><div id="provinceTable"></div></section>
     <section id="countryPanel"><h2>Visitas por país</h2><p class="empty">Conteos agregados de visitas del sitio público según el código de país de Cloudflare. El desglose empieza con esta versión; los registros anteriores no guardaron el país.</p><div id="countryTable"></div></section>
@@ -114,6 +115,7 @@
     const safeDetailCount = value => number(value);
     const sum = rows => rows.reduce((total,row)=>total+Number(row.count),0);
     const sectionNames = { inicio:'Inicio', parto:'Preparación para el parto', paquetes:'Paquetes de parto', lactancia:'Lactancia', cobertura:'Cobertura', 'sobre-mi':'Sobre mí', testimonios:'Testimonios', faq:'Preguntas frecuentes', contacto:'Contacto final', footer:'Pie de página', sitewide:'Contacto general' };
+    const sourceNames = { Directo:'Sin referente', Interno:'Mismo sitio (navegación o recarga)', Instagram:'Instagram', Google:'Google', Facebook:'Facebook', TikTok:'TikTok', YouTube:'YouTube', 'Otro sitio':'Otro sitio', Otro:'Referente no reconocido' };
     const elementNames = {
       visible_section:'Exposición', nav_desktop:'Menú de escritorio', nav_mobile:'Menú móvil', footer_links:'Enlaces del pie', content_link:'Enlace dentro del contenido', banner_link:'Banner de contacto',
       header_whatsapp:'WhatsApp · encabezado', mobile_menu_whatsapp:'WhatsApp · menú móvil', floating_whatsapp:'WhatsApp · botón flotante',
@@ -171,7 +173,10 @@
       const faqTotals=new Map();rows.filter(row=>row.event==='faq_open').forEach(row=>faqTotals.set(row.element,(faqTotals.get(row.element)||0)+Number(row.count)));
       renderTable('faqTable',['Pregunta','Aperturas'],[...faqTotals].sort((a,b)=>b[1]-a[1]).map(([id,total])=>[label(elementNames,id),safeDetailCount(total)]));
       const sources=new Map();rows.filter(row=>row.event==='pageview').forEach(row=>sources.set(row.source,(sources.get(row.source)||0)+Number(row.count)));
-      renderTable('sourceTable',['Fuente','Visitas'],[...sources].sort((a,b)=>b[1]-a[1]).map(([source,total])=>[source,number(total)]));
+      const externalSources=[...sources].filter(([source])=>source!=='Interno').sort((a,b)=>b[1]-a[1]);
+      const internalSources=[...sources].filter(([source])=>source==='Interno').sort((a,b)=>b[1]-a[1]);
+      renderTable('sourceTable',['Fuente','Visitas'],externalSources.map(([source,total])=>[label(sourceNames,source),number(total)]));
+      renderTable('internalSourceTable',['Referente','Visitas'],internalSources.map(([source,total])=>[label(sourceNames,source),number(total)]));
       const geoRows=rawRows.filter(row=>row.event==='province_visit'&&row.page==='/');
       const byProvince=new Map(),byZone=new Map();geoRows.forEach(row=>{const province=row.province||'Sin determinar',zone=row.zone||'Sin determinar';byProvince.set(province,(byProvince.get(province)||0)+Number(row.count));byZone.set(zone,(byZone.get(zone)||0)+Number(row.count));});
       const safeGeoCount=value=>number(value);
@@ -184,7 +189,7 @@
       renderCantonMap();
       $('status').textContent=`${number(rawRows.length)} grupos agregados · sin visitantes identificables ni recorridos individuales. El historial anterior no identifica botón o sección.`;
     }
-    async function load(){const button=$('refresh');button.disabled=true;$('status').textContent='Actualizando…';try{const from=$('dateFrom').value,to=$('dateTo').value;if(!from||!to||from>to)throw Error('Revisa las fechas: “Desde” debe ser anterior o igual a “Hasta”.');const response=await fetch(`/api/analytics/summary?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,{cache:'no-store'});if(!response.ok){const message=await response.text();throw Error(response.status===503?'Base de datos no disponible.':message||`Error ${response.status}.`);}rawRows=await response.json();const saved={section:$('sectionFilter').value,element:$('elementFilter').value,source:$('sourceFilter').value};fillSelect('sectionFilter',new Set(rawRows.map(row=>row.section)),saved.section);fillSelect('elementFilter',new Set(rawRows.map(row=>row.element)),saved.element,elementNames);fillSelect('sourceFilter',new Set(rawRows.filter(row=>row.event==='pageview').map(row=>row.source)),saved.source);render();}catch(error){rawRows=[];render();$('status').textContent=error.message;}finally{button.disabled=false;}}
+    async function load(){const button=$('refresh');button.disabled=true;$('status').textContent='Actualizando…';try{const from=$('dateFrom').value,to=$('dateTo').value;if(!from||!to||from>to)throw Error('Revisa las fechas: “Desde” debe ser anterior o igual a “Hasta”.');const response=await fetch(`/api/analytics/summary?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,{cache:'no-store'});if(!response.ok){const message=await response.text();throw Error(response.status===503?'Base de datos no disponible.':message||`Error ${response.status}.`);}rawRows=await response.json();const saved={section:$('sectionFilter').value,element:$('elementFilter').value,source:$('sourceFilter').value};fillSelect('sectionFilter',new Set(rawRows.map(row=>row.section)),saved.section);fillSelect('elementFilter',new Set(rawRows.map(row=>row.element)),saved.element,elementNames);fillSelect('sourceFilter',new Set(rawRows.filter(row=>row.event==='pageview').map(row=>row.source)),saved.source,sourceNames);render();}catch(error){rawRows=[];render();$('status').textContent=error.message;}finally{button.disabled=false;}}
     const today=costaRicaToday();$('dateTo').value=today;$('dateFrom').value=shiftDate(today,-29);$('dateTo').max=today;
     $('filters').addEventListener('submit',event=>{event.preventDefault();load();});$('filters').addEventListener('change',event=>{if(event.target.id==='dateFrom'||event.target.id==='dateTo')load();else render();});$('metricFilter').addEventListener('change',render);$('refresh').addEventListener('click',load);fetch('/analytics-cantons.json',{cache:'force-cache'}).then(response=>{if(!response.ok)throw Error('Mapa no disponible');return response.json();}).then(data=>{cantonGeoJson=data;renderCantonMap();}).catch(()=>{$('mapStatus').textContent='No se pudo cargar el mapa de cantones.';});load();
   </script>
