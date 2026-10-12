@@ -5,9 +5,14 @@
     document.cookie.split(';').some(part => part.trim() === `${key}=rejected`) ? 'rejected' : '';
   const setChoice = value => {
     const secure = location.protocol === 'https:' ? '; Secure' : '';
-    document.cookie = `${key}=${value}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
+    // Remove a legacy host-only cookie before writing the shared preference.
+    document.cookie = `${key}=; Path=/; Max-Age=0; SameSite=Lax${secure}`;
+    // Keep one preference across the apex and www hostnames.
+    document.cookie = `${key}=${value}; Domain=amartecr.com; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
   };
   window.AmarteAnalyticsConsent = { granted: () => !paused && choice() === 'accepted' };
+  const savedChoice = choice();
+  if (savedChoice) setChoice(savedChoice);
 
   function showPrompt(force = false) {
     if (!force && (choice() || new URLSearchParams(location.search).get('analytics') === 'off')) return;

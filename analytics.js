@@ -16,10 +16,11 @@
     if (!['section_view', 'navigation_click', 'faq_open', 'whatsapp_click', 'outbound_click'].includes(event)) return;
     const body = JSON.stringify({ event, element, section, referrer: getReferrerOrigin() });
     if (navigator.sendBeacon) {
-      navigator.sendBeacon('/api/analytics/event', new Blob([body], { type: 'application/json' }));
-    } else {
-      fetch('/api/analytics/event', { method:'POST', headers:{'Content-Type':'application/json'}, body, keepalive:true }).catch(() => {});
+      try {
+        if (navigator.sendBeacon('/api/analytics/event', new Blob([body], { type: 'application/json' }))) return;
+      } catch (_) {}
     }
+    fetch('/api/analytics/event', { method:'POST', headers:{'Content-Type':'application/json'}, body, keepalive:true }).catch(() => {});
   }
 
   window.trackAnalytics = sendAnalyticsEvent;

@@ -153,7 +153,7 @@ railway service source connect --repo julirojasarg/amarte-maternidad --branch ma
 
 ## 📊 Analítica propia y panel privado
 
-La analítica propia se encuentra desactivada por defecto. Solo se activa después de pulsar «Aceptar analítica»; la elección se recuerda durante un año en una cookie de preferencia (`amarte_analytics`) sin ID de visitante. Rechazarla deja disponible el sitio y sus funciones. El servidor verifica esa preferencia tanto para las vistas como para los eventos enviados por el navegador. El aviso público está en `/privacidad`.
+La analítica propia se encuentra desactivada por defecto. Solo se activa después de pulsar «Aceptar analítica»; la elección se recuerda durante un año en una cookie de preferencia (`amarte_analytics`) compartida entre `amartecr.com` y `www.amartecr.com`, sin ID de visitante. Rechazarla deja disponible el sitio y sus funciones. El servidor verifica esa preferencia tanto para las vistas como para los eventos enviados por el navegador. El aviso público está en `/privacidad`.
 
 ### Datos y límites
 
@@ -165,7 +165,7 @@ Los referentes usan el dominio inmediato que envía el navegador. `Interno` indi
 
 Una `section_view` es exposición aproximada: el elemento entra a una franja central visible durante al menos 1,2 segundos; no confirma lectura. La navegación, FAQ y CTA miden acciones distintas. No se vinculan eventos entre sí ni equivalen a personas únicas. Los clics a WhatsApp significan intención de abrir el contacto, no una conversación o venta. El detalle comienza al desplegar esta versión; los clics previos conservan su total histórico sin sección ni botón conocido. Las interacciones comerciales solo se miden en `/`; `/kardex` se excluye por defecto y la tienda oculta no se instrumenta.
 
-Los IDs de eventos son categorías mantenidas en `server.js`, `analytics.js` e `index.html`: las secciones visibles se deduplican una vez por carga; el menú registra el destino y la posición (escritorio, móvil, pie, contenido o banner); las FAQ se cuentan al abrirse; y los CTA de servicio envían solo su ID permitido. Al añadir o renombrar una sección, CTA o FAQ se deben actualizar los catálogos de servidor/panel y sus atributos o llamadas explícitas. No reutilizar texto del botón, nombre libre del servicio, precio ni mensaje de WhatsApp como dimensión.
+Los IDs de eventos son categorías mantenidas en `server.js`, `analytics.js` e `index.html`: las secciones visibles se deduplican una vez por carga; el menú registra el destino y la posición (escritorio, móvil, pie, contenido o banner); las FAQ se cuentan al abrirse; y los CTA de servicio envían solo su ID permitido. Al añadir o renombrar una sección, CTA o FAQ se deben actualizar los catálogos de servidor/panel y sus atributos o llamadas explícitas. No reutilizar texto del botón, nombre libre del servicio, precio ni mensaje de WhatsApp como dimensión. El panel vuelve a consultar los agregados al recuperar el foco y cada minuto mientras permanece visible; el valor de visitas cambia con una nueva carga pública aceptada, no con cada clic de sección.
 
 Para pruebas internas sin contaminar los conteos, abre una ruta con `?analytics=off` (por ejemplo, `https://amartecr.com/?analytics=off`). Esa carga omite tanto la vista HTML como los eventos del navegador y no solicita la elección.
 
