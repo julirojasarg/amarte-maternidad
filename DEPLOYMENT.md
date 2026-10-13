@@ -11,7 +11,7 @@ Este documento detalla la arquitectura de despliegue continuo (CI/CD), la vincul
 * **URL Railway (Respaldo):** [https://amarte-lactancia-production.up.railway.app](https://amarte-lactancia-production.up.railway.app)
 * **Endpoint de Salud (Healthcheck):** [https://amartecr.com/health](https://amartecr.com/health)
 * **Kardex Doula:** [https://amartecr.com/kardex](https://amartecr.com/kardex)
-* **Repositorio GitHub:** [`julirojasarg/amarte-maternidad`](https://github.com/julirojasarg/amarte-maternidad) (Rama de producción: `main`)
+* **Repositorio GitHub:** [`julirojasarg/amarte-maternidad`](https://github.com/julirojasarg/amarte-maternidad) (Rama de producción: `main`, conectada al servicio Railway)
 * **Proyecto en Railway:** `amarte-lactancia` (`ID: 4a68075b-152e-46fd-885c-f1dad50e38b1`)
 * **Servicio en Railway:** `amarte-lactancia` (`ID: 7bdc9ab4-ad5b-4c17-872d-a0f238500b35`)
 
@@ -34,7 +34,7 @@ Para que tu dominio apunte correctamente a Railway a través de Cloudflare:
 
 ## ⚡ Flujo Automatizado (CI/CD con GitHub)
 
-El repositorio está vinculado directamente al servicio en Railway. Esto significa que **cualquier cambio integrado a la rama `main` se publica automáticamente en producción sin intervención manual**.
+El servicio `amarte-lactancia` en Railway tiene como origen GitHub el repositorio `julirojasarg/amarte-maternidad`, rama `main`. Railway recibe los pushes a esa rama; por eso, cuando se hace merge de un Pull Request a `main`, el commit de merge inicia automáticamente un build y, si pasa el healthcheck, reemplaza la versión de producción. No hace falta ejecutar `railway up` para los cambios que ya están en GitHub.
 
 ```
 [ Desarrollador / Colaborador ]
@@ -83,7 +83,7 @@ El repositorio está vinculado directamente al servicio en Railway. Esto signifi
    git commit -m "docs: actualizar información"
    git push origin main
    ```
-   *Al ejecutarse el `push`, Railway inicia el despliegue automático inmediatamente.*
+   *Al ejecutarse el `push`, Railway inicia el despliegue automático. El merge de un Pull Request produce el mismo evento sobre `main`.*
 
 ---
 
@@ -120,6 +120,8 @@ railway link --project 4a68075b-152e-46fd-885c-f1dad50e38b1 --service 7bdc9ab4-a
 # Conectar el origen GitHub para autodespliegues
 railway service source connect --repo julirojasarg/amarte-maternidad --branch main --service amarte-lactancia
 ```
+
+La conexión de origen debe quedar visible en Railway con repositorio `julirojasarg/amarte-maternidad` y rama `main`. Después de cada merge, confirma que el nuevo despliegue termina en `SUCCESS` y que `/health` responde `ok`. Si el push actualiza GitHub pero Railway no crea un despliegue, verifica esta conexión, los Deployment Triggers del entorno `production` y los registros de build antes de usar `railway up`; este último publica una copia local y no comprueba por sí solo el flujo GitHub → Railway.
 
 ---
 
