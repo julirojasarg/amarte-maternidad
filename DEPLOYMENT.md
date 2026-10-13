@@ -34,7 +34,9 @@ Para que tu dominio apunte correctamente a Railway a través de Cloudflare:
 
 ## ⚡ Flujo Automatizado (CI/CD con GitHub)
 
-El servicio `amarte-lactancia` en Railway tiene como origen GitHub el repositorio `julirojasarg/amarte-maternidad`, rama `main`. Railway recibe los pushes a esa rama; por eso, cuando se hace merge de un Pull Request a `main`, el commit de merge inicia automáticamente un build y, si pasa el healthcheck, reemplaza la versión de producción. No hace falta ejecutar `railway up` para los cambios que ya están en GitHub.
+El servicio `amarte-lactancia` tiene seleccionado como origen GitHub el repositorio `julirojasarg/amarte-maternidad`, rama `main`. **Seleccionar el origen no basta:** Railway también debe tener activo el autodeploy para `main` y una autorización de GitHub que permita crear el disparador. Cuando ambos están activos, el merge de un Pull Request a `main` inicia el build y, si pasa el healthcheck, reemplaza la versión de producción.
+
+Verificación del 2026-10-12: el repositorio y `main` aparecen como origen, pero no existe un deployment trigger en el entorno `production`; Railway rechazó crearlo porque ningún miembro del proyecto tiene acceso de GitHub reconocido para ese repositorio. Hasta autorizar ese acceso y habilitar el trigger, publicar con `railway up` desde el código actualizado de `main`.
 
 ```
 [ Desarrollador / Colaborador ]
@@ -83,7 +85,7 @@ El servicio `amarte-lactancia` en Railway tiene como origen GitHub el repositori
    git commit -m "docs: actualizar información"
    git push origin main
    ```
-   *Al ejecutarse el `push`, Railway inicia el despliegue automático. El merge de un Pull Request produce el mismo evento sobre `main`.*
+   *Al ejecutarse el `push`, Railway debe iniciar el despliegue si Autodeploy está habilitado para `main` y el GitHub App tiene acceso al repositorio. El merge de un Pull Request produce el mismo evento sobre `main`.*
 
 ---
 
@@ -121,7 +123,7 @@ railway link --project 4a68075b-152e-46fd-885c-f1dad50e38b1 --service 7bdc9ab4-a
 railway service source connect --repo julirojasarg/amarte-maternidad --branch main --service amarte-lactancia
 ```
 
-La conexión de origen debe quedar visible en Railway con repositorio `julirojasarg/amarte-maternidad` y rama `main`. Después de cada merge, confirma que el nuevo despliegue termina en `SUCCESS` y que `/health` responde `ok`. Si el push actualiza GitHub pero Railway no crea un despliegue, verifica esta conexión, los Deployment Triggers del entorno `production` y los registros de build antes de usar `railway up`; este último publica una copia local y no comprueba por sí solo el flujo GitHub → Railway.
+La conexión de origen debe quedar visible en Railway con repositorio `julirojasarg/amarte-maternidad`, rama `main` y Autodeploy habilitado. En GitHub, confirma que la aplicación Railway tenga acceso a este repositorio; si Railway solicita actualizar permisos de GitHub, hay que aceptar el cambio y refrescar la conexión. Después de cada merge, confirma que se creó un despliegue con el SHA del commit de `main`, que termina en `SUCCESS` y que `/health` responde `ok`. Si el push actualiza GitHub pero Railway no crea un despliegue, revisa los Deployment Triggers del entorno `production`, el acceso del GitHub App y los registros de build antes de usar `railway up`; este último publica una copia local y no prueba por sí solo el flujo GitHub → Railway.
 
 ---
 
