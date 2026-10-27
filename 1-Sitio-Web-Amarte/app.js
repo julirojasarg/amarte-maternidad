@@ -3,8 +3,8 @@
  * amarte.maternidad.cr | Juliana Rojas Argüello
  */
 
-// Official WhatsApp Contact (Costa Rica: +506 8552-2806)
-const WHATSAPP_PHONE = "50685522806";
+// Official WhatsApp Contact (Costa Rica: +506 7148-9351)
+const WHATSAPP_PHONE = "50671489351";
 
 // Product Catalog with local images from imagenes/ & handmade crochet line
 const productsData = [

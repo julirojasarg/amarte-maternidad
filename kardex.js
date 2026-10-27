@@ -2317,7 +2317,7 @@ function formatDateLong(dateStr) {
 }
 
 function formatPhoneForWA(phoneStr) {
-  if (!phoneStr) return "50685522806";
+  if (!phoneStr) return "50671489351";
   const cleaned = phoneStr.replace(/\D/g, "");
   if (cleaned.startsWith("506")) return cleaned;
   return `506${cleaned}`;

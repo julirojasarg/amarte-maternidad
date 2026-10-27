@@ -172,5 +172,5 @@ git push -u origin feature/nuevo-producto-crochet
 
 ## 📞 Soporte y Contacto
 - **Titular:** Juliana Rojas Argüello
-- **WhatsApp:** [+506 8552-2806](https://wa.me/50685522806)
+- **WhatsApp:** [+506 7148-9351](https://wa.me/50671489351)
 - **Instagram:** [@amarte.maternidad.cr](https://instagram.com/amarte.maternidad.cr)
